@@ -1,11 +1,27 @@
 grammar CONFIG;
 
-config: (stmt NEWLINE)* ;
+config: (NEWLINE | stmt NEWLINE)* stmt? EOF ;
 
-stmt: assignment ;
+stmt: assignment
+    | table
+    ;
 
-assignment: VAR '=' HOST ;
+assignment: NAME '=' HOST ;
 
-VAR: [a-z][a-z0-9_]* ;
-HOST: [a-z0-9.]+ ;
-NEWLINE: [\r\n]+ ;
+var: '$' NAME ;
+
+table: 'table' tname tdisable? '{' tlist '}' ;
+tname: '<' NAME '>' ;
+tlist: (titem (',' titem)* ','?)? ;
+titem: var
+     | HOST
+     ;
+tdisable: 'disable' ;
+
+NAME: [a-z][a-z0-9_]* ;
+HOST: [a-z0-9._-]+ ;
+
+COMMENT: '#' ~[\r\n]* -> skip ;
+WS: [ \t]+ -> skip ;
+CONTINUATION: '\\' '\r'? '\n' -> skip ;
+NEWLINE: '\r'? '\n'  ;

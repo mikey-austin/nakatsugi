@@ -37,3 +37,39 @@ func (s *BaseCONFIGListener) EnterAssignment(ctx *AssignmentContext) {}
 
 // ExitAssignment is called when production assignment is exited.
 func (s *BaseCONFIGListener) ExitAssignment(ctx *AssignmentContext) {}
+
+// EnterVar is called when production var is entered.
+func (s *BaseCONFIGListener) EnterVar(ctx *VarContext) {}
+
+// ExitVar is called when production var is exited.
+func (s *BaseCONFIGListener) ExitVar(ctx *VarContext) {}
+
+// EnterTable is called when production table is entered.
+func (s *BaseCONFIGListener) EnterTable(ctx *TableContext) {}
+
+// ExitTable is called when production table is exited.
+func (s *BaseCONFIGListener) ExitTable(ctx *TableContext) {}
+
+// EnterTname is called when production tname is entered.
+func (s *BaseCONFIGListener) EnterTname(ctx *TnameContext) {}
+
+// ExitTname is called when production tname is exited.
+func (s *BaseCONFIGListener) ExitTname(ctx *TnameContext) {}
+
+// EnterTlist is called when production tlist is entered.
+func (s *BaseCONFIGListener) EnterTlist(ctx *TlistContext) {}
+
+// ExitTlist is called when production tlist is exited.
+func (s *BaseCONFIGListener) ExitTlist(ctx *TlistContext) {}
+
+// EnterTitem is called when production titem is entered.
+func (s *BaseCONFIGListener) EnterTitem(ctx *TitemContext) {}
+
+// ExitTitem is called when production titem is exited.
+func (s *BaseCONFIGListener) ExitTitem(ctx *TitemContext) {}
+
+// EnterTdisable is called when production tdisable is entered.
+func (s *BaseCONFIGListener) EnterTdisable(ctx *TdisableContext) {}
+
+// ExitTdisable is called when production tdisable is exited.
+func (s *BaseCONFIGListener) ExitTdisable(ctx *TdisableContext) {}

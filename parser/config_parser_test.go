@@ -29,18 +29,54 @@ func (this *Visitor) EnterAssignment(ctx *AssignmentContext) {
 	this.Variables[v] = h
 }
 
-func TestSimpleAssignments(t *testing.T) {
-	c := `a=example.com
-test123=test.com
-another_test=x.org
-`
+func makeParser(c string) *CONFIGParser {
 	input := antlr.NewInputStream(c)
 	lexer := NewCONFIGLexer(input)
 	stream := antlr.NewCommonTokenStream(lexer, 0)
-	parser := NewCONFIGParser(stream)
-	tree := parser.Config()
+	return NewCONFIGParser(stream)
+}
+
+func TestTable(t *testing.T) {
+	c := `
+# A normal table over multiple lines
+table <mytable> { \
+    x.org, \
+    $myvar, \
+    example.com \
+}
+
+# With a trailing comma
+table <mytable> { \
+    x.org, \
+}
+
+# Disabled table
+table <disabledtable> disable { y.org }
+`
+	parser := makeParser(c)
 	visitor := NewVisitor()
-	antlr.ParseTreeWalkerDefault.Walk(visitor, tree)
+	antlr.ParseTreeWalkerDefault.Walk(visitor, parser.Config())
+
+	if visitor.Errors != 0 {
+		t.Errorf("%d unexpected parse errors", visitor.Errors)
+	}
+}
+
+func TestSimpleAssignments(t *testing.T) {
+	c := `
+# Normal assignment
+a=example.com
+
+# Multi-line assignment
+test123 = \
+  test.com
+
+# Long var name including '_'
+another_test=x.org
+`
+	parser := makeParser(c)
+	visitor := NewVisitor()
+	antlr.ParseTreeWalkerDefault.Walk(visitor, parser.Config())
 
 	if visitor.Errors != 0 {
 		t.Errorf("%d unexpected parse errors", visitor.Errors)
