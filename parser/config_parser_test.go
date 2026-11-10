@@ -3,24 +3,33 @@ package parser
 import (
 	"testing"
 
-	"fmt"
-
 	"github.com/antlr4-go/antlr/v4"
 )
 
-type TreeShapeListener struct {
+type Visitor struct {
 	*BaseCONFIGListener
+	Errors    int
+	Variables map[string]string
 }
 
-func NewTreeShapeListener() *TreeShapeListener {
-	return new(TreeShapeListener)
+func NewVisitor() *Visitor {
+	return &Visitor{
+		Errors:    0,
+		Variables: make(map[string]string),
+	}
 }
 
-func (this *TreeShapeListener) EnterEveryRule(ctx antlr.ParserRuleContext) {
-	fmt.Println(ctx.GetText())
+func (this *Visitor) VisitErrorNode(node antlr.ErrorNode) {
+	this.Errors += 1
 }
 
-func TestSimpleParse(t *testing.T) {
+func (this *Visitor) EnterAssignment(ctx *AssignmentContext) {
+	v := ctx.GetChild(0).(antlr.ParseTree).GetText()
+	h := ctx.GetChild(2).(antlr.ParseTree).GetText()
+	this.Variables[v] = h
+}
+
+func TestSimpleAssignments(t *testing.T) {
 	c := `a=example.com
 test123=test.com
 another_test=x.org
@@ -30,5 +39,25 @@ another_test=x.org
 	stream := antlr.NewCommonTokenStream(lexer, 0)
 	parser := NewCONFIGParser(stream)
 	tree := parser.Config()
-	antlr.ParseTreeWalkerDefault.Walk(NewTreeShapeListener(), tree)
+	visitor := NewVisitor()
+	antlr.ParseTreeWalkerDefault.Walk(visitor, tree)
+
+	if visitor.Errors != 0 {
+		t.Errorf("%d unexpected parse errors", visitor.Errors)
+	}
+
+	if len(visitor.Variables) != 3 {
+		t.Error("Did not parse all statements")
+	}
+
+	vars := map[string]string{
+		"a":            "example.com",
+		"test123":      "test.com",
+		"another_test": "x.org",
+	}
+	for v, h := range vars {
+		if visitor.Variables[v] != h {
+			t.Errorf("Expected %s=%s but got %s=%s", v, h, v, visitor.Variables[v])
+		}
+	}
 }
