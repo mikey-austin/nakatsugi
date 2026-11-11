@@ -38,6 +38,12 @@ func (s *BaseCONFIGListener) EnterAssignment(ctx *AssignmentContext) {}
 // ExitAssignment is called when production assignment is exited.
 func (s *BaseCONFIGListener) ExitAssignment(ctx *AssignmentContext) {}
 
+// EnterInterval is called when production interval is entered.
+func (s *BaseCONFIGListener) EnterInterval(ctx *IntervalContext) {}
+
+// ExitInterval is called when production interval is exited.
+func (s *BaseCONFIGListener) ExitInterval(ctx *IntervalContext) {}
+
 // EnterVar is called when production var is entered.
 func (s *BaseCONFIGListener) EnterVar(ctx *VarContext) {}
 

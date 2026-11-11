@@ -16,6 +16,9 @@ type CONFIGListener interface {
 	// EnterAssignment is called when entering the assignment production.
 	EnterAssignment(c *AssignmentContext)
 
+	// EnterInterval is called when entering the interval production.
+	EnterInterval(c *IntervalContext)
+
 	// EnterVar is called when entering the var production.
 	EnterVar(c *VarContext)
 
@@ -42,6 +45,9 @@ type CONFIGListener interface {
 
 	// ExitAssignment is called when exiting the assignment production.
 	ExitAssignment(c *AssignmentContext)
+
+	// ExitInterval is called when exiting the interval production.
+	ExitInterval(c *IntervalContext)
 
 	// ExitVar is called when exiting the var production.
 	ExitVar(c *VarContext)
