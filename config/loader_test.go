@@ -15,7 +15,6 @@ interval 39
 table <mytable> { \
     x.org, \
     $myvar, \
-    example.com \
 }
 
 # A disabled table
@@ -40,8 +39,11 @@ table <dtable> disable { $myvar }
 	if mytable.Disabled {
 		t.Errorf("expected mytable to not be disabled")
 	}
-	if len(mytable.Items) != 3 {
-		t.Errorf("expected %d mytable items, got %d", 3, len(mytable.Items))
+	if len(mytable.Items) != 2 {
+		t.Errorf("expected %d mytable items, got %d", 2, len(mytable.Items))
+	}
+	if mytable.Items[0] != "x.org" || mytable.Items[1] != "test.com" {
+		t.Errorf("mytable item unexpected: %v", mytable.Items)
 	}
 
 	dtable := config.Tables["dtable"]
@@ -53,5 +55,8 @@ table <dtable> disable { $myvar }
 	}
 	if len(dtable.Items) != 1 {
 		t.Errorf("expected %d dtable items, got %d", 1, len(dtable.Items))
+	}
+	if dtable.Items[0] != "test.com" {
+		t.Errorf("dtable item unexpected: %v", dtable.Items)
 	}
 }
