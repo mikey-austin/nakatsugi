@@ -55,6 +55,10 @@ func newLoader() *loader {
 	}
 }
 
+func (this *loader) addErr(ctx antlr.ParserRuleContext, msgFmt string, args ...string) {
+	this.addDiag(ctx, fmt.Sprintf(msgFmt, args), Error)
+}
+
 func (this *loader) addDiag(ctx antlr.ParserRuleContext, msg string, severity severity) {
 	token := ctx.GetStart()
 	this.Diags = append(this.Diags, diag{
@@ -101,20 +105,27 @@ func (this *loader) resolveVar(name string) (string, error) {
 func (this *loader) ExitInterval(ctx *parser.IntervalContext) {
 	value, error := strconv.Atoi(ctx.NUMBER().GetText())
 	if error != nil {
-		this.addDiag(ctx, error.Error(), Error)
+		this.addErr(ctx, error.Error())
 	} else {
 		this.Config.Interval = value
 	}
 }
 
 func (this *loader) ExitAssignment(ctx *parser.AssignmentContext) {
-	this.Assignments[ctx.NAME(0).GetText()] = ctx.NAME(1).GetText()
+	varName := ctx.NAME(0).GetText()
+	if !IsValidVarName(varName) {
+		this.addErr(ctx, "invalid var name: %v", varName)
+	} else {
+		this.Assignments[varName] = ctx.NAME(1).GetText()
+	}
 }
 
 func (this *loader) ExitTable(ctx *parser.TableContext) {
-	name := ctx.Tname().NAME().GetText()
-	name = strings.TrimLeft(name, "<")
-	name = strings.TrimRight(name, ">")
+	name := StripTableName(ctx.Tname().NAME().GetText())
+	if !IsValidTableName(name) {
+		this.addErr(ctx, "invalid table name", name)
+		return
+	}
 
 	t := &Table{
 		Name:     name,
@@ -128,11 +139,16 @@ func (this *loader) ExitTable(ctx *parser.TableContext) {
 		} else if titem.Var_() != nil {
 			resolved, error := this.resolveVar(titem.Var_().GetText())
 			if error != nil {
-				this.addDiag(titem, error.Error(), Error)
+				this.addErr(titem, error.Error())
 			}
 			itemVal = resolved
 		}
-		t.Items = append(t.Items, itemVal)
+		item, error := NewTItemFromParseCtx(itemVal, titem)
+		if error != nil {
+			this.addErr(titem, "error parsing table item: %v", error.Error())
+		} else {
+			t.Items = append(t.Items, item)
+		}
 	}
 
 	this.Config.Tables[name] = t

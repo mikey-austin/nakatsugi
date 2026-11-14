@@ -18,7 +18,7 @@ type Config struct {
 type Table struct {
 	Name string
 	Disabled bool
-	Items []string
+	Items []*TItem
 }
 
 type TItemType int

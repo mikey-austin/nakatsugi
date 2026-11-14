@@ -31,8 +31,8 @@ table: TABLE tname tdisable? '{' tlist '}' ;
 tname: '<' NAME '>' ;
 tlist: (titem (',' titem)* ','?)? ;
 titem
-    : var topts?
-    | NAME topts?
+    : var topts*
+    | NAME topts*
     ;
 tdisable: DISABLE ;
 topts
@@ -112,7 +112,7 @@ DISABLE: 'disable' ;
 INTERVAL: 'interval' ;
 TABLE: 'table' ;
 NUMBER: [0-9]+ ;
-NAME: [a-z0-9._-]+ ;
+NAME: [a-z0-9.:_-]+ ;
 
 // General rules
 COMMENT: '#' ~[\r\n]* -> skip ;
