@@ -5,6 +5,7 @@ import (
 	"net"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/mikey-austin/nakatsugi/parser"
 )
@@ -38,11 +39,11 @@ func NewTItemFromParseCtx(itemVal string, ctx parser.ITitemContext) (*TItem, err
 	// Now extract all table item options
 	for _, topt := range ctx.AllTopts() {
 		if ttl := topt.Toptipttl(); ttl != nil {
-			parsedTtl, error := strconv.ParseUint(ttl.NUMBER().GetText(), 10, 32)
+			parsedTtl, error := strconv.Atoi(ttl.NUMBER().GetText())
 			if error != nil {
-				return nil, fmt.Errorf("invalid ttl: %v", parsedTtl)
+				return nil, fmt.Errorf("invalid ttl %q: %w", ttl.NUMBER().GetText(), error)
 			}
-			item.TTL = uint(parsedTtl)
+			item.TTL = time.Duration(parsedTtl) * time.Second
 		}
 
 		if parent := topt.Toptparent(); parent != nil {

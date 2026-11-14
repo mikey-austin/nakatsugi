@@ -1,6 +1,7 @@
 package config
 
 import (
+	"math"
 	"regexp"
 	"slices"
 )
@@ -11,7 +12,11 @@ var reservedWords = []string{
 	"table", "relay", "timeout",
 }
 
-func IsValidTableName(name string) bool {
+func IsValidPort(port uint64) bool {
+	return port >= 0 && port <= math.MaxUint16
+}
+
+func IsValidName(name string) bool {
 	return name != "" && nameRegexp.Match([]byte(name))
 }
 

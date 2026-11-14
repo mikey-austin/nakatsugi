@@ -2,26 +2,29 @@ package config
 
 import (
 	"net"
+	"time"
 )
 
 type Config struct {
-	Interval int
-	Tables map[string]*Table
+	Interval  int
+	Tables    map[string]*Table
+	Redirects map[string]*Redirect
 
 	// TODO:
-	// - Redirects
 	// - Relays
 	// - Routers
 	// - Protocols
 }
 
+// Table types
 type Table struct {
-	Name string
+	Name     string
 	Disabled bool
-	Items []*TItem
+	Items    []*TItem
 }
 
 type TItemType int
+
 const (
 	IPv4Host TItemType = iota
 	IPv6Host
@@ -29,14 +32,41 @@ const (
 )
 
 type TItem struct {
-	Type TItemType
+	Type     TItemType
 	Hostname string
-	IP net.IP
+	IP       net.IP
 
-	TTL uint
+	TTL    time.Duration
 	Parent uint
-	Prio uint
-	Retry uint
+	Prio   uint
+	Retry  uint
 }
 
+// Common types
+type Proto string
 
+const (
+	ProtoTcp Proto = "tcp"
+	ProtoUdp Proto = "udp"
+)
+
+type Listen struct {
+	Address   net.IP
+	Proto     Proto
+	MinPort   uint16
+	MaxPort   uint16
+	Interface string
+}
+
+// Redirect types
+type Redirect struct {
+	Name           string
+	Disabled       bool
+	SessionTimeout time.Duration
+	StickyAddress  bool
+	Listen         []*Listen
+	// forward
+	// route
+}
+
+// Check types

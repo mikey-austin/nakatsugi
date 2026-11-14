@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-func TestTableNameValidation(t *testing.T) {
+func TestNameValidation(t *testing.T) {
 	cases := []struct {
 		I string
 		R bool
@@ -18,8 +18,8 @@ func TestTableNameValidation(t *testing.T) {
 		{I: "", R: false},
 	}
 	for i, c := range cases {
-		if got := IsValidTableName(c.I); got != c.R {
-			t.Errorf("IsValidTableName(%v)[%d]: expected %v, got %v", c.I, i, c.R, got)
+		if got := IsValidName(c.I); got != c.R {
+			t.Errorf("IsValidName(%v)[%d]: expected %v, got %v", c.I, i, c.R, got)
 		}
 	}
 }
@@ -65,6 +65,22 @@ func TestHostnameValidation(t *testing.T) {
 	for i, c := range cases {
 		if got := IsValidHostname(c.I); got != c.R {
 			t.Errorf("IsValidHostname(%v)[%d]: expected %v, got %v", c.I, i, c.R, got)
+		}
+	}
+}
+
+func TestPortValidation(t *testing.T) {
+	cases := []struct {
+		I uint64
+		R bool
+	}{
+		{I: 0, R: true},
+		{I: 10, R: true},
+		{I: 700000, R: false},
+	}
+	for i, c := range cases {
+		if got := IsValidPort(c.I); got != c.R {
+			t.Errorf("IsValidPort(%v)[%d]: expected %v, got %v", c.I, i, c.R, got)
 		}
 	}
 }

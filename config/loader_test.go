@@ -5,6 +5,7 @@ import (
 	"reflect"
 	"strings"
 	"testing"
+	"time"
 )
 
 func TestSimpleConfigLoad(t *testing.T) {
@@ -85,13 +86,70 @@ table <mytable> { \
 	}
 
 	expected := []TItem{
-		TItem{Type: Hostname, Hostname: "x.org", TTL: 12, Parent: 5, Prio: 23, Retry: 3},
-		TItem{Type: IPv4Host, IP: net.ParseIP("10.23.4.1"), TTL: 21, Parent: 7, Prio: 27, Retry: 5},
-		TItem{Type: IPv6Host, IP: net.ParseIP("::ffff:c000:0280"), TTL: 34, Parent: 8, Prio: 34, Retry: 8},
+		TItem{Type: Hostname, Hostname: "x.org", TTL: time.Duration(12) * time.Second, Parent: 5, Prio: 23, Retry: 3},
+		TItem{Type: IPv4Host, IP: net.ParseIP("10.23.4.1"), TTL: time.Duration(21) * time.Second, Parent: 7, Prio: 27, Retry: 5},
+		TItem{Type: IPv6Host, IP: net.ParseIP("::ffff:c000:0280"), TTL: time.Duration(34) * time.Second, Parent: 8, Prio: 34, Retry: 8},
 	}
 	for i, e := range expected {
 		if !reflect.DeepEqual(*(mytable.Items[i]), e) {
 			t.Errorf("mytable.Items[%d]: expected %v, got %v", i, e, *mytable.Items[i])
+		}
+	}
+}
+
+func TestRedirect(t *testing.T) {
+	c := `
+redirect "udprange" {
+    disable
+    sticky-address
+    session timeout 13
+    listen on 10.23.1.3 proto udp port 333:335 interface em0
+}
+
+redirect "tcpsingle" {
+    listen on 10.23.1.2 port 555
+}
+`
+	config, error := NewConfigFromReader(strings.NewReader(c))
+	if error != nil {
+		t.Errorf("could not load config: %v", error)
+	}
+
+	udprange, ok := config.Redirects["udprange"]
+	if !ok {
+		t.Error("udprange is nil")
+		return
+	}
+	tcpsingle, ok := config.Redirects["tcpsingle"]
+	if !ok {
+		t.Error("tcpsingle is nil")
+		return
+	}
+
+	got := []*Redirect{udprange, tcpsingle}
+	expected := []*Redirect{
+		&Redirect{
+			Name:           "udprange",
+			Disabled:       true,
+			StickyAddress:  true,
+			SessionTimeout: time.Duration(13) * time.Second,
+			Listen: []*Listen{
+				&Listen{Address: net.ParseIP("10.23.1.3"), Proto: ProtoUdp, MinPort: 333, MaxPort: 335, Interface: "em0"},
+			}},
+		&Redirect{
+			Name:           "tcpsingle",
+			Disabled:       false,                            // Default
+			StickyAddress:  false,                            // Default
+			SessionTimeout: time.Duration(600) * time.Second, // Default
+			Listen: []*Listen{
+				&Listen{Address: net.ParseIP("10.23.1.2"), Proto: ProtoTcp, MinPort: 555, MaxPort: 555, Interface: ""},
+			}},
+	}
+
+	for i, e := range expected {
+		g := got[i]
+		if !reflect.DeepEqual(&e, &g) {
+			t.Errorf("TestRedirect(%d): expected %v, got %v", i, e, g)
 		}
 	}
 }

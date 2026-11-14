@@ -64,6 +64,12 @@ type CONFIGListener interface {
 	// EnterPort is called when entering the port production.
 	EnterPort(c *PortContext)
 
+	// EnterPortrange is called when entering the portrange production.
+	EnterPortrange(c *PortrangeContext)
+
+	// EnterLport is called when entering the lport production.
+	EnterLport(c *LportContext)
+
 	// EnterProto is called when entering the proto production.
 	EnterProto(c *ProtoContext)
 
@@ -82,6 +88,12 @@ type CONFIGListener interface {
 	// EnterChttpdigest is called when entering the chttpdigest production.
 	EnterChttpdigest(c *ChttpdigestContext)
 
+	// EnterChttpscode is called when entering the chttpscode production.
+	EnterChttpscode(c *ChttpscodeContext)
+
+	// EnterChttpsdigest is called when entering the chttpsdigest production.
+	EnterChttpsdigest(c *ChttpsdigestContext)
+
 	// EnterForward is called when entering the forward production.
 	EnterForward(c *ForwardContext)
 
@@ -90,9 +102,6 @@ type CONFIGListener interface {
 
 	// EnterSesstimeout is called when entering the sesstimeout production.
 	EnterSesstimeout(c *SesstimeoutContext)
-
-	// EnterSticky is called when entering the sticky production.
-	EnterSticky(c *StickyContext)
 
 	// EnterRedirect is called when entering the redirect production.
 	EnterRedirect(c *RedirectContext)
@@ -160,6 +169,12 @@ type CONFIGListener interface {
 	// ExitPort is called when exiting the port production.
 	ExitPort(c *PortContext)
 
+	// ExitPortrange is called when exiting the portrange production.
+	ExitPortrange(c *PortrangeContext)
+
+	// ExitLport is called when exiting the lport production.
+	ExitLport(c *LportContext)
+
 	// ExitProto is called when exiting the proto production.
 	ExitProto(c *ProtoContext)
 
@@ -178,6 +193,12 @@ type CONFIGListener interface {
 	// ExitChttpdigest is called when exiting the chttpdigest production.
 	ExitChttpdigest(c *ChttpdigestContext)
 
+	// ExitChttpscode is called when exiting the chttpscode production.
+	ExitChttpscode(c *ChttpscodeContext)
+
+	// ExitChttpsdigest is called when exiting the chttpsdigest production.
+	ExitChttpsdigest(c *ChttpsdigestContext)
+
 	// ExitForward is called when exiting the forward production.
 	ExitForward(c *ForwardContext)
 
@@ -186,9 +207,6 @@ type CONFIGListener interface {
 
 	// ExitSesstimeout is called when exiting the sesstimeout production.
 	ExitSesstimeout(c *SesstimeoutContext)
-
-	// ExitSticky is called when exiting the sticky production.
-	ExitSticky(c *StickyContext)
 
 	// ExitRedirect is called when exiting the redirect production.
 	ExitRedirect(c *RedirectContext)

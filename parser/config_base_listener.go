@@ -134,6 +134,18 @@ func (s *BaseCONFIGListener) EnterPort(ctx *PortContext) {}
 // ExitPort is called when production port is exited.
 func (s *BaseCONFIGListener) ExitPort(ctx *PortContext) {}
 
+// EnterPortrange is called when production portrange is entered.
+func (s *BaseCONFIGListener) EnterPortrange(ctx *PortrangeContext) {}
+
+// ExitPortrange is called when production portrange is exited.
+func (s *BaseCONFIGListener) ExitPortrange(ctx *PortrangeContext) {}
+
+// EnterLport is called when production lport is entered.
+func (s *BaseCONFIGListener) EnterLport(ctx *LportContext) {}
+
+// ExitLport is called when production lport is exited.
+func (s *BaseCONFIGListener) ExitLport(ctx *LportContext) {}
+
 // EnterProto is called when production proto is entered.
 func (s *BaseCONFIGListener) EnterProto(ctx *ProtoContext) {}
 
@@ -170,6 +182,18 @@ func (s *BaseCONFIGListener) EnterChttpdigest(ctx *ChttpdigestContext) {}
 // ExitChttpdigest is called when production chttpdigest is exited.
 func (s *BaseCONFIGListener) ExitChttpdigest(ctx *ChttpdigestContext) {}
 
+// EnterChttpscode is called when production chttpscode is entered.
+func (s *BaseCONFIGListener) EnterChttpscode(ctx *ChttpscodeContext) {}
+
+// ExitChttpscode is called when production chttpscode is exited.
+func (s *BaseCONFIGListener) ExitChttpscode(ctx *ChttpscodeContext) {}
+
+// EnterChttpsdigest is called when production chttpsdigest is entered.
+func (s *BaseCONFIGListener) EnterChttpsdigest(ctx *ChttpsdigestContext) {}
+
+// ExitChttpsdigest is called when production chttpsdigest is exited.
+func (s *BaseCONFIGListener) ExitChttpsdigest(ctx *ChttpsdigestContext) {}
+
 // EnterForward is called when production forward is entered.
 func (s *BaseCONFIGListener) EnterForward(ctx *ForwardContext) {}
 
@@ -187,12 +211,6 @@ func (s *BaseCONFIGListener) EnterSesstimeout(ctx *SesstimeoutContext) {}
 
 // ExitSesstimeout is called when production sesstimeout is exited.
 func (s *BaseCONFIGListener) ExitSesstimeout(ctx *SesstimeoutContext) {}
-
-// EnterSticky is called when production sticky is entered.
-func (s *BaseCONFIGListener) EnterSticky(ctx *StickyContext) {}
-
-// ExitSticky is called when production sticky is exited.
-func (s *BaseCONFIGListener) ExitSticky(ctx *StickyContext) {}
 
 // EnterRedirect is called when production redirect is entered.
 func (s *BaseCONFIGListener) EnterRedirect(ctx *RedirectContext) {}

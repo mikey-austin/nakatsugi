@@ -9,8 +9,8 @@ stmt
     | redirect
     ;
 
-assignment: NAME '=' NAME ;
-var: '$' NAME ;
+assignment: NAME EQUALS NAME ;
+var: DOLLA NAME ;
 
 // Global top-level options
 gopts
@@ -27,9 +27,9 @@ prefork: PREFORK NUMBER ;
 // timeout
 
 // Tables
-table: TABLE tname tdisable? '{' tlist '}' ;
-tname: '<' NAME '>' ;
-tlist: (titem (',' titem)* ','?)? ;
+table: TABLE tname tdisable? LCURLY tlist RCURLY ;
+tname: LANGLE NAME RANGLE ;
+tlist: (titem (COMMA titem)* COMMA?)? ;
 titem
     : var topts*
     | NAME topts*
@@ -47,9 +47,14 @@ toptpriority: PRIORITY NUMBER ;
 toptretry: RETRY NUMBER ;
 
 // Listen
-listen: LISTEN ON NAME proto? port interface? ; 
+listen: LISTEN ON NAME proto? lport interface? ; 
 port: PORT NUMBER ;
-proto: NAME ;
+portrange: PORT NAME ; // eg 111:114
+lport
+    : portrange
+    | port
+    ;
+proto: PROTO NAME ;
 interface: INTERFACE NAME ;
 
 // Check configuration
@@ -57,37 +62,48 @@ check: CHECK ctype ;
 ctype
     : chttpcode
     | chttpdigest
-/*  | chttps
-    | cicmp
+    | chttpscode
+    | chttpsdigest
+/*  | cicmp
     | cscript
     | csend
     | cbinsend
     | ctcp
     | ctls */
     ;
-chttpcode: HTTP (HOST NAME)? CODE NUMBER ;
-chttpdigest: HTTP (HOST NAME)? DIGEST NAME ;
+chttpcode: HTTP QNAME (HOST NAME)? CODE NUMBER ;
+chttpdigest: HTTP QNAME (HOST NAME)? DIGEST NAME ;
+chttpscode: HTTPS QNAME (HOST NAME)? CODE NUMBER ;
+chttpsdigest: HTTPS QNAME (HOST NAME)? DIGEST NAME ;
 
 // Common settings
 forward: FORWARD TO tname port? check? ;
 route: ROUTE TO tname port? check? ;
 sesstimeout: SESSION TIMEOUT NUMBER ;
-sticky: STICKY_ADDRESS ;
 
 // Redirects
-redirect: REDIRECT rname '{' rstmt '}' ;
-rname: '"' NAME '"' ;
+redirect: REDIRECT rname LCURLY ((NEWLINE | rstmt)* rstmt?) RCURLY ;
+rname: QNAME ;
 rstmt
     : DISABLE
+    | STICKY_ADDRESS
+    | sesstimeout
     | listen
     | forward
-    | sesstimeout
-    | sticky
     ;
 
 // Terminal tokens
+DOLLA: '$' ;
+EQUALS: '=' ;
+COMMA: ',' ;
+LANGLE: '<' ;
+RANGLE: '>' ;
+LCURLY: '{' ;
+RCURLY: '}' ;
+PROTO: 'proto' ;
 CHECK: 'check' ;
 HTTP: 'http' ;
+HTTPS: 'https' ;
 CODE: 'code' ;
 DIGEST: 'digest' ;
 PREFORK: 'prefork' ;
@@ -112,7 +128,8 @@ DISABLE: 'disable' ;
 INTERVAL: 'interval' ;
 TABLE: 'table' ;
 NUMBER: [0-9]+ ;
-NAME: [a-z0-9.:_-]+ ;
+NAME: [a-z0-9:._-]+ ;
+QNAME: '"' [a-zA-Z0-9 /._-]* '"' ;
 
 // General rules
 COMMENT: '#' ~[\r\n]* -> skip ;

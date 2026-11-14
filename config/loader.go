@@ -5,6 +5,7 @@ import (
 	"io"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/antlr4-go/antlr/v4"
 	"github.com/mikey-austin/nakatsugi/parser"
@@ -50,7 +51,8 @@ func newLoader() *loader {
 	return &loader{
 		Assignments: make(map[string]string),
 		Config: &Config{
-			Tables: make(map[string]*Table),
+			Tables:    make(map[string]*Table),
+			Redirects: make(map[string]*Redirect),
 		},
 	}
 }
@@ -77,6 +79,21 @@ func (this *loader) from(r io.Reader) error {
 
 	input := antlr.NewInputStream(string(rawContents))
 	lexer := parser.NewCONFIGLexer(input)
+
+	// Uncomment for debugging the token stream
+	/*
+		for {
+			token := lexer.NextToken()
+			tokenName := lexer.SymbolicNames[token.GetTokenType()]
+			fmt.Printf("%v %q\n", tokenName, token.GetText())
+
+			if token.GetTokenType() == antlr.TokenEOF {
+				break
+			}
+		}
+	*/
+	// End debugging
+
 	stream := antlr.NewCommonTokenStream(lexer, 0)
 	parser := parser.NewCONFIGParser(stream)
 	antlr.ParseTreeWalkerDefault.Walk(this, parser.Config())
@@ -122,7 +139,7 @@ func (this *loader) ExitAssignment(ctx *parser.AssignmentContext) {
 
 func (this *loader) ExitTable(ctx *parser.TableContext) {
 	name := StripTableName(ctx.Tname().NAME().GetText())
-	if !IsValidTableName(name) {
+	if !IsValidName(name) {
 		this.addErr(ctx, "invalid table name", name)
 		return
 	}
@@ -152,6 +169,29 @@ func (this *loader) ExitTable(ctx *parser.TableContext) {
 	}
 
 	this.Config.Tables[name] = t
+}
+
+func (this *loader) ExitRedirect(ctx *parser.RedirectContext) {
+	var redirect Redirect
+
+	name := ctx.Rname().QNAME().GetText()
+	name = strings.Trim(name, "\"")
+	if !IsValidName(name) {
+		this.addErr(ctx, "invalid redirect name", name)
+		return
+	}
+	redirect.Name = name
+	redirect.Disabled = false
+	redirect.SessionTimeout = time.Duration(600) * time.Second
+
+	for _, rstmt := range ctx.AllRstmt() {
+		err := SetRstmt(rstmt, &redirect)
+		if err != nil {
+			this.addErr(rstmt, "error parsing redirect statement: %v", err.Error())
+		}
+	}
+
+	this.Config.Redirects[name] = &redirect
 }
 
 func NewConfigFromReader(r io.Reader) (*Config, error) {
