@@ -108,7 +108,7 @@ func (this *loader) ExitInterval(ctx *parser.IntervalContext) {
 }
 
 func (this *loader) ExitAssignment(ctx *parser.AssignmentContext) {
-	this.Assignments[ctx.NAME().GetText()] = ctx.HOST().GetText()
+	this.Assignments[ctx.NAME(0).GetText()] = ctx.NAME(1).GetText()
 }
 
 func (this *loader) ExitTable(ctx *parser.TableContext) {
@@ -123,8 +123,8 @@ func (this *loader) ExitTable(ctx *parser.TableContext) {
 
 	for _, titem := range ctx.Tlist().AllTitem() {
 		var itemVal string
-		if titem.HOST() != nil {
-			itemVal = titem.HOST().GetText()
+		if titem.NAME() != nil {
+			itemVal = titem.NAME().GetText()
 		} else if titem.Var_() != nil {
 			resolved, error := this.resolveVar(titem.Var_().GetText())
 			if error != nil {

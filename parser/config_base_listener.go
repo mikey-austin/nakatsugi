@@ -38,17 +38,29 @@ func (s *BaseCONFIGListener) EnterAssignment(ctx *AssignmentContext) {}
 // ExitAssignment is called when production assignment is exited.
 func (s *BaseCONFIGListener) ExitAssignment(ctx *AssignmentContext) {}
 
+// EnterVar is called when production var is entered.
+func (s *BaseCONFIGListener) EnterVar(ctx *VarContext) {}
+
+// ExitVar is called when production var is exited.
+func (s *BaseCONFIGListener) ExitVar(ctx *VarContext) {}
+
+// EnterGopts is called when production gopts is entered.
+func (s *BaseCONFIGListener) EnterGopts(ctx *GoptsContext) {}
+
+// ExitGopts is called when production gopts is exited.
+func (s *BaseCONFIGListener) ExitGopts(ctx *GoptsContext) {}
+
 // EnterInterval is called when production interval is entered.
 func (s *BaseCONFIGListener) EnterInterval(ctx *IntervalContext) {}
 
 // ExitInterval is called when production interval is exited.
 func (s *BaseCONFIGListener) ExitInterval(ctx *IntervalContext) {}
 
-// EnterVar is called when production var is entered.
-func (s *BaseCONFIGListener) EnterVar(ctx *VarContext) {}
+// EnterPrefork is called when production prefork is entered.
+func (s *BaseCONFIGListener) EnterPrefork(ctx *PreforkContext) {}
 
-// ExitVar is called when production var is exited.
-func (s *BaseCONFIGListener) ExitVar(ctx *VarContext) {}
+// ExitPrefork is called when production prefork is exited.
+func (s *BaseCONFIGListener) ExitPrefork(ctx *PreforkContext) {}
 
 // EnterTable is called when production table is entered.
 func (s *BaseCONFIGListener) EnterTable(ctx *TableContext) {}
@@ -79,3 +91,123 @@ func (s *BaseCONFIGListener) EnterTdisable(ctx *TdisableContext) {}
 
 // ExitTdisable is called when production tdisable is exited.
 func (s *BaseCONFIGListener) ExitTdisable(ctx *TdisableContext) {}
+
+// EnterTopts is called when production topts is entered.
+func (s *BaseCONFIGListener) EnterTopts(ctx *ToptsContext) {}
+
+// ExitTopts is called when production topts is exited.
+func (s *BaseCONFIGListener) ExitTopts(ctx *ToptsContext) {}
+
+// EnterToptipttl is called when production toptipttl is entered.
+func (s *BaseCONFIGListener) EnterToptipttl(ctx *ToptipttlContext) {}
+
+// ExitToptipttl is called when production toptipttl is exited.
+func (s *BaseCONFIGListener) ExitToptipttl(ctx *ToptipttlContext) {}
+
+// EnterToptparent is called when production toptparent is entered.
+func (s *BaseCONFIGListener) EnterToptparent(ctx *ToptparentContext) {}
+
+// ExitToptparent is called when production toptparent is exited.
+func (s *BaseCONFIGListener) ExitToptparent(ctx *ToptparentContext) {}
+
+// EnterToptpriority is called when production toptpriority is entered.
+func (s *BaseCONFIGListener) EnterToptpriority(ctx *ToptpriorityContext) {}
+
+// ExitToptpriority is called when production toptpriority is exited.
+func (s *BaseCONFIGListener) ExitToptpriority(ctx *ToptpriorityContext) {}
+
+// EnterToptretry is called when production toptretry is entered.
+func (s *BaseCONFIGListener) EnterToptretry(ctx *ToptretryContext) {}
+
+// ExitToptretry is called when production toptretry is exited.
+func (s *BaseCONFIGListener) ExitToptretry(ctx *ToptretryContext) {}
+
+// EnterListen is called when production listen is entered.
+func (s *BaseCONFIGListener) EnterListen(ctx *ListenContext) {}
+
+// ExitListen is called when production listen is exited.
+func (s *BaseCONFIGListener) ExitListen(ctx *ListenContext) {}
+
+// EnterPort is called when production port is entered.
+func (s *BaseCONFIGListener) EnterPort(ctx *PortContext) {}
+
+// ExitPort is called when production port is exited.
+func (s *BaseCONFIGListener) ExitPort(ctx *PortContext) {}
+
+// EnterProto is called when production proto is entered.
+func (s *BaseCONFIGListener) EnterProto(ctx *ProtoContext) {}
+
+// ExitProto is called when production proto is exited.
+func (s *BaseCONFIGListener) ExitProto(ctx *ProtoContext) {}
+
+// EnterInterface is called when production interface is entered.
+func (s *BaseCONFIGListener) EnterInterface(ctx *InterfaceContext) {}
+
+// ExitInterface is called when production interface is exited.
+func (s *BaseCONFIGListener) ExitInterface(ctx *InterfaceContext) {}
+
+// EnterCheck is called when production check is entered.
+func (s *BaseCONFIGListener) EnterCheck(ctx *CheckContext) {}
+
+// ExitCheck is called when production check is exited.
+func (s *BaseCONFIGListener) ExitCheck(ctx *CheckContext) {}
+
+// EnterCtype is called when production ctype is entered.
+func (s *BaseCONFIGListener) EnterCtype(ctx *CtypeContext) {}
+
+// ExitCtype is called when production ctype is exited.
+func (s *BaseCONFIGListener) ExitCtype(ctx *CtypeContext) {}
+
+// EnterChttpcode is called when production chttpcode is entered.
+func (s *BaseCONFIGListener) EnterChttpcode(ctx *ChttpcodeContext) {}
+
+// ExitChttpcode is called when production chttpcode is exited.
+func (s *BaseCONFIGListener) ExitChttpcode(ctx *ChttpcodeContext) {}
+
+// EnterChttpdigest is called when production chttpdigest is entered.
+func (s *BaseCONFIGListener) EnterChttpdigest(ctx *ChttpdigestContext) {}
+
+// ExitChttpdigest is called when production chttpdigest is exited.
+func (s *BaseCONFIGListener) ExitChttpdigest(ctx *ChttpdigestContext) {}
+
+// EnterForward is called when production forward is entered.
+func (s *BaseCONFIGListener) EnterForward(ctx *ForwardContext) {}
+
+// ExitForward is called when production forward is exited.
+func (s *BaseCONFIGListener) ExitForward(ctx *ForwardContext) {}
+
+// EnterRoute is called when production route is entered.
+func (s *BaseCONFIGListener) EnterRoute(ctx *RouteContext) {}
+
+// ExitRoute is called when production route is exited.
+func (s *BaseCONFIGListener) ExitRoute(ctx *RouteContext) {}
+
+// EnterSesstimeout is called when production sesstimeout is entered.
+func (s *BaseCONFIGListener) EnterSesstimeout(ctx *SesstimeoutContext) {}
+
+// ExitSesstimeout is called when production sesstimeout is exited.
+func (s *BaseCONFIGListener) ExitSesstimeout(ctx *SesstimeoutContext) {}
+
+// EnterSticky is called when production sticky is entered.
+func (s *BaseCONFIGListener) EnterSticky(ctx *StickyContext) {}
+
+// ExitSticky is called when production sticky is exited.
+func (s *BaseCONFIGListener) ExitSticky(ctx *StickyContext) {}
+
+// EnterRedirect is called when production redirect is entered.
+func (s *BaseCONFIGListener) EnterRedirect(ctx *RedirectContext) {}
+
+// ExitRedirect is called when production redirect is exited.
+func (s *BaseCONFIGListener) ExitRedirect(ctx *RedirectContext) {}
+
+// EnterRname is called when production rname is entered.
+func (s *BaseCONFIGListener) EnterRname(ctx *RnameContext) {}
+
+// ExitRname is called when production rname is exited.
+func (s *BaseCONFIGListener) ExitRname(ctx *RnameContext) {}
+
+// EnterRstmt is called when production rstmt is entered.
+func (s *BaseCONFIGListener) EnterRstmt(ctx *RstmtContext) {}
+
+// ExitRstmt is called when production rstmt is exited.
+func (s *BaseCONFIGListener) ExitRstmt(ctx *RstmtContext) {}

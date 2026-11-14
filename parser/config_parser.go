@@ -32,51 +32,127 @@ var CONFIGParserStaticData struct {
 func configParserInit() {
 	staticData := &CONFIGParserStaticData
 	staticData.LiteralNames = []string{
-		"", "'='", "'$'", "'{'", "'}'", "'<'", "'>'", "','", "'disable'", "'interval'",
-		"'table'",
+		"", "'='", "'$'", "'{'", "'}'", "'<'", "'>'", "','", "'\"'", "'check'",
+		"'http'", "'code'", "'digest'", "'prefork'", "'priority'", "'retry'",
+		"'parent'", "'ip'", "'ttl'", "'route'", "'sticky-address'", "'session'",
+		"'timeout'", "'forward'", "'port'", "'interface'", "'listen'", "'to'",
+		"'on'", "'host'", "'redirect'", "'disable'", "'interval'", "'table'",
 	}
 	staticData.SymbolicNames = []string{
-		"", "", "", "", "", "", "", "", "DISABLE", "INTERVAL", "TABLE", "NUMBER",
-		"NAME", "HOST", "COMMENT", "WS", "CONTINUATION", "NEWLINE",
+		"", "", "", "", "", "", "", "", "", "CHECK", "HTTP", "CODE", "DIGEST",
+		"PREFORK", "PRIORITY", "RETRY", "PARENT", "IP", "TTL", "ROUTE", "STICKY_ADDRESS",
+		"SESSION", "TIMEOUT", "FORWARD", "PORT", "INTERFACE", "LISTEN", "TO",
+		"ON", "HOST", "REDIRECT", "DISABLE", "INTERVAL", "TABLE", "NUMBER",
+		"NAME", "COMMENT", "WS", "CONTINUATION", "NEWLINE",
 	}
 	staticData.RuleNames = []string{
-		"config", "stmt", "assignment", "interval", "var", "table", "tname",
-		"tlist", "titem", "tdisable",
+		"config", "stmt", "assignment", "var", "gopts", "interval", "prefork",
+		"table", "tname", "tlist", "titem", "tdisable", "topts", "toptipttl",
+		"toptparent", "toptpriority", "toptretry", "listen", "port", "proto",
+		"interface", "check", "ctype", "chttpcode", "chttpdigest", "forward",
+		"route", "sesstimeout", "sticky", "redirect", "rname", "rstmt",
 	}
 	staticData.PredictionContextCache = antlr.NewPredictionContextCache()
 	staticData.serializedATN = []int32{
-		4, 1, 17, 82, 2, 0, 7, 0, 2, 1, 7, 1, 2, 2, 7, 2, 2, 3, 7, 3, 2, 4, 7,
-		4, 2, 5, 7, 5, 2, 6, 7, 6, 2, 7, 7, 7, 2, 8, 7, 8, 2, 9, 7, 9, 1, 0, 1,
-		0, 1, 0, 1, 0, 5, 0, 25, 8, 0, 10, 0, 12, 0, 28, 9, 0, 1, 0, 3, 0, 31,
-		8, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 3, 1, 38, 8, 1, 1, 2, 1, 2, 1, 2, 1,
-		2, 1, 3, 1, 3, 1, 3, 1, 4, 1, 4, 1, 4, 1, 5, 1, 5, 1, 5, 3, 5, 53, 8, 5,
-		1, 5, 1, 5, 1, 5, 1, 5, 1, 6, 1, 6, 1, 6, 1, 6, 1, 7, 1, 7, 1, 7, 5, 7,
-		66, 8, 7, 10, 7, 12, 7, 69, 9, 7, 1, 7, 3, 7, 72, 8, 7, 3, 7, 74, 8, 7,
-		1, 8, 1, 8, 3, 8, 78, 8, 8, 1, 9, 1, 9, 1, 9, 0, 0, 10, 0, 2, 4, 6, 8,
-		10, 12, 14, 16, 18, 0, 0, 81, 0, 26, 1, 0, 0, 0, 2, 37, 1, 0, 0, 0, 4,
-		39, 1, 0, 0, 0, 6, 43, 1, 0, 0, 0, 8, 46, 1, 0, 0, 0, 10, 49, 1, 0, 0,
-		0, 12, 58, 1, 0, 0, 0, 14, 73, 1, 0, 0, 0, 16, 77, 1, 0, 0, 0, 18, 79,
-		1, 0, 0, 0, 20, 25, 5, 17, 0, 0, 21, 22, 3, 2, 1, 0, 22, 23, 5, 17, 0,
-		0, 23, 25, 1, 0, 0, 0, 24, 20, 1, 0, 0, 0, 24, 21, 1, 0, 0, 0, 25, 28,
-		1, 0, 0, 0, 26, 24, 1, 0, 0, 0, 26, 27, 1, 0, 0, 0, 27, 30, 1, 0, 0, 0,
-		28, 26, 1, 0, 0, 0, 29, 31, 3, 2, 1, 0, 30, 29, 1, 0, 0, 0, 30, 31, 1,
-		0, 0, 0, 31, 32, 1, 0, 0, 0, 32, 33, 5, 0, 0, 1, 33, 1, 1, 0, 0, 0, 34,
-		38, 3, 4, 2, 0, 35, 38, 3, 10, 5, 0, 36, 38, 3, 6, 3, 0, 37, 34, 1, 0,
-		0, 0, 37, 35, 1, 0, 0, 0, 37, 36, 1, 0, 0, 0, 38, 3, 1, 0, 0, 0, 39, 40,
-		5, 12, 0, 0, 40, 41, 5, 1, 0, 0, 41, 42, 5, 13, 0, 0, 42, 5, 1, 0, 0, 0,
-		43, 44, 5, 9, 0, 0, 44, 45, 5, 11, 0, 0, 45, 7, 1, 0, 0, 0, 46, 47, 5,
-		2, 0, 0, 47, 48, 5, 12, 0, 0, 48, 9, 1, 0, 0, 0, 49, 50, 5, 10, 0, 0, 50,
-		52, 3, 12, 6, 0, 51, 53, 3, 18, 9, 0, 52, 51, 1, 0, 0, 0, 52, 53, 1, 0,
-		0, 0, 53, 54, 1, 0, 0, 0, 54, 55, 5, 3, 0, 0, 55, 56, 3, 14, 7, 0, 56,
-		57, 5, 4, 0, 0, 57, 11, 1, 0, 0, 0, 58, 59, 5, 5, 0, 0, 59, 60, 5, 12,
-		0, 0, 60, 61, 5, 6, 0, 0, 61, 13, 1, 0, 0, 0, 62, 67, 3, 16, 8, 0, 63,
-		64, 5, 7, 0, 0, 64, 66, 3, 16, 8, 0, 65, 63, 1, 0, 0, 0, 66, 69, 1, 0,
-		0, 0, 67, 65, 1, 0, 0, 0, 67, 68, 1, 0, 0, 0, 68, 71, 1, 0, 0, 0, 69, 67,
-		1, 0, 0, 0, 70, 72, 5, 7, 0, 0, 71, 70, 1, 0, 0, 0, 71, 72, 1, 0, 0, 0,
-		72, 74, 1, 0, 0, 0, 73, 62, 1, 0, 0, 0, 73, 74, 1, 0, 0, 0, 74, 15, 1,
-		0, 0, 0, 75, 78, 3, 8, 4, 0, 76, 78, 5, 13, 0, 0, 77, 75, 1, 0, 0, 0, 77,
-		76, 1, 0, 0, 0, 78, 17, 1, 0, 0, 0, 79, 80, 5, 8, 0, 0, 80, 19, 1, 0, 0,
-		0, 9, 24, 26, 30, 37, 52, 67, 71, 73, 77,
+		4, 1, 39, 241, 2, 0, 7, 0, 2, 1, 7, 1, 2, 2, 7, 2, 2, 3, 7, 3, 2, 4, 7,
+		4, 2, 5, 7, 5, 2, 6, 7, 6, 2, 7, 7, 7, 2, 8, 7, 8, 2, 9, 7, 9, 2, 10, 7,
+		10, 2, 11, 7, 11, 2, 12, 7, 12, 2, 13, 7, 13, 2, 14, 7, 14, 2, 15, 7, 15,
+		2, 16, 7, 16, 2, 17, 7, 17, 2, 18, 7, 18, 2, 19, 7, 19, 2, 20, 7, 20, 2,
+		21, 7, 21, 2, 22, 7, 22, 2, 23, 7, 23, 2, 24, 7, 24, 2, 25, 7, 25, 2, 26,
+		7, 26, 2, 27, 7, 27, 2, 28, 7, 28, 2, 29, 7, 29, 2, 30, 7, 30, 2, 31, 7,
+		31, 1, 0, 1, 0, 1, 0, 1, 0, 5, 0, 69, 8, 0, 10, 0, 12, 0, 72, 9, 0, 1,
+		0, 3, 0, 75, 8, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 83, 8, 1,
+		1, 2, 1, 2, 1, 2, 1, 2, 1, 3, 1, 3, 1, 3, 1, 4, 1, 4, 3, 4, 94, 8, 4, 1,
+		5, 1, 5, 1, 5, 1, 6, 1, 6, 1, 6, 1, 7, 1, 7, 1, 7, 3, 7, 105, 8, 7, 1,
+		7, 1, 7, 1, 7, 1, 7, 1, 8, 1, 8, 1, 8, 1, 8, 1, 9, 1, 9, 1, 9, 5, 9, 118,
+		8, 9, 10, 9, 12, 9, 121, 9, 9, 1, 9, 3, 9, 124, 8, 9, 3, 9, 126, 8, 9,
+		1, 10, 1, 10, 3, 10, 130, 8, 10, 1, 10, 1, 10, 3, 10, 134, 8, 10, 3, 10,
+		136, 8, 10, 1, 11, 1, 11, 1, 12, 1, 12, 1, 12, 1, 12, 3, 12, 144, 8, 12,
+		1, 13, 1, 13, 1, 13, 1, 13, 1, 14, 1, 14, 1, 14, 1, 15, 1, 15, 1, 15, 1,
+		16, 1, 16, 1, 16, 1, 17, 1, 17, 1, 17, 1, 17, 3, 17, 163, 8, 17, 1, 17,
+		1, 17, 3, 17, 167, 8, 17, 1, 18, 1, 18, 1, 18, 1, 19, 1, 19, 1, 20, 1,
+		20, 1, 20, 1, 21, 1, 21, 1, 21, 1, 22, 1, 22, 3, 22, 182, 8, 22, 1, 23,
+		1, 23, 1, 23, 3, 23, 187, 8, 23, 1, 23, 1, 23, 1, 23, 1, 24, 1, 24, 1,
+		24, 3, 24, 195, 8, 24, 1, 24, 1, 24, 1, 24, 1, 25, 1, 25, 1, 25, 1, 25,
+		3, 25, 204, 8, 25, 1, 25, 3, 25, 207, 8, 25, 1, 26, 1, 26, 1, 26, 1, 26,
+		3, 26, 213, 8, 26, 1, 26, 3, 26, 216, 8, 26, 1, 27, 1, 27, 1, 27, 1, 27,
+		1, 28, 1, 28, 1, 29, 1, 29, 1, 29, 1, 29, 1, 29, 1, 29, 1, 30, 1, 30, 1,
+		30, 1, 30, 1, 31, 1, 31, 1, 31, 1, 31, 1, 31, 3, 31, 239, 8, 31, 1, 31,
+		0, 0, 32, 0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32,
+		34, 36, 38, 40, 42, 44, 46, 48, 50, 52, 54, 56, 58, 60, 62, 0, 0, 238,
+		0, 70, 1, 0, 0, 0, 2, 82, 1, 0, 0, 0, 4, 84, 1, 0, 0, 0, 6, 88, 1, 0, 0,
+		0, 8, 93, 1, 0, 0, 0, 10, 95, 1, 0, 0, 0, 12, 98, 1, 0, 0, 0, 14, 101,
+		1, 0, 0, 0, 16, 110, 1, 0, 0, 0, 18, 125, 1, 0, 0, 0, 20, 135, 1, 0, 0,
+		0, 22, 137, 1, 0, 0, 0, 24, 143, 1, 0, 0, 0, 26, 145, 1, 0, 0, 0, 28, 149,
+		1, 0, 0, 0, 30, 152, 1, 0, 0, 0, 32, 155, 1, 0, 0, 0, 34, 158, 1, 0, 0,
+		0, 36, 168, 1, 0, 0, 0, 38, 171, 1, 0, 0, 0, 40, 173, 1, 0, 0, 0, 42, 176,
+		1, 0, 0, 0, 44, 181, 1, 0, 0, 0, 46, 183, 1, 0, 0, 0, 48, 191, 1, 0, 0,
+		0, 50, 199, 1, 0, 0, 0, 52, 208, 1, 0, 0, 0, 54, 217, 1, 0, 0, 0, 56, 221,
+		1, 0, 0, 0, 58, 223, 1, 0, 0, 0, 60, 229, 1, 0, 0, 0, 62, 238, 1, 0, 0,
+		0, 64, 69, 5, 39, 0, 0, 65, 66, 3, 2, 1, 0, 66, 67, 5, 39, 0, 0, 67, 69,
+		1, 0, 0, 0, 68, 64, 1, 0, 0, 0, 68, 65, 1, 0, 0, 0, 69, 72, 1, 0, 0, 0,
+		70, 68, 1, 0, 0, 0, 70, 71, 1, 0, 0, 0, 71, 74, 1, 0, 0, 0, 72, 70, 1,
+		0, 0, 0, 73, 75, 3, 2, 1, 0, 74, 73, 1, 0, 0, 0, 74, 75, 1, 0, 0, 0, 75,
+		76, 1, 0, 0, 0, 76, 77, 5, 0, 0, 1, 77, 1, 1, 0, 0, 0, 78, 83, 3, 4, 2,
+		0, 79, 83, 3, 14, 7, 0, 80, 83, 3, 8, 4, 0, 81, 83, 3, 58, 29, 0, 82, 78,
+		1, 0, 0, 0, 82, 79, 1, 0, 0, 0, 82, 80, 1, 0, 0, 0, 82, 81, 1, 0, 0, 0,
+		83, 3, 1, 0, 0, 0, 84, 85, 5, 35, 0, 0, 85, 86, 5, 1, 0, 0, 86, 87, 5,
+		35, 0, 0, 87, 5, 1, 0, 0, 0, 88, 89, 5, 2, 0, 0, 89, 90, 5, 35, 0, 0, 90,
+		7, 1, 0, 0, 0, 91, 94, 3, 10, 5, 0, 92, 94, 3, 12, 6, 0, 93, 91, 1, 0,
+		0, 0, 93, 92, 1, 0, 0, 0, 94, 9, 1, 0, 0, 0, 95, 96, 5, 32, 0, 0, 96, 97,
+		5, 34, 0, 0, 97, 11, 1, 0, 0, 0, 98, 99, 5, 13, 0, 0, 99, 100, 5, 34, 0,
+		0, 100, 13, 1, 0, 0, 0, 101, 102, 5, 33, 0, 0, 102, 104, 3, 16, 8, 0, 103,
+		105, 3, 22, 11, 0, 104, 103, 1, 0, 0, 0, 104, 105, 1, 0, 0, 0, 105, 106,
+		1, 0, 0, 0, 106, 107, 5, 3, 0, 0, 107, 108, 3, 18, 9, 0, 108, 109, 5, 4,
+		0, 0, 109, 15, 1, 0, 0, 0, 110, 111, 5, 5, 0, 0, 111, 112, 5, 35, 0, 0,
+		112, 113, 5, 6, 0, 0, 113, 17, 1, 0, 0, 0, 114, 119, 3, 20, 10, 0, 115,
+		116, 5, 7, 0, 0, 116, 118, 3, 20, 10, 0, 117, 115, 1, 0, 0, 0, 118, 121,
+		1, 0, 0, 0, 119, 117, 1, 0, 0, 0, 119, 120, 1, 0, 0, 0, 120, 123, 1, 0,
+		0, 0, 121, 119, 1, 0, 0, 0, 122, 124, 5, 7, 0, 0, 123, 122, 1, 0, 0, 0,
+		123, 124, 1, 0, 0, 0, 124, 126, 1, 0, 0, 0, 125, 114, 1, 0, 0, 0, 125,
+		126, 1, 0, 0, 0, 126, 19, 1, 0, 0, 0, 127, 129, 3, 6, 3, 0, 128, 130, 3,
+		24, 12, 0, 129, 128, 1, 0, 0, 0, 129, 130, 1, 0, 0, 0, 130, 136, 1, 0,
+		0, 0, 131, 133, 5, 35, 0, 0, 132, 134, 3, 24, 12, 0, 133, 132, 1, 0, 0,
+		0, 133, 134, 1, 0, 0, 0, 134, 136, 1, 0, 0, 0, 135, 127, 1, 0, 0, 0, 135,
+		131, 1, 0, 0, 0, 136, 21, 1, 0, 0, 0, 137, 138, 5, 31, 0, 0, 138, 23, 1,
+		0, 0, 0, 139, 144, 3, 26, 13, 0, 140, 144, 3, 28, 14, 0, 141, 144, 3, 30,
+		15, 0, 142, 144, 3, 32, 16, 0, 143, 139, 1, 0, 0, 0, 143, 140, 1, 0, 0,
+		0, 143, 141, 1, 0, 0, 0, 143, 142, 1, 0, 0, 0, 144, 25, 1, 0, 0, 0, 145,
+		146, 5, 17, 0, 0, 146, 147, 5, 18, 0, 0, 147, 148, 5, 34, 0, 0, 148, 27,
+		1, 0, 0, 0, 149, 150, 5, 16, 0, 0, 150, 151, 5, 34, 0, 0, 151, 29, 1, 0,
+		0, 0, 152, 153, 5, 14, 0, 0, 153, 154, 5, 34, 0, 0, 154, 31, 1, 0, 0, 0,
+		155, 156, 5, 15, 0, 0, 156, 157, 5, 34, 0, 0, 157, 33, 1, 0, 0, 0, 158,
+		159, 5, 26, 0, 0, 159, 160, 5, 28, 0, 0, 160, 162, 5, 35, 0, 0, 161, 163,
+		3, 38, 19, 0, 162, 161, 1, 0, 0, 0, 162, 163, 1, 0, 0, 0, 163, 164, 1,
+		0, 0, 0, 164, 166, 3, 36, 18, 0, 165, 167, 3, 40, 20, 0, 166, 165, 1, 0,
+		0, 0, 166, 167, 1, 0, 0, 0, 167, 35, 1, 0, 0, 0, 168, 169, 5, 24, 0, 0,
+		169, 170, 5, 34, 0, 0, 170, 37, 1, 0, 0, 0, 171, 172, 5, 35, 0, 0, 172,
+		39, 1, 0, 0, 0, 173, 174, 5, 25, 0, 0, 174, 175, 5, 35, 0, 0, 175, 41,
+		1, 0, 0, 0, 176, 177, 5, 9, 0, 0, 177, 178, 3, 44, 22, 0, 178, 43, 1, 0,
+		0, 0, 179, 182, 3, 46, 23, 0, 180, 182, 3, 48, 24, 0, 181, 179, 1, 0, 0,
+		0, 181, 180, 1, 0, 0, 0, 182, 45, 1, 0, 0, 0, 183, 186, 5, 10, 0, 0, 184,
+		185, 5, 29, 0, 0, 185, 187, 5, 35, 0, 0, 186, 184, 1, 0, 0, 0, 186, 187,
+		1, 0, 0, 0, 187, 188, 1, 0, 0, 0, 188, 189, 5, 11, 0, 0, 189, 190, 5, 34,
+		0, 0, 190, 47, 1, 0, 0, 0, 191, 194, 5, 10, 0, 0, 192, 193, 5, 29, 0, 0,
+		193, 195, 5, 35, 0, 0, 194, 192, 1, 0, 0, 0, 194, 195, 1, 0, 0, 0, 195,
+		196, 1, 0, 0, 0, 196, 197, 5, 12, 0, 0, 197, 198, 5, 35, 0, 0, 198, 49,
+		1, 0, 0, 0, 199, 200, 5, 23, 0, 0, 200, 201, 5, 27, 0, 0, 201, 203, 3,
+		16, 8, 0, 202, 204, 3, 36, 18, 0, 203, 202, 1, 0, 0, 0, 203, 204, 1, 0,
+		0, 0, 204, 206, 1, 0, 0, 0, 205, 207, 3, 42, 21, 0, 206, 205, 1, 0, 0,
+		0, 206, 207, 1, 0, 0, 0, 207, 51, 1, 0, 0, 0, 208, 209, 5, 19, 0, 0, 209,
+		210, 5, 27, 0, 0, 210, 212, 3, 16, 8, 0, 211, 213, 3, 36, 18, 0, 212, 211,
+		1, 0, 0, 0, 212, 213, 1, 0, 0, 0, 213, 215, 1, 0, 0, 0, 214, 216, 3, 42,
+		21, 0, 215, 214, 1, 0, 0, 0, 215, 216, 1, 0, 0, 0, 216, 53, 1, 0, 0, 0,
+		217, 218, 5, 21, 0, 0, 218, 219, 5, 22, 0, 0, 219, 220, 5, 34, 0, 0, 220,
+		55, 1, 0, 0, 0, 221, 222, 5, 20, 0, 0, 222, 57, 1, 0, 0, 0, 223, 224, 5,
+		30, 0, 0, 224, 225, 3, 60, 30, 0, 225, 226, 5, 3, 0, 0, 226, 227, 3, 62,
+		31, 0, 227, 228, 5, 4, 0, 0, 228, 59, 1, 0, 0, 0, 229, 230, 5, 8, 0, 0,
+		230, 231, 5, 35, 0, 0, 231, 232, 5, 8, 0, 0, 232, 61, 1, 0, 0, 0, 233,
+		239, 5, 31, 0, 0, 234, 239, 3, 34, 17, 0, 235, 239, 3, 50, 25, 0, 236,
+		239, 3, 54, 27, 0, 237, 239, 3, 56, 28, 0, 238, 233, 1, 0, 0, 0, 238, 234,
+		1, 0, 0, 0, 238, 235, 1, 0, 0, 0, 238, 236, 1, 0, 0, 0, 238, 237, 1, 0,
+		0, 0, 239, 63, 1, 0, 0, 0, 23, 68, 70, 74, 82, 93, 104, 119, 123, 125,
+		129, 133, 135, 143, 162, 166, 181, 186, 194, 203, 206, 212, 215, 238,
 	}
 	deserializer := antlr.NewATNDeserializer(nil)
 	staticData.atn = deserializer.Deserialize(staticData.serializedATN)
@@ -114,38 +190,82 @@ func NewCONFIGParser(input antlr.TokenStream) *CONFIGParser {
 
 // CONFIGParser tokens.
 const (
-	CONFIGParserEOF          = antlr.TokenEOF
-	CONFIGParserT__0         = 1
-	CONFIGParserT__1         = 2
-	CONFIGParserT__2         = 3
-	CONFIGParserT__3         = 4
-	CONFIGParserT__4         = 5
-	CONFIGParserT__5         = 6
-	CONFIGParserT__6         = 7
-	CONFIGParserDISABLE      = 8
-	CONFIGParserINTERVAL     = 9
-	CONFIGParserTABLE        = 10
-	CONFIGParserNUMBER       = 11
-	CONFIGParserNAME         = 12
-	CONFIGParserHOST         = 13
-	CONFIGParserCOMMENT      = 14
-	CONFIGParserWS           = 15
-	CONFIGParserCONTINUATION = 16
-	CONFIGParserNEWLINE      = 17
+	CONFIGParserEOF            = antlr.TokenEOF
+	CONFIGParserT__0           = 1
+	CONFIGParserT__1           = 2
+	CONFIGParserT__2           = 3
+	CONFIGParserT__3           = 4
+	CONFIGParserT__4           = 5
+	CONFIGParserT__5           = 6
+	CONFIGParserT__6           = 7
+	CONFIGParserT__7           = 8
+	CONFIGParserCHECK          = 9
+	CONFIGParserHTTP           = 10
+	CONFIGParserCODE           = 11
+	CONFIGParserDIGEST         = 12
+	CONFIGParserPREFORK        = 13
+	CONFIGParserPRIORITY       = 14
+	CONFIGParserRETRY          = 15
+	CONFIGParserPARENT         = 16
+	CONFIGParserIP             = 17
+	CONFIGParserTTL            = 18
+	CONFIGParserROUTE          = 19
+	CONFIGParserSTICKY_ADDRESS = 20
+	CONFIGParserSESSION        = 21
+	CONFIGParserTIMEOUT        = 22
+	CONFIGParserFORWARD        = 23
+	CONFIGParserPORT           = 24
+	CONFIGParserINTERFACE      = 25
+	CONFIGParserLISTEN         = 26
+	CONFIGParserTO             = 27
+	CONFIGParserON             = 28
+	CONFIGParserHOST           = 29
+	CONFIGParserREDIRECT       = 30
+	CONFIGParserDISABLE        = 31
+	CONFIGParserINTERVAL       = 32
+	CONFIGParserTABLE          = 33
+	CONFIGParserNUMBER         = 34
+	CONFIGParserNAME           = 35
+	CONFIGParserCOMMENT        = 36
+	CONFIGParserWS             = 37
+	CONFIGParserCONTINUATION   = 38
+	CONFIGParserNEWLINE        = 39
 )
 
 // CONFIGParser rules.
 const (
-	CONFIGParserRULE_config     = 0
-	CONFIGParserRULE_stmt       = 1
-	CONFIGParserRULE_assignment = 2
-	CONFIGParserRULE_interval   = 3
-	CONFIGParserRULE_var        = 4
-	CONFIGParserRULE_table      = 5
-	CONFIGParserRULE_tname      = 6
-	CONFIGParserRULE_tlist      = 7
-	CONFIGParserRULE_titem      = 8
-	CONFIGParserRULE_tdisable   = 9
+	CONFIGParserRULE_config       = 0
+	CONFIGParserRULE_stmt         = 1
+	CONFIGParserRULE_assignment   = 2
+	CONFIGParserRULE_var          = 3
+	CONFIGParserRULE_gopts        = 4
+	CONFIGParserRULE_interval     = 5
+	CONFIGParserRULE_prefork      = 6
+	CONFIGParserRULE_table        = 7
+	CONFIGParserRULE_tname        = 8
+	CONFIGParserRULE_tlist        = 9
+	CONFIGParserRULE_titem        = 10
+	CONFIGParserRULE_tdisable     = 11
+	CONFIGParserRULE_topts        = 12
+	CONFIGParserRULE_toptipttl    = 13
+	CONFIGParserRULE_toptparent   = 14
+	CONFIGParserRULE_toptpriority = 15
+	CONFIGParserRULE_toptretry    = 16
+	CONFIGParserRULE_listen       = 17
+	CONFIGParserRULE_port         = 18
+	CONFIGParserRULE_proto        = 19
+	CONFIGParserRULE_interface    = 20
+	CONFIGParserRULE_check        = 21
+	CONFIGParserRULE_ctype        = 22
+	CONFIGParserRULE_chttpcode    = 23
+	CONFIGParserRULE_chttpdigest  = 24
+	CONFIGParserRULE_forward      = 25
+	CONFIGParserRULE_route        = 26
+	CONFIGParserRULE_sesstimeout  = 27
+	CONFIGParserRULE_sticky       = 28
+	CONFIGParserRULE_redirect     = 29
+	CONFIGParserRULE_rname        = 30
+	CONFIGParserRULE_rstmt        = 31
 )
 
 // IConfigContext is an interface to support dynamic dispatch.
@@ -279,7 +399,7 @@ func (p *CONFIGParser) Config() (localctx IConfigContext) {
 	var _alt int
 
 	p.EnterOuterAlt(localctx, 1)
-	p.SetState(26)
+	p.SetState(70)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
@@ -290,7 +410,7 @@ func (p *CONFIGParser) Config() (localctx IConfigContext) {
 	}
 	for _alt != 2 && _alt != antlr.ATNInvalidAltNumber {
 		if _alt == 1 {
-			p.SetState(24)
+			p.SetState(68)
 			p.GetErrorHandler().Sync(p)
 			if p.HasError() {
 				goto errorExit
@@ -299,7 +419,7 @@ func (p *CONFIGParser) Config() (localctx IConfigContext) {
 			switch p.GetTokenStream().LA(1) {
 			case CONFIGParserNEWLINE:
 				{
-					p.SetState(20)
+					p.SetState(64)
 					p.Match(CONFIGParserNEWLINE)
 					if p.HasError() {
 						// Recognition error - abort rule
@@ -307,13 +427,13 @@ func (p *CONFIGParser) Config() (localctx IConfigContext) {
 					}
 				}
 
-			case CONFIGParserINTERVAL, CONFIGParserTABLE, CONFIGParserNAME:
+			case CONFIGParserPREFORK, CONFIGParserREDIRECT, CONFIGParserINTERVAL, CONFIGParserTABLE, CONFIGParserNAME:
 				{
-					p.SetState(21)
+					p.SetState(65)
 					p.Stmt()
 				}
 				{
-					p.SetState(22)
+					p.SetState(66)
 					p.Match(CONFIGParserNEWLINE)
 					if p.HasError() {
 						// Recognition error - abort rule
@@ -327,7 +447,7 @@ func (p *CONFIGParser) Config() (localctx IConfigContext) {
 			}
 
 		}
-		p.SetState(28)
+		p.SetState(72)
 		p.GetErrorHandler().Sync(p)
 		if p.HasError() {
 			goto errorExit
@@ -337,22 +457,22 @@ func (p *CONFIGParser) Config() (localctx IConfigContext) {
 			goto errorExit
 		}
 	}
-	p.SetState(30)
+	p.SetState(74)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
 	}
 	_la = p.GetTokenStream().LA(1)
 
-	if (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&5632) != 0 {
+	if (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&48318390272) != 0 {
 		{
-			p.SetState(29)
+			p.SetState(73)
 			p.Stmt()
 		}
 
 	}
 	{
-		p.SetState(32)
+		p.SetState(76)
 		p.Match(CONFIGParserEOF)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -383,7 +503,8 @@ type IStmtContext interface {
 	// Getter signatures
 	Assignment() IAssignmentContext
 	Table() ITableContext
-	Interval() IIntervalContext
+	Gopts() IGoptsContext
+	Redirect() IRedirectContext
 
 	// IsStmtContext differentiates from other interfaces.
 	IsStmtContext()
@@ -453,10 +574,10 @@ func (s *StmtContext) Table() ITableContext {
 	return t.(ITableContext)
 }
 
-func (s *StmtContext) Interval() IIntervalContext {
+func (s *StmtContext) Gopts() IGoptsContext {
 	var t antlr.RuleContext
 	for _, ctx := range s.GetChildren() {
-		if _, ok := ctx.(IIntervalContext); ok {
+		if _, ok := ctx.(IGoptsContext); ok {
 			t = ctx.(antlr.RuleContext)
 			break
 		}
@@ -466,7 +587,23 @@ func (s *StmtContext) Interval() IIntervalContext {
 		return nil
 	}
 
-	return t.(IIntervalContext)
+	return t.(IGoptsContext)
+}
+
+func (s *StmtContext) Redirect() IRedirectContext {
+	var t antlr.RuleContext
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(IRedirectContext); ok {
+			t = ctx.(antlr.RuleContext)
+			break
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IRedirectContext)
 }
 
 func (s *StmtContext) GetRuleContext() antlr.RuleContext {
@@ -492,7 +629,7 @@ func (s *StmtContext) ExitRule(listener antlr.ParseTreeListener) {
 func (p *CONFIGParser) Stmt() (localctx IStmtContext) {
 	localctx = NewStmtContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 2, CONFIGParserRULE_stmt)
-	p.SetState(37)
+	p.SetState(82)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
@@ -502,22 +639,29 @@ func (p *CONFIGParser) Stmt() (localctx IStmtContext) {
 	case CONFIGParserNAME:
 		p.EnterOuterAlt(localctx, 1)
 		{
-			p.SetState(34)
+			p.SetState(78)
 			p.Assignment()
 		}
 
 	case CONFIGParserTABLE:
 		p.EnterOuterAlt(localctx, 2)
 		{
-			p.SetState(35)
+			p.SetState(79)
 			p.Table()
 		}
 
-	case CONFIGParserINTERVAL:
+	case CONFIGParserPREFORK, CONFIGParserINTERVAL:
 		p.EnterOuterAlt(localctx, 3)
 		{
-			p.SetState(36)
-			p.Interval()
+			p.SetState(80)
+			p.Gopts()
+		}
+
+	case CONFIGParserREDIRECT:
+		p.EnterOuterAlt(localctx, 4)
+		{
+			p.SetState(81)
+			p.Redirect()
 		}
 
 	default:
@@ -546,8 +690,8 @@ type IAssignmentContext interface {
 	GetParser() antlr.Parser
 
 	// Getter signatures
-	NAME() antlr.TerminalNode
-	HOST() antlr.TerminalNode
+	AllNAME() []antlr.TerminalNode
+	NAME(i int) antlr.TerminalNode
 
 	// IsAssignmentContext differentiates from other interfaces.
 	IsAssignmentContext()
@@ -585,12 +729,12 @@ func NewAssignmentContext(parser antlr.Parser, parent antlr.ParserRuleContext, i
 
 func (s *AssignmentContext) GetParser() antlr.Parser { return s.parser }
 
-func (s *AssignmentContext) NAME() antlr.TerminalNode {
-	return s.GetToken(CONFIGParserNAME, 0)
+func (s *AssignmentContext) AllNAME() []antlr.TerminalNode {
+	return s.GetTokens(CONFIGParserNAME)
 }
 
-func (s *AssignmentContext) HOST() antlr.TerminalNode {
-	return s.GetToken(CONFIGParserHOST, 0)
+func (s *AssignmentContext) NAME(i int) antlr.TerminalNode {
+	return s.GetToken(CONFIGParserNAME, i)
 }
 
 func (s *AssignmentContext) GetRuleContext() antlr.RuleContext {
@@ -618,7 +762,7 @@ func (p *CONFIGParser) Assignment() (localctx IAssignmentContext) {
 	p.EnterRule(localctx, 4, CONFIGParserRULE_assignment)
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(39)
+		p.SetState(84)
 		p.Match(CONFIGParserNAME)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -626,7 +770,7 @@ func (p *CONFIGParser) Assignment() (localctx IAssignmentContext) {
 		}
 	}
 	{
-		p.SetState(40)
+		p.SetState(85)
 		p.Match(CONFIGParserT__0)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -634,12 +778,257 @@ func (p *CONFIGParser) Assignment() (localctx IAssignmentContext) {
 		}
 	}
 	{
-		p.SetState(41)
-		p.Match(CONFIGParserHOST)
+		p.SetState(86)
+		p.Match(CONFIGParserNAME)
 		if p.HasError() {
 			// Recognition error - abort rule
 			goto errorExit
 		}
+	}
+
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
+	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
+}
+
+// IVarContext is an interface to support dynamic dispatch.
+type IVarContext interface {
+	antlr.ParserRuleContext
+
+	// GetParser returns the parser.
+	GetParser() antlr.Parser
+
+	// Getter signatures
+	NAME() antlr.TerminalNode
+
+	// IsVarContext differentiates from other interfaces.
+	IsVarContext()
+}
+
+type VarContext struct {
+	antlr.BaseParserRuleContext
+	parser antlr.Parser
+}
+
+func NewEmptyVarContext() *VarContext {
+	var p = new(VarContext)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = CONFIGParserRULE_var
+	return p
+}
+
+func InitEmptyVarContext(p *VarContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = CONFIGParserRULE_var
+}
+
+func (*VarContext) IsVarContext() {}
+
+func NewVarContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *VarContext {
+	var p = new(VarContext)
+
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
+
+	p.parser = parser
+	p.RuleIndex = CONFIGParserRULE_var
+
+	return p
+}
+
+func (s *VarContext) GetParser() antlr.Parser { return s.parser }
+
+func (s *VarContext) NAME() antlr.TerminalNode {
+	return s.GetToken(CONFIGParserNAME, 0)
+}
+
+func (s *VarContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *VarContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+	return antlr.TreesStringTree(s, ruleNames, recog)
+}
+
+func (s *VarContext) EnterRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(CONFIGListener); ok {
+		listenerT.EnterVar(s)
+	}
+}
+
+func (s *VarContext) ExitRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(CONFIGListener); ok {
+		listenerT.ExitVar(s)
+	}
+}
+
+func (p *CONFIGParser) Var_() (localctx IVarContext) {
+	localctx = NewVarContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 6, CONFIGParserRULE_var)
+	p.EnterOuterAlt(localctx, 1)
+	{
+		p.SetState(88)
+		p.Match(CONFIGParserT__1)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
+	}
+	{
+		p.SetState(89)
+		p.Match(CONFIGParserNAME)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
+	}
+
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
+	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
+}
+
+// IGoptsContext is an interface to support dynamic dispatch.
+type IGoptsContext interface {
+	antlr.ParserRuleContext
+
+	// GetParser returns the parser.
+	GetParser() antlr.Parser
+
+	// Getter signatures
+	Interval() IIntervalContext
+	Prefork() IPreforkContext
+
+	// IsGoptsContext differentiates from other interfaces.
+	IsGoptsContext()
+}
+
+type GoptsContext struct {
+	antlr.BaseParserRuleContext
+	parser antlr.Parser
+}
+
+func NewEmptyGoptsContext() *GoptsContext {
+	var p = new(GoptsContext)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = CONFIGParserRULE_gopts
+	return p
+}
+
+func InitEmptyGoptsContext(p *GoptsContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = CONFIGParserRULE_gopts
+}
+
+func (*GoptsContext) IsGoptsContext() {}
+
+func NewGoptsContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *GoptsContext {
+	var p = new(GoptsContext)
+
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
+
+	p.parser = parser
+	p.RuleIndex = CONFIGParserRULE_gopts
+
+	return p
+}
+
+func (s *GoptsContext) GetParser() antlr.Parser { return s.parser }
+
+func (s *GoptsContext) Interval() IIntervalContext {
+	var t antlr.RuleContext
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(IIntervalContext); ok {
+			t = ctx.(antlr.RuleContext)
+			break
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IIntervalContext)
+}
+
+func (s *GoptsContext) Prefork() IPreforkContext {
+	var t antlr.RuleContext
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(IPreforkContext); ok {
+			t = ctx.(antlr.RuleContext)
+			break
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IPreforkContext)
+}
+
+func (s *GoptsContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *GoptsContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+	return antlr.TreesStringTree(s, ruleNames, recog)
+}
+
+func (s *GoptsContext) EnterRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(CONFIGListener); ok {
+		listenerT.EnterGopts(s)
+	}
+}
+
+func (s *GoptsContext) ExitRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(CONFIGListener); ok {
+		listenerT.ExitGopts(s)
+	}
+}
+
+func (p *CONFIGParser) Gopts() (localctx IGoptsContext) {
+	localctx = NewGoptsContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 8, CONFIGParserRULE_gopts)
+	p.SetState(93)
+	p.GetErrorHandler().Sync(p)
+	if p.HasError() {
+		goto errorExit
+	}
+
+	switch p.GetTokenStream().LA(1) {
+	case CONFIGParserINTERVAL:
+		p.EnterOuterAlt(localctx, 1)
+		{
+			p.SetState(91)
+			p.Interval()
+		}
+
+	case CONFIGParserPREFORK:
+		p.EnterOuterAlt(localctx, 2)
+		{
+			p.SetState(92)
+			p.Prefork()
+		}
+
+	default:
+		p.SetError(antlr.NewNoViableAltException(p, nil, nil, nil, nil, nil))
+		goto errorExit
 	}
 
 errorExit:
@@ -732,10 +1121,10 @@ func (s *IntervalContext) ExitRule(listener antlr.ParseTreeListener) {
 
 func (p *CONFIGParser) Interval() (localctx IIntervalContext) {
 	localctx = NewIntervalContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 6, CONFIGParserRULE_interval)
+	p.EnterRule(localctx, 10, CONFIGParserRULE_interval)
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(43)
+		p.SetState(95)
 		p.Match(CONFIGParserINTERVAL)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -743,7 +1132,7 @@ func (p *CONFIGParser) Interval() (localctx IIntervalContext) {
 		}
 	}
 	{
-		p.SetState(44)
+		p.SetState(96)
 		p.Match(CONFIGParserNUMBER)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -764,91 +1153,96 @@ errorExit:
 	goto errorExit // Trick to prevent compiler error if the label is not used
 }
 
-// IVarContext is an interface to support dynamic dispatch.
-type IVarContext interface {
+// IPreforkContext is an interface to support dynamic dispatch.
+type IPreforkContext interface {
 	antlr.ParserRuleContext
 
 	// GetParser returns the parser.
 	GetParser() antlr.Parser
 
 	// Getter signatures
-	NAME() antlr.TerminalNode
+	PREFORK() antlr.TerminalNode
+	NUMBER() antlr.TerminalNode
 
-	// IsVarContext differentiates from other interfaces.
-	IsVarContext()
+	// IsPreforkContext differentiates from other interfaces.
+	IsPreforkContext()
 }
 
-type VarContext struct {
+type PreforkContext struct {
 	antlr.BaseParserRuleContext
 	parser antlr.Parser
 }
 
-func NewEmptyVarContext() *VarContext {
-	var p = new(VarContext)
+func NewEmptyPreforkContext() *PreforkContext {
+	var p = new(PreforkContext)
 	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
-	p.RuleIndex = CONFIGParserRULE_var
+	p.RuleIndex = CONFIGParserRULE_prefork
 	return p
 }
 
-func InitEmptyVarContext(p *VarContext) {
+func InitEmptyPreforkContext(p *PreforkContext) {
 	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
-	p.RuleIndex = CONFIGParserRULE_var
+	p.RuleIndex = CONFIGParserRULE_prefork
 }
 
-func (*VarContext) IsVarContext() {}
+func (*PreforkContext) IsPreforkContext() {}
 
-func NewVarContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *VarContext {
-	var p = new(VarContext)
+func NewPreforkContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *PreforkContext {
+	var p = new(PreforkContext)
 
 	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
 
 	p.parser = parser
-	p.RuleIndex = CONFIGParserRULE_var
+	p.RuleIndex = CONFIGParserRULE_prefork
 
 	return p
 }
 
-func (s *VarContext) GetParser() antlr.Parser { return s.parser }
+func (s *PreforkContext) GetParser() antlr.Parser { return s.parser }
 
-func (s *VarContext) NAME() antlr.TerminalNode {
-	return s.GetToken(CONFIGParserNAME, 0)
+func (s *PreforkContext) PREFORK() antlr.TerminalNode {
+	return s.GetToken(CONFIGParserPREFORK, 0)
 }
 
-func (s *VarContext) GetRuleContext() antlr.RuleContext {
+func (s *PreforkContext) NUMBER() antlr.TerminalNode {
+	return s.GetToken(CONFIGParserNUMBER, 0)
+}
+
+func (s *PreforkContext) GetRuleContext() antlr.RuleContext {
 	return s
 }
 
-func (s *VarContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+func (s *PreforkContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
 	return antlr.TreesStringTree(s, ruleNames, recog)
 }
 
-func (s *VarContext) EnterRule(listener antlr.ParseTreeListener) {
+func (s *PreforkContext) EnterRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(CONFIGListener); ok {
-		listenerT.EnterVar(s)
+		listenerT.EnterPrefork(s)
 	}
 }
 
-func (s *VarContext) ExitRule(listener antlr.ParseTreeListener) {
+func (s *PreforkContext) ExitRule(listener antlr.ParseTreeListener) {
 	if listenerT, ok := listener.(CONFIGListener); ok {
-		listenerT.ExitVar(s)
+		listenerT.ExitPrefork(s)
 	}
 }
 
-func (p *CONFIGParser) Var_() (localctx IVarContext) {
-	localctx = NewVarContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 8, CONFIGParserRULE_var)
+func (p *CONFIGParser) Prefork() (localctx IPreforkContext) {
+	localctx = NewPreforkContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 12, CONFIGParserRULE_prefork)
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(46)
-		p.Match(CONFIGParserT__1)
+		p.SetState(98)
+		p.Match(CONFIGParserPREFORK)
 		if p.HasError() {
 			// Recognition error - abort rule
 			goto errorExit
 		}
 	}
 	{
-		p.SetState(47)
-		p.Match(CONFIGParserNAME)
+		p.SetState(99)
+		p.Match(CONFIGParserNUMBER)
 		if p.HasError() {
 			// Recognition error - abort rule
 			goto errorExit
@@ -991,12 +1385,12 @@ func (s *TableContext) ExitRule(listener antlr.ParseTreeListener) {
 
 func (p *CONFIGParser) Table() (localctx ITableContext) {
 	localctx = NewTableContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 10, CONFIGParserRULE_table)
+	p.EnterRule(localctx, 14, CONFIGParserRULE_table)
 	var _la int
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(49)
+		p.SetState(101)
 		p.Match(CONFIGParserTABLE)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -1004,10 +1398,10 @@ func (p *CONFIGParser) Table() (localctx ITableContext) {
 		}
 	}
 	{
-		p.SetState(50)
+		p.SetState(102)
 		p.Tname()
 	}
-	p.SetState(52)
+	p.SetState(104)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
@@ -1016,13 +1410,13 @@ func (p *CONFIGParser) Table() (localctx ITableContext) {
 
 	if _la == CONFIGParserDISABLE {
 		{
-			p.SetState(51)
+			p.SetState(103)
 			p.Tdisable()
 		}
 
 	}
 	{
-		p.SetState(54)
+		p.SetState(106)
 		p.Match(CONFIGParserT__2)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -1030,11 +1424,11 @@ func (p *CONFIGParser) Table() (localctx ITableContext) {
 		}
 	}
 	{
-		p.SetState(55)
+		p.SetState(107)
 		p.Tlist()
 	}
 	{
-		p.SetState(56)
+		p.SetState(108)
 		p.Match(CONFIGParserT__3)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -1127,10 +1521,10 @@ func (s *TnameContext) ExitRule(listener antlr.ParseTreeListener) {
 
 func (p *CONFIGParser) Tname() (localctx ITnameContext) {
 	localctx = NewTnameContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 12, CONFIGParserRULE_tname)
+	p.EnterRule(localctx, 16, CONFIGParserRULE_tname)
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(58)
+		p.SetState(110)
 		p.Match(CONFIGParserT__4)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -1138,7 +1532,7 @@ func (p *CONFIGParser) Tname() (localctx ITnameContext) {
 		}
 	}
 	{
-		p.SetState(59)
+		p.SetState(111)
 		p.Match(CONFIGParserNAME)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -1146,7 +1540,7 @@ func (p *CONFIGParser) Tname() (localctx ITnameContext) {
 		}
 	}
 	{
-		p.SetState(60)
+		p.SetState(112)
 		p.Match(CONFIGParserT__5)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -1277,37 +1671,37 @@ func (s *TlistContext) ExitRule(listener antlr.ParseTreeListener) {
 
 func (p *CONFIGParser) Tlist() (localctx ITlistContext) {
 	localctx = NewTlistContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 14, CONFIGParserRULE_tlist)
+	p.EnterRule(localctx, 18, CONFIGParserRULE_tlist)
 	var _la int
 
 	var _alt int
 
 	p.EnterOuterAlt(localctx, 1)
-	p.SetState(73)
+	p.SetState(125)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
 	}
 	_la = p.GetTokenStream().LA(1)
 
-	if _la == CONFIGParserT__1 || _la == CONFIGParserHOST {
+	if _la == CONFIGParserT__1 || _la == CONFIGParserNAME {
 		{
-			p.SetState(62)
+			p.SetState(114)
 			p.Titem()
 		}
-		p.SetState(67)
+		p.SetState(119)
 		p.GetErrorHandler().Sync(p)
 		if p.HasError() {
 			goto errorExit
 		}
-		_alt = p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 5, p.GetParserRuleContext())
+		_alt = p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 6, p.GetParserRuleContext())
 		if p.HasError() {
 			goto errorExit
 		}
 		for _alt != 2 && _alt != antlr.ATNInvalidAltNumber {
 			if _alt == 1 {
 				{
-					p.SetState(63)
+					p.SetState(115)
 					p.Match(CONFIGParserT__6)
 					if p.HasError() {
 						// Recognition error - abort rule
@@ -1315,22 +1709,22 @@ func (p *CONFIGParser) Tlist() (localctx ITlistContext) {
 					}
 				}
 				{
-					p.SetState(64)
+					p.SetState(116)
 					p.Titem()
 				}
 
 			}
-			p.SetState(69)
+			p.SetState(121)
 			p.GetErrorHandler().Sync(p)
 			if p.HasError() {
 				goto errorExit
 			}
-			_alt = p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 5, p.GetParserRuleContext())
+			_alt = p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 6, p.GetParserRuleContext())
 			if p.HasError() {
 				goto errorExit
 			}
 		}
-		p.SetState(71)
+		p.SetState(123)
 		p.GetErrorHandler().Sync(p)
 		if p.HasError() {
 			goto errorExit
@@ -1339,7 +1733,7 @@ func (p *CONFIGParser) Tlist() (localctx ITlistContext) {
 
 		if _la == CONFIGParserT__6 {
 			{
-				p.SetState(70)
+				p.SetState(122)
 				p.Match(CONFIGParserT__6)
 				if p.HasError() {
 					// Recognition error - abort rule
@@ -1373,7 +1767,8 @@ type ITitemContext interface {
 
 	// Getter signatures
 	Var_() IVarContext
-	HOST() antlr.TerminalNode
+	Topts() IToptsContext
+	NAME() antlr.TerminalNode
 
 	// IsTitemContext differentiates from other interfaces.
 	IsTitemContext()
@@ -1427,8 +1822,24 @@ func (s *TitemContext) Var_() IVarContext {
 	return t.(IVarContext)
 }
 
-func (s *TitemContext) HOST() antlr.TerminalNode {
-	return s.GetToken(CONFIGParserHOST, 0)
+func (s *TitemContext) Topts() IToptsContext {
+	var t antlr.RuleContext
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(IToptsContext); ok {
+			t = ctx.(antlr.RuleContext)
+			break
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IToptsContext)
+}
+
+func (s *TitemContext) NAME() antlr.TerminalNode {
+	return s.GetToken(CONFIGParserNAME, 0)
 }
 
 func (s *TitemContext) GetRuleContext() antlr.RuleContext {
@@ -1453,8 +1864,10 @@ func (s *TitemContext) ExitRule(listener antlr.ParseTreeListener) {
 
 func (p *CONFIGParser) Titem() (localctx ITitemContext) {
 	localctx = NewTitemContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 16, CONFIGParserRULE_titem)
-	p.SetState(77)
+	p.EnterRule(localctx, 20, CONFIGParserRULE_titem)
+	var _la int
+
+	p.SetState(135)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
@@ -1464,19 +1877,47 @@ func (p *CONFIGParser) Titem() (localctx ITitemContext) {
 	case CONFIGParserT__1:
 		p.EnterOuterAlt(localctx, 1)
 		{
-			p.SetState(75)
+			p.SetState(127)
 			p.Var_()
 		}
+		p.SetState(129)
+		p.GetErrorHandler().Sync(p)
+		if p.HasError() {
+			goto errorExit
+		}
+		_la = p.GetTokenStream().LA(1)
 
-	case CONFIGParserHOST:
+		if (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&245760) != 0 {
+			{
+				p.SetState(128)
+				p.Topts()
+			}
+
+		}
+
+	case CONFIGParserNAME:
 		p.EnterOuterAlt(localctx, 2)
 		{
-			p.SetState(76)
-			p.Match(CONFIGParserHOST)
+			p.SetState(131)
+			p.Match(CONFIGParserNAME)
 			if p.HasError() {
 				// Recognition error - abort rule
 				goto errorExit
 			}
+		}
+		p.SetState(133)
+		p.GetErrorHandler().Sync(p)
+		if p.HasError() {
+			goto errorExit
+		}
+		_la = p.GetTokenStream().LA(1)
+
+		if (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&245760) != 0 {
+			{
+				p.SetState(132)
+				p.Topts()
+			}
+
 		}
 
 	default:
@@ -1569,15 +2010,2828 @@ func (s *TdisableContext) ExitRule(listener antlr.ParseTreeListener) {
 
 func (p *CONFIGParser) Tdisable() (localctx ITdisableContext) {
 	localctx = NewTdisableContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 18, CONFIGParserRULE_tdisable)
+	p.EnterRule(localctx, 22, CONFIGParserRULE_tdisable)
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(79)
+		p.SetState(137)
 		p.Match(CONFIGParserDISABLE)
 		if p.HasError() {
 			// Recognition error - abort rule
 			goto errorExit
 		}
+	}
+
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
+	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
+}
+
+// IToptsContext is an interface to support dynamic dispatch.
+type IToptsContext interface {
+	antlr.ParserRuleContext
+
+	// GetParser returns the parser.
+	GetParser() antlr.Parser
+
+	// Getter signatures
+	Toptipttl() IToptipttlContext
+	Toptparent() IToptparentContext
+	Toptpriority() IToptpriorityContext
+	Toptretry() IToptretryContext
+
+	// IsToptsContext differentiates from other interfaces.
+	IsToptsContext()
+}
+
+type ToptsContext struct {
+	antlr.BaseParserRuleContext
+	parser antlr.Parser
+}
+
+func NewEmptyToptsContext() *ToptsContext {
+	var p = new(ToptsContext)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = CONFIGParserRULE_topts
+	return p
+}
+
+func InitEmptyToptsContext(p *ToptsContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = CONFIGParserRULE_topts
+}
+
+func (*ToptsContext) IsToptsContext() {}
+
+func NewToptsContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *ToptsContext {
+	var p = new(ToptsContext)
+
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
+
+	p.parser = parser
+	p.RuleIndex = CONFIGParserRULE_topts
+
+	return p
+}
+
+func (s *ToptsContext) GetParser() antlr.Parser { return s.parser }
+
+func (s *ToptsContext) Toptipttl() IToptipttlContext {
+	var t antlr.RuleContext
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(IToptipttlContext); ok {
+			t = ctx.(antlr.RuleContext)
+			break
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IToptipttlContext)
+}
+
+func (s *ToptsContext) Toptparent() IToptparentContext {
+	var t antlr.RuleContext
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(IToptparentContext); ok {
+			t = ctx.(antlr.RuleContext)
+			break
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IToptparentContext)
+}
+
+func (s *ToptsContext) Toptpriority() IToptpriorityContext {
+	var t antlr.RuleContext
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(IToptpriorityContext); ok {
+			t = ctx.(antlr.RuleContext)
+			break
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IToptpriorityContext)
+}
+
+func (s *ToptsContext) Toptretry() IToptretryContext {
+	var t antlr.RuleContext
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(IToptretryContext); ok {
+			t = ctx.(antlr.RuleContext)
+			break
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IToptretryContext)
+}
+
+func (s *ToptsContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *ToptsContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+	return antlr.TreesStringTree(s, ruleNames, recog)
+}
+
+func (s *ToptsContext) EnterRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(CONFIGListener); ok {
+		listenerT.EnterTopts(s)
+	}
+}
+
+func (s *ToptsContext) ExitRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(CONFIGListener); ok {
+		listenerT.ExitTopts(s)
+	}
+}
+
+func (p *CONFIGParser) Topts() (localctx IToptsContext) {
+	localctx = NewToptsContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 24, CONFIGParserRULE_topts)
+	p.SetState(143)
+	p.GetErrorHandler().Sync(p)
+	if p.HasError() {
+		goto errorExit
+	}
+
+	switch p.GetTokenStream().LA(1) {
+	case CONFIGParserIP:
+		p.EnterOuterAlt(localctx, 1)
+		{
+			p.SetState(139)
+			p.Toptipttl()
+		}
+
+	case CONFIGParserPARENT:
+		p.EnterOuterAlt(localctx, 2)
+		{
+			p.SetState(140)
+			p.Toptparent()
+		}
+
+	case CONFIGParserPRIORITY:
+		p.EnterOuterAlt(localctx, 3)
+		{
+			p.SetState(141)
+			p.Toptpriority()
+		}
+
+	case CONFIGParserRETRY:
+		p.EnterOuterAlt(localctx, 4)
+		{
+			p.SetState(142)
+			p.Toptretry()
+		}
+
+	default:
+		p.SetError(antlr.NewNoViableAltException(p, nil, nil, nil, nil, nil))
+		goto errorExit
+	}
+
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
+	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
+}
+
+// IToptipttlContext is an interface to support dynamic dispatch.
+type IToptipttlContext interface {
+	antlr.ParserRuleContext
+
+	// GetParser returns the parser.
+	GetParser() antlr.Parser
+
+	// Getter signatures
+	IP() antlr.TerminalNode
+	TTL() antlr.TerminalNode
+	NUMBER() antlr.TerminalNode
+
+	// IsToptipttlContext differentiates from other interfaces.
+	IsToptipttlContext()
+}
+
+type ToptipttlContext struct {
+	antlr.BaseParserRuleContext
+	parser antlr.Parser
+}
+
+func NewEmptyToptipttlContext() *ToptipttlContext {
+	var p = new(ToptipttlContext)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = CONFIGParserRULE_toptipttl
+	return p
+}
+
+func InitEmptyToptipttlContext(p *ToptipttlContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = CONFIGParserRULE_toptipttl
+}
+
+func (*ToptipttlContext) IsToptipttlContext() {}
+
+func NewToptipttlContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *ToptipttlContext {
+	var p = new(ToptipttlContext)
+
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
+
+	p.parser = parser
+	p.RuleIndex = CONFIGParserRULE_toptipttl
+
+	return p
+}
+
+func (s *ToptipttlContext) GetParser() antlr.Parser { return s.parser }
+
+func (s *ToptipttlContext) IP() antlr.TerminalNode {
+	return s.GetToken(CONFIGParserIP, 0)
+}
+
+func (s *ToptipttlContext) TTL() antlr.TerminalNode {
+	return s.GetToken(CONFIGParserTTL, 0)
+}
+
+func (s *ToptipttlContext) NUMBER() antlr.TerminalNode {
+	return s.GetToken(CONFIGParserNUMBER, 0)
+}
+
+func (s *ToptipttlContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *ToptipttlContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+	return antlr.TreesStringTree(s, ruleNames, recog)
+}
+
+func (s *ToptipttlContext) EnterRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(CONFIGListener); ok {
+		listenerT.EnterToptipttl(s)
+	}
+}
+
+func (s *ToptipttlContext) ExitRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(CONFIGListener); ok {
+		listenerT.ExitToptipttl(s)
+	}
+}
+
+func (p *CONFIGParser) Toptipttl() (localctx IToptipttlContext) {
+	localctx = NewToptipttlContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 26, CONFIGParserRULE_toptipttl)
+	p.EnterOuterAlt(localctx, 1)
+	{
+		p.SetState(145)
+		p.Match(CONFIGParserIP)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
+	}
+	{
+		p.SetState(146)
+		p.Match(CONFIGParserTTL)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
+	}
+	{
+		p.SetState(147)
+		p.Match(CONFIGParserNUMBER)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
+	}
+
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
+	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
+}
+
+// IToptparentContext is an interface to support dynamic dispatch.
+type IToptparentContext interface {
+	antlr.ParserRuleContext
+
+	// GetParser returns the parser.
+	GetParser() antlr.Parser
+
+	// Getter signatures
+	PARENT() antlr.TerminalNode
+	NUMBER() antlr.TerminalNode
+
+	// IsToptparentContext differentiates from other interfaces.
+	IsToptparentContext()
+}
+
+type ToptparentContext struct {
+	antlr.BaseParserRuleContext
+	parser antlr.Parser
+}
+
+func NewEmptyToptparentContext() *ToptparentContext {
+	var p = new(ToptparentContext)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = CONFIGParserRULE_toptparent
+	return p
+}
+
+func InitEmptyToptparentContext(p *ToptparentContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = CONFIGParserRULE_toptparent
+}
+
+func (*ToptparentContext) IsToptparentContext() {}
+
+func NewToptparentContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *ToptparentContext {
+	var p = new(ToptparentContext)
+
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
+
+	p.parser = parser
+	p.RuleIndex = CONFIGParserRULE_toptparent
+
+	return p
+}
+
+func (s *ToptparentContext) GetParser() antlr.Parser { return s.parser }
+
+func (s *ToptparentContext) PARENT() antlr.TerminalNode {
+	return s.GetToken(CONFIGParserPARENT, 0)
+}
+
+func (s *ToptparentContext) NUMBER() antlr.TerminalNode {
+	return s.GetToken(CONFIGParserNUMBER, 0)
+}
+
+func (s *ToptparentContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *ToptparentContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+	return antlr.TreesStringTree(s, ruleNames, recog)
+}
+
+func (s *ToptparentContext) EnterRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(CONFIGListener); ok {
+		listenerT.EnterToptparent(s)
+	}
+}
+
+func (s *ToptparentContext) ExitRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(CONFIGListener); ok {
+		listenerT.ExitToptparent(s)
+	}
+}
+
+func (p *CONFIGParser) Toptparent() (localctx IToptparentContext) {
+	localctx = NewToptparentContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 28, CONFIGParserRULE_toptparent)
+	p.EnterOuterAlt(localctx, 1)
+	{
+		p.SetState(149)
+		p.Match(CONFIGParserPARENT)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
+	}
+	{
+		p.SetState(150)
+		p.Match(CONFIGParserNUMBER)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
+	}
+
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
+	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
+}
+
+// IToptpriorityContext is an interface to support dynamic dispatch.
+type IToptpriorityContext interface {
+	antlr.ParserRuleContext
+
+	// GetParser returns the parser.
+	GetParser() antlr.Parser
+
+	// Getter signatures
+	PRIORITY() antlr.TerminalNode
+	NUMBER() antlr.TerminalNode
+
+	// IsToptpriorityContext differentiates from other interfaces.
+	IsToptpriorityContext()
+}
+
+type ToptpriorityContext struct {
+	antlr.BaseParserRuleContext
+	parser antlr.Parser
+}
+
+func NewEmptyToptpriorityContext() *ToptpriorityContext {
+	var p = new(ToptpriorityContext)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = CONFIGParserRULE_toptpriority
+	return p
+}
+
+func InitEmptyToptpriorityContext(p *ToptpriorityContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = CONFIGParserRULE_toptpriority
+}
+
+func (*ToptpriorityContext) IsToptpriorityContext() {}
+
+func NewToptpriorityContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *ToptpriorityContext {
+	var p = new(ToptpriorityContext)
+
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
+
+	p.parser = parser
+	p.RuleIndex = CONFIGParserRULE_toptpriority
+
+	return p
+}
+
+func (s *ToptpriorityContext) GetParser() antlr.Parser { return s.parser }
+
+func (s *ToptpriorityContext) PRIORITY() antlr.TerminalNode {
+	return s.GetToken(CONFIGParserPRIORITY, 0)
+}
+
+func (s *ToptpriorityContext) NUMBER() antlr.TerminalNode {
+	return s.GetToken(CONFIGParserNUMBER, 0)
+}
+
+func (s *ToptpriorityContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *ToptpriorityContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+	return antlr.TreesStringTree(s, ruleNames, recog)
+}
+
+func (s *ToptpriorityContext) EnterRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(CONFIGListener); ok {
+		listenerT.EnterToptpriority(s)
+	}
+}
+
+func (s *ToptpriorityContext) ExitRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(CONFIGListener); ok {
+		listenerT.ExitToptpriority(s)
+	}
+}
+
+func (p *CONFIGParser) Toptpriority() (localctx IToptpriorityContext) {
+	localctx = NewToptpriorityContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 30, CONFIGParserRULE_toptpriority)
+	p.EnterOuterAlt(localctx, 1)
+	{
+		p.SetState(152)
+		p.Match(CONFIGParserPRIORITY)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
+	}
+	{
+		p.SetState(153)
+		p.Match(CONFIGParserNUMBER)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
+	}
+
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
+	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
+}
+
+// IToptretryContext is an interface to support dynamic dispatch.
+type IToptretryContext interface {
+	antlr.ParserRuleContext
+
+	// GetParser returns the parser.
+	GetParser() antlr.Parser
+
+	// Getter signatures
+	RETRY() antlr.TerminalNode
+	NUMBER() antlr.TerminalNode
+
+	// IsToptretryContext differentiates from other interfaces.
+	IsToptretryContext()
+}
+
+type ToptretryContext struct {
+	antlr.BaseParserRuleContext
+	parser antlr.Parser
+}
+
+func NewEmptyToptretryContext() *ToptretryContext {
+	var p = new(ToptretryContext)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = CONFIGParserRULE_toptretry
+	return p
+}
+
+func InitEmptyToptretryContext(p *ToptretryContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = CONFIGParserRULE_toptretry
+}
+
+func (*ToptretryContext) IsToptretryContext() {}
+
+func NewToptretryContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *ToptretryContext {
+	var p = new(ToptretryContext)
+
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
+
+	p.parser = parser
+	p.RuleIndex = CONFIGParserRULE_toptretry
+
+	return p
+}
+
+func (s *ToptretryContext) GetParser() antlr.Parser { return s.parser }
+
+func (s *ToptretryContext) RETRY() antlr.TerminalNode {
+	return s.GetToken(CONFIGParserRETRY, 0)
+}
+
+func (s *ToptretryContext) NUMBER() antlr.TerminalNode {
+	return s.GetToken(CONFIGParserNUMBER, 0)
+}
+
+func (s *ToptretryContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *ToptretryContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+	return antlr.TreesStringTree(s, ruleNames, recog)
+}
+
+func (s *ToptretryContext) EnterRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(CONFIGListener); ok {
+		listenerT.EnterToptretry(s)
+	}
+}
+
+func (s *ToptretryContext) ExitRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(CONFIGListener); ok {
+		listenerT.ExitToptretry(s)
+	}
+}
+
+func (p *CONFIGParser) Toptretry() (localctx IToptretryContext) {
+	localctx = NewToptretryContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 32, CONFIGParserRULE_toptretry)
+	p.EnterOuterAlt(localctx, 1)
+	{
+		p.SetState(155)
+		p.Match(CONFIGParserRETRY)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
+	}
+	{
+		p.SetState(156)
+		p.Match(CONFIGParserNUMBER)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
+	}
+
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
+	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
+}
+
+// IListenContext is an interface to support dynamic dispatch.
+type IListenContext interface {
+	antlr.ParserRuleContext
+
+	// GetParser returns the parser.
+	GetParser() antlr.Parser
+
+	// Getter signatures
+	LISTEN() antlr.TerminalNode
+	ON() antlr.TerminalNode
+	NAME() antlr.TerminalNode
+	Port() IPortContext
+	Proto() IProtoContext
+	Interface_() IInterfaceContext
+
+	// IsListenContext differentiates from other interfaces.
+	IsListenContext()
+}
+
+type ListenContext struct {
+	antlr.BaseParserRuleContext
+	parser antlr.Parser
+}
+
+func NewEmptyListenContext() *ListenContext {
+	var p = new(ListenContext)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = CONFIGParserRULE_listen
+	return p
+}
+
+func InitEmptyListenContext(p *ListenContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = CONFIGParserRULE_listen
+}
+
+func (*ListenContext) IsListenContext() {}
+
+func NewListenContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *ListenContext {
+	var p = new(ListenContext)
+
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
+
+	p.parser = parser
+	p.RuleIndex = CONFIGParserRULE_listen
+
+	return p
+}
+
+func (s *ListenContext) GetParser() antlr.Parser { return s.parser }
+
+func (s *ListenContext) LISTEN() antlr.TerminalNode {
+	return s.GetToken(CONFIGParserLISTEN, 0)
+}
+
+func (s *ListenContext) ON() antlr.TerminalNode {
+	return s.GetToken(CONFIGParserON, 0)
+}
+
+func (s *ListenContext) NAME() antlr.TerminalNode {
+	return s.GetToken(CONFIGParserNAME, 0)
+}
+
+func (s *ListenContext) Port() IPortContext {
+	var t antlr.RuleContext
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(IPortContext); ok {
+			t = ctx.(antlr.RuleContext)
+			break
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IPortContext)
+}
+
+func (s *ListenContext) Proto() IProtoContext {
+	var t antlr.RuleContext
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(IProtoContext); ok {
+			t = ctx.(antlr.RuleContext)
+			break
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IProtoContext)
+}
+
+func (s *ListenContext) Interface_() IInterfaceContext {
+	var t antlr.RuleContext
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(IInterfaceContext); ok {
+			t = ctx.(antlr.RuleContext)
+			break
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IInterfaceContext)
+}
+
+func (s *ListenContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *ListenContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+	return antlr.TreesStringTree(s, ruleNames, recog)
+}
+
+func (s *ListenContext) EnterRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(CONFIGListener); ok {
+		listenerT.EnterListen(s)
+	}
+}
+
+func (s *ListenContext) ExitRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(CONFIGListener); ok {
+		listenerT.ExitListen(s)
+	}
+}
+
+func (p *CONFIGParser) Listen() (localctx IListenContext) {
+	localctx = NewListenContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 34, CONFIGParserRULE_listen)
+	var _la int
+
+	p.EnterOuterAlt(localctx, 1)
+	{
+		p.SetState(158)
+		p.Match(CONFIGParserLISTEN)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
+	}
+	{
+		p.SetState(159)
+		p.Match(CONFIGParserON)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
+	}
+	{
+		p.SetState(160)
+		p.Match(CONFIGParserNAME)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
+	}
+	p.SetState(162)
+	p.GetErrorHandler().Sync(p)
+	if p.HasError() {
+		goto errorExit
+	}
+	_la = p.GetTokenStream().LA(1)
+
+	if _la == CONFIGParserNAME {
+		{
+			p.SetState(161)
+			p.Proto()
+		}
+
+	}
+	{
+		p.SetState(164)
+		p.Port()
+	}
+	p.SetState(166)
+	p.GetErrorHandler().Sync(p)
+	if p.HasError() {
+		goto errorExit
+	}
+	_la = p.GetTokenStream().LA(1)
+
+	if _la == CONFIGParserINTERFACE {
+		{
+			p.SetState(165)
+			p.Interface_()
+		}
+
+	}
+
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
+	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
+}
+
+// IPortContext is an interface to support dynamic dispatch.
+type IPortContext interface {
+	antlr.ParserRuleContext
+
+	// GetParser returns the parser.
+	GetParser() antlr.Parser
+
+	// Getter signatures
+	PORT() antlr.TerminalNode
+	NUMBER() antlr.TerminalNode
+
+	// IsPortContext differentiates from other interfaces.
+	IsPortContext()
+}
+
+type PortContext struct {
+	antlr.BaseParserRuleContext
+	parser antlr.Parser
+}
+
+func NewEmptyPortContext() *PortContext {
+	var p = new(PortContext)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = CONFIGParserRULE_port
+	return p
+}
+
+func InitEmptyPortContext(p *PortContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = CONFIGParserRULE_port
+}
+
+func (*PortContext) IsPortContext() {}
+
+func NewPortContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *PortContext {
+	var p = new(PortContext)
+
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
+
+	p.parser = parser
+	p.RuleIndex = CONFIGParserRULE_port
+
+	return p
+}
+
+func (s *PortContext) GetParser() antlr.Parser { return s.parser }
+
+func (s *PortContext) PORT() antlr.TerminalNode {
+	return s.GetToken(CONFIGParserPORT, 0)
+}
+
+func (s *PortContext) NUMBER() antlr.TerminalNode {
+	return s.GetToken(CONFIGParserNUMBER, 0)
+}
+
+func (s *PortContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *PortContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+	return antlr.TreesStringTree(s, ruleNames, recog)
+}
+
+func (s *PortContext) EnterRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(CONFIGListener); ok {
+		listenerT.EnterPort(s)
+	}
+}
+
+func (s *PortContext) ExitRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(CONFIGListener); ok {
+		listenerT.ExitPort(s)
+	}
+}
+
+func (p *CONFIGParser) Port() (localctx IPortContext) {
+	localctx = NewPortContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 36, CONFIGParserRULE_port)
+	p.EnterOuterAlt(localctx, 1)
+	{
+		p.SetState(168)
+		p.Match(CONFIGParserPORT)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
+	}
+	{
+		p.SetState(169)
+		p.Match(CONFIGParserNUMBER)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
+	}
+
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
+	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
+}
+
+// IProtoContext is an interface to support dynamic dispatch.
+type IProtoContext interface {
+	antlr.ParserRuleContext
+
+	// GetParser returns the parser.
+	GetParser() antlr.Parser
+
+	// Getter signatures
+	NAME() antlr.TerminalNode
+
+	// IsProtoContext differentiates from other interfaces.
+	IsProtoContext()
+}
+
+type ProtoContext struct {
+	antlr.BaseParserRuleContext
+	parser antlr.Parser
+}
+
+func NewEmptyProtoContext() *ProtoContext {
+	var p = new(ProtoContext)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = CONFIGParserRULE_proto
+	return p
+}
+
+func InitEmptyProtoContext(p *ProtoContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = CONFIGParserRULE_proto
+}
+
+func (*ProtoContext) IsProtoContext() {}
+
+func NewProtoContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *ProtoContext {
+	var p = new(ProtoContext)
+
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
+
+	p.parser = parser
+	p.RuleIndex = CONFIGParserRULE_proto
+
+	return p
+}
+
+func (s *ProtoContext) GetParser() antlr.Parser { return s.parser }
+
+func (s *ProtoContext) NAME() antlr.TerminalNode {
+	return s.GetToken(CONFIGParserNAME, 0)
+}
+
+func (s *ProtoContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *ProtoContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+	return antlr.TreesStringTree(s, ruleNames, recog)
+}
+
+func (s *ProtoContext) EnterRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(CONFIGListener); ok {
+		listenerT.EnterProto(s)
+	}
+}
+
+func (s *ProtoContext) ExitRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(CONFIGListener); ok {
+		listenerT.ExitProto(s)
+	}
+}
+
+func (p *CONFIGParser) Proto() (localctx IProtoContext) {
+	localctx = NewProtoContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 38, CONFIGParserRULE_proto)
+	p.EnterOuterAlt(localctx, 1)
+	{
+		p.SetState(171)
+		p.Match(CONFIGParserNAME)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
+	}
+
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
+	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
+}
+
+// IInterfaceContext is an interface to support dynamic dispatch.
+type IInterfaceContext interface {
+	antlr.ParserRuleContext
+
+	// GetParser returns the parser.
+	GetParser() antlr.Parser
+
+	// Getter signatures
+	INTERFACE() antlr.TerminalNode
+	NAME() antlr.TerminalNode
+
+	// IsInterfaceContext differentiates from other interfaces.
+	IsInterfaceContext()
+}
+
+type InterfaceContext struct {
+	antlr.BaseParserRuleContext
+	parser antlr.Parser
+}
+
+func NewEmptyInterfaceContext() *InterfaceContext {
+	var p = new(InterfaceContext)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = CONFIGParserRULE_interface
+	return p
+}
+
+func InitEmptyInterfaceContext(p *InterfaceContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = CONFIGParserRULE_interface
+}
+
+func (*InterfaceContext) IsInterfaceContext() {}
+
+func NewInterfaceContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *InterfaceContext {
+	var p = new(InterfaceContext)
+
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
+
+	p.parser = parser
+	p.RuleIndex = CONFIGParserRULE_interface
+
+	return p
+}
+
+func (s *InterfaceContext) GetParser() antlr.Parser { return s.parser }
+
+func (s *InterfaceContext) INTERFACE() antlr.TerminalNode {
+	return s.GetToken(CONFIGParserINTERFACE, 0)
+}
+
+func (s *InterfaceContext) NAME() antlr.TerminalNode {
+	return s.GetToken(CONFIGParserNAME, 0)
+}
+
+func (s *InterfaceContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *InterfaceContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+	return antlr.TreesStringTree(s, ruleNames, recog)
+}
+
+func (s *InterfaceContext) EnterRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(CONFIGListener); ok {
+		listenerT.EnterInterface(s)
+	}
+}
+
+func (s *InterfaceContext) ExitRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(CONFIGListener); ok {
+		listenerT.ExitInterface(s)
+	}
+}
+
+func (p *CONFIGParser) Interface_() (localctx IInterfaceContext) {
+	localctx = NewInterfaceContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 40, CONFIGParserRULE_interface)
+	p.EnterOuterAlt(localctx, 1)
+	{
+		p.SetState(173)
+		p.Match(CONFIGParserINTERFACE)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
+	}
+	{
+		p.SetState(174)
+		p.Match(CONFIGParserNAME)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
+	}
+
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
+	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
+}
+
+// ICheckContext is an interface to support dynamic dispatch.
+type ICheckContext interface {
+	antlr.ParserRuleContext
+
+	// GetParser returns the parser.
+	GetParser() antlr.Parser
+
+	// Getter signatures
+	CHECK() antlr.TerminalNode
+	Ctype() ICtypeContext
+
+	// IsCheckContext differentiates from other interfaces.
+	IsCheckContext()
+}
+
+type CheckContext struct {
+	antlr.BaseParserRuleContext
+	parser antlr.Parser
+}
+
+func NewEmptyCheckContext() *CheckContext {
+	var p = new(CheckContext)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = CONFIGParserRULE_check
+	return p
+}
+
+func InitEmptyCheckContext(p *CheckContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = CONFIGParserRULE_check
+}
+
+func (*CheckContext) IsCheckContext() {}
+
+func NewCheckContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *CheckContext {
+	var p = new(CheckContext)
+
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
+
+	p.parser = parser
+	p.RuleIndex = CONFIGParserRULE_check
+
+	return p
+}
+
+func (s *CheckContext) GetParser() antlr.Parser { return s.parser }
+
+func (s *CheckContext) CHECK() antlr.TerminalNode {
+	return s.GetToken(CONFIGParserCHECK, 0)
+}
+
+func (s *CheckContext) Ctype() ICtypeContext {
+	var t antlr.RuleContext
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(ICtypeContext); ok {
+			t = ctx.(antlr.RuleContext)
+			break
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(ICtypeContext)
+}
+
+func (s *CheckContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *CheckContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+	return antlr.TreesStringTree(s, ruleNames, recog)
+}
+
+func (s *CheckContext) EnterRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(CONFIGListener); ok {
+		listenerT.EnterCheck(s)
+	}
+}
+
+func (s *CheckContext) ExitRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(CONFIGListener); ok {
+		listenerT.ExitCheck(s)
+	}
+}
+
+func (p *CONFIGParser) Check() (localctx ICheckContext) {
+	localctx = NewCheckContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 42, CONFIGParserRULE_check)
+	p.EnterOuterAlt(localctx, 1)
+	{
+		p.SetState(176)
+		p.Match(CONFIGParserCHECK)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
+	}
+	{
+		p.SetState(177)
+		p.Ctype()
+	}
+
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
+	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
+}
+
+// ICtypeContext is an interface to support dynamic dispatch.
+type ICtypeContext interface {
+	antlr.ParserRuleContext
+
+	// GetParser returns the parser.
+	GetParser() antlr.Parser
+
+	// Getter signatures
+	Chttpcode() IChttpcodeContext
+	Chttpdigest() IChttpdigestContext
+
+	// IsCtypeContext differentiates from other interfaces.
+	IsCtypeContext()
+}
+
+type CtypeContext struct {
+	antlr.BaseParserRuleContext
+	parser antlr.Parser
+}
+
+func NewEmptyCtypeContext() *CtypeContext {
+	var p = new(CtypeContext)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = CONFIGParserRULE_ctype
+	return p
+}
+
+func InitEmptyCtypeContext(p *CtypeContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = CONFIGParserRULE_ctype
+}
+
+func (*CtypeContext) IsCtypeContext() {}
+
+func NewCtypeContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *CtypeContext {
+	var p = new(CtypeContext)
+
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
+
+	p.parser = parser
+	p.RuleIndex = CONFIGParserRULE_ctype
+
+	return p
+}
+
+func (s *CtypeContext) GetParser() antlr.Parser { return s.parser }
+
+func (s *CtypeContext) Chttpcode() IChttpcodeContext {
+	var t antlr.RuleContext
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(IChttpcodeContext); ok {
+			t = ctx.(antlr.RuleContext)
+			break
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IChttpcodeContext)
+}
+
+func (s *CtypeContext) Chttpdigest() IChttpdigestContext {
+	var t antlr.RuleContext
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(IChttpdigestContext); ok {
+			t = ctx.(antlr.RuleContext)
+			break
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IChttpdigestContext)
+}
+
+func (s *CtypeContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *CtypeContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+	return antlr.TreesStringTree(s, ruleNames, recog)
+}
+
+func (s *CtypeContext) EnterRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(CONFIGListener); ok {
+		listenerT.EnterCtype(s)
+	}
+}
+
+func (s *CtypeContext) ExitRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(CONFIGListener); ok {
+		listenerT.ExitCtype(s)
+	}
+}
+
+func (p *CONFIGParser) Ctype() (localctx ICtypeContext) {
+	localctx = NewCtypeContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 44, CONFIGParserRULE_ctype)
+	p.SetState(181)
+	p.GetErrorHandler().Sync(p)
+	if p.HasError() {
+		goto errorExit
+	}
+
+	switch p.GetInterpreter().AdaptivePredict(p.BaseParser, p.GetTokenStream(), 15, p.GetParserRuleContext()) {
+	case 1:
+		p.EnterOuterAlt(localctx, 1)
+		{
+			p.SetState(179)
+			p.Chttpcode()
+		}
+
+	case 2:
+		p.EnterOuterAlt(localctx, 2)
+		{
+			p.SetState(180)
+			p.Chttpdigest()
+		}
+
+	case antlr.ATNInvalidAltNumber:
+		goto errorExit
+	}
+
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
+	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
+}
+
+// IChttpcodeContext is an interface to support dynamic dispatch.
+type IChttpcodeContext interface {
+	antlr.ParserRuleContext
+
+	// GetParser returns the parser.
+	GetParser() antlr.Parser
+
+	// Getter signatures
+	HTTP() antlr.TerminalNode
+	CODE() antlr.TerminalNode
+	NUMBER() antlr.TerminalNode
+	HOST() antlr.TerminalNode
+	NAME() antlr.TerminalNode
+
+	// IsChttpcodeContext differentiates from other interfaces.
+	IsChttpcodeContext()
+}
+
+type ChttpcodeContext struct {
+	antlr.BaseParserRuleContext
+	parser antlr.Parser
+}
+
+func NewEmptyChttpcodeContext() *ChttpcodeContext {
+	var p = new(ChttpcodeContext)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = CONFIGParserRULE_chttpcode
+	return p
+}
+
+func InitEmptyChttpcodeContext(p *ChttpcodeContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = CONFIGParserRULE_chttpcode
+}
+
+func (*ChttpcodeContext) IsChttpcodeContext() {}
+
+func NewChttpcodeContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *ChttpcodeContext {
+	var p = new(ChttpcodeContext)
+
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
+
+	p.parser = parser
+	p.RuleIndex = CONFIGParserRULE_chttpcode
+
+	return p
+}
+
+func (s *ChttpcodeContext) GetParser() antlr.Parser { return s.parser }
+
+func (s *ChttpcodeContext) HTTP() antlr.TerminalNode {
+	return s.GetToken(CONFIGParserHTTP, 0)
+}
+
+func (s *ChttpcodeContext) CODE() antlr.TerminalNode {
+	return s.GetToken(CONFIGParserCODE, 0)
+}
+
+func (s *ChttpcodeContext) NUMBER() antlr.TerminalNode {
+	return s.GetToken(CONFIGParserNUMBER, 0)
+}
+
+func (s *ChttpcodeContext) HOST() antlr.TerminalNode {
+	return s.GetToken(CONFIGParserHOST, 0)
+}
+
+func (s *ChttpcodeContext) NAME() antlr.TerminalNode {
+	return s.GetToken(CONFIGParserNAME, 0)
+}
+
+func (s *ChttpcodeContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *ChttpcodeContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+	return antlr.TreesStringTree(s, ruleNames, recog)
+}
+
+func (s *ChttpcodeContext) EnterRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(CONFIGListener); ok {
+		listenerT.EnterChttpcode(s)
+	}
+}
+
+func (s *ChttpcodeContext) ExitRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(CONFIGListener); ok {
+		listenerT.ExitChttpcode(s)
+	}
+}
+
+func (p *CONFIGParser) Chttpcode() (localctx IChttpcodeContext) {
+	localctx = NewChttpcodeContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 46, CONFIGParserRULE_chttpcode)
+	var _la int
+
+	p.EnterOuterAlt(localctx, 1)
+	{
+		p.SetState(183)
+		p.Match(CONFIGParserHTTP)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
+	}
+	p.SetState(186)
+	p.GetErrorHandler().Sync(p)
+	if p.HasError() {
+		goto errorExit
+	}
+	_la = p.GetTokenStream().LA(1)
+
+	if _la == CONFIGParserHOST {
+		{
+			p.SetState(184)
+			p.Match(CONFIGParserHOST)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
+		}
+		{
+			p.SetState(185)
+			p.Match(CONFIGParserNAME)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
+		}
+
+	}
+	{
+		p.SetState(188)
+		p.Match(CONFIGParserCODE)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
+	}
+	{
+		p.SetState(189)
+		p.Match(CONFIGParserNUMBER)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
+	}
+
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
+	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
+}
+
+// IChttpdigestContext is an interface to support dynamic dispatch.
+type IChttpdigestContext interface {
+	antlr.ParserRuleContext
+
+	// GetParser returns the parser.
+	GetParser() antlr.Parser
+
+	// Getter signatures
+	HTTP() antlr.TerminalNode
+	DIGEST() antlr.TerminalNode
+	AllNAME() []antlr.TerminalNode
+	NAME(i int) antlr.TerminalNode
+	HOST() antlr.TerminalNode
+
+	// IsChttpdigestContext differentiates from other interfaces.
+	IsChttpdigestContext()
+}
+
+type ChttpdigestContext struct {
+	antlr.BaseParserRuleContext
+	parser antlr.Parser
+}
+
+func NewEmptyChttpdigestContext() *ChttpdigestContext {
+	var p = new(ChttpdigestContext)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = CONFIGParserRULE_chttpdigest
+	return p
+}
+
+func InitEmptyChttpdigestContext(p *ChttpdigestContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = CONFIGParserRULE_chttpdigest
+}
+
+func (*ChttpdigestContext) IsChttpdigestContext() {}
+
+func NewChttpdigestContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *ChttpdigestContext {
+	var p = new(ChttpdigestContext)
+
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
+
+	p.parser = parser
+	p.RuleIndex = CONFIGParserRULE_chttpdigest
+
+	return p
+}
+
+func (s *ChttpdigestContext) GetParser() antlr.Parser { return s.parser }
+
+func (s *ChttpdigestContext) HTTP() antlr.TerminalNode {
+	return s.GetToken(CONFIGParserHTTP, 0)
+}
+
+func (s *ChttpdigestContext) DIGEST() antlr.TerminalNode {
+	return s.GetToken(CONFIGParserDIGEST, 0)
+}
+
+func (s *ChttpdigestContext) AllNAME() []antlr.TerminalNode {
+	return s.GetTokens(CONFIGParserNAME)
+}
+
+func (s *ChttpdigestContext) NAME(i int) antlr.TerminalNode {
+	return s.GetToken(CONFIGParserNAME, i)
+}
+
+func (s *ChttpdigestContext) HOST() antlr.TerminalNode {
+	return s.GetToken(CONFIGParserHOST, 0)
+}
+
+func (s *ChttpdigestContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *ChttpdigestContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+	return antlr.TreesStringTree(s, ruleNames, recog)
+}
+
+func (s *ChttpdigestContext) EnterRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(CONFIGListener); ok {
+		listenerT.EnterChttpdigest(s)
+	}
+}
+
+func (s *ChttpdigestContext) ExitRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(CONFIGListener); ok {
+		listenerT.ExitChttpdigest(s)
+	}
+}
+
+func (p *CONFIGParser) Chttpdigest() (localctx IChttpdigestContext) {
+	localctx = NewChttpdigestContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 48, CONFIGParserRULE_chttpdigest)
+	var _la int
+
+	p.EnterOuterAlt(localctx, 1)
+	{
+		p.SetState(191)
+		p.Match(CONFIGParserHTTP)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
+	}
+	p.SetState(194)
+	p.GetErrorHandler().Sync(p)
+	if p.HasError() {
+		goto errorExit
+	}
+	_la = p.GetTokenStream().LA(1)
+
+	if _la == CONFIGParserHOST {
+		{
+			p.SetState(192)
+			p.Match(CONFIGParserHOST)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
+		}
+		{
+			p.SetState(193)
+			p.Match(CONFIGParserNAME)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
+		}
+
+	}
+	{
+		p.SetState(196)
+		p.Match(CONFIGParserDIGEST)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
+	}
+	{
+		p.SetState(197)
+		p.Match(CONFIGParserNAME)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
+	}
+
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
+	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
+}
+
+// IForwardContext is an interface to support dynamic dispatch.
+type IForwardContext interface {
+	antlr.ParserRuleContext
+
+	// GetParser returns the parser.
+	GetParser() antlr.Parser
+
+	// Getter signatures
+	FORWARD() antlr.TerminalNode
+	TO() antlr.TerminalNode
+	Tname() ITnameContext
+	Port() IPortContext
+	Check() ICheckContext
+
+	// IsForwardContext differentiates from other interfaces.
+	IsForwardContext()
+}
+
+type ForwardContext struct {
+	antlr.BaseParserRuleContext
+	parser antlr.Parser
+}
+
+func NewEmptyForwardContext() *ForwardContext {
+	var p = new(ForwardContext)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = CONFIGParserRULE_forward
+	return p
+}
+
+func InitEmptyForwardContext(p *ForwardContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = CONFIGParserRULE_forward
+}
+
+func (*ForwardContext) IsForwardContext() {}
+
+func NewForwardContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *ForwardContext {
+	var p = new(ForwardContext)
+
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
+
+	p.parser = parser
+	p.RuleIndex = CONFIGParserRULE_forward
+
+	return p
+}
+
+func (s *ForwardContext) GetParser() antlr.Parser { return s.parser }
+
+func (s *ForwardContext) FORWARD() antlr.TerminalNode {
+	return s.GetToken(CONFIGParserFORWARD, 0)
+}
+
+func (s *ForwardContext) TO() antlr.TerminalNode {
+	return s.GetToken(CONFIGParserTO, 0)
+}
+
+func (s *ForwardContext) Tname() ITnameContext {
+	var t antlr.RuleContext
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(ITnameContext); ok {
+			t = ctx.(antlr.RuleContext)
+			break
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(ITnameContext)
+}
+
+func (s *ForwardContext) Port() IPortContext {
+	var t antlr.RuleContext
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(IPortContext); ok {
+			t = ctx.(antlr.RuleContext)
+			break
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IPortContext)
+}
+
+func (s *ForwardContext) Check() ICheckContext {
+	var t antlr.RuleContext
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(ICheckContext); ok {
+			t = ctx.(antlr.RuleContext)
+			break
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(ICheckContext)
+}
+
+func (s *ForwardContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *ForwardContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+	return antlr.TreesStringTree(s, ruleNames, recog)
+}
+
+func (s *ForwardContext) EnterRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(CONFIGListener); ok {
+		listenerT.EnterForward(s)
+	}
+}
+
+func (s *ForwardContext) ExitRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(CONFIGListener); ok {
+		listenerT.ExitForward(s)
+	}
+}
+
+func (p *CONFIGParser) Forward() (localctx IForwardContext) {
+	localctx = NewForwardContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 50, CONFIGParserRULE_forward)
+	var _la int
+
+	p.EnterOuterAlt(localctx, 1)
+	{
+		p.SetState(199)
+		p.Match(CONFIGParserFORWARD)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
+	}
+	{
+		p.SetState(200)
+		p.Match(CONFIGParserTO)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
+	}
+	{
+		p.SetState(201)
+		p.Tname()
+	}
+	p.SetState(203)
+	p.GetErrorHandler().Sync(p)
+	if p.HasError() {
+		goto errorExit
+	}
+	_la = p.GetTokenStream().LA(1)
+
+	if _la == CONFIGParserPORT {
+		{
+			p.SetState(202)
+			p.Port()
+		}
+
+	}
+	p.SetState(206)
+	p.GetErrorHandler().Sync(p)
+	if p.HasError() {
+		goto errorExit
+	}
+	_la = p.GetTokenStream().LA(1)
+
+	if _la == CONFIGParserCHECK {
+		{
+			p.SetState(205)
+			p.Check()
+		}
+
+	}
+
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
+	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
+}
+
+// IRouteContext is an interface to support dynamic dispatch.
+type IRouteContext interface {
+	antlr.ParserRuleContext
+
+	// GetParser returns the parser.
+	GetParser() antlr.Parser
+
+	// Getter signatures
+	ROUTE() antlr.TerminalNode
+	TO() antlr.TerminalNode
+	Tname() ITnameContext
+	Port() IPortContext
+	Check() ICheckContext
+
+	// IsRouteContext differentiates from other interfaces.
+	IsRouteContext()
+}
+
+type RouteContext struct {
+	antlr.BaseParserRuleContext
+	parser antlr.Parser
+}
+
+func NewEmptyRouteContext() *RouteContext {
+	var p = new(RouteContext)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = CONFIGParserRULE_route
+	return p
+}
+
+func InitEmptyRouteContext(p *RouteContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = CONFIGParserRULE_route
+}
+
+func (*RouteContext) IsRouteContext() {}
+
+func NewRouteContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *RouteContext {
+	var p = new(RouteContext)
+
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
+
+	p.parser = parser
+	p.RuleIndex = CONFIGParserRULE_route
+
+	return p
+}
+
+func (s *RouteContext) GetParser() antlr.Parser { return s.parser }
+
+func (s *RouteContext) ROUTE() antlr.TerminalNode {
+	return s.GetToken(CONFIGParserROUTE, 0)
+}
+
+func (s *RouteContext) TO() antlr.TerminalNode {
+	return s.GetToken(CONFIGParserTO, 0)
+}
+
+func (s *RouteContext) Tname() ITnameContext {
+	var t antlr.RuleContext
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(ITnameContext); ok {
+			t = ctx.(antlr.RuleContext)
+			break
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(ITnameContext)
+}
+
+func (s *RouteContext) Port() IPortContext {
+	var t antlr.RuleContext
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(IPortContext); ok {
+			t = ctx.(antlr.RuleContext)
+			break
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IPortContext)
+}
+
+func (s *RouteContext) Check() ICheckContext {
+	var t antlr.RuleContext
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(ICheckContext); ok {
+			t = ctx.(antlr.RuleContext)
+			break
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(ICheckContext)
+}
+
+func (s *RouteContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *RouteContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+	return antlr.TreesStringTree(s, ruleNames, recog)
+}
+
+func (s *RouteContext) EnterRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(CONFIGListener); ok {
+		listenerT.EnterRoute(s)
+	}
+}
+
+func (s *RouteContext) ExitRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(CONFIGListener); ok {
+		listenerT.ExitRoute(s)
+	}
+}
+
+func (p *CONFIGParser) Route() (localctx IRouteContext) {
+	localctx = NewRouteContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 52, CONFIGParserRULE_route)
+	var _la int
+
+	p.EnterOuterAlt(localctx, 1)
+	{
+		p.SetState(208)
+		p.Match(CONFIGParserROUTE)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
+	}
+	{
+		p.SetState(209)
+		p.Match(CONFIGParserTO)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
+	}
+	{
+		p.SetState(210)
+		p.Tname()
+	}
+	p.SetState(212)
+	p.GetErrorHandler().Sync(p)
+	if p.HasError() {
+		goto errorExit
+	}
+	_la = p.GetTokenStream().LA(1)
+
+	if _la == CONFIGParserPORT {
+		{
+			p.SetState(211)
+			p.Port()
+		}
+
+	}
+	p.SetState(215)
+	p.GetErrorHandler().Sync(p)
+	if p.HasError() {
+		goto errorExit
+	}
+	_la = p.GetTokenStream().LA(1)
+
+	if _la == CONFIGParserCHECK {
+		{
+			p.SetState(214)
+			p.Check()
+		}
+
+	}
+
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
+	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
+}
+
+// ISesstimeoutContext is an interface to support dynamic dispatch.
+type ISesstimeoutContext interface {
+	antlr.ParserRuleContext
+
+	// GetParser returns the parser.
+	GetParser() antlr.Parser
+
+	// Getter signatures
+	SESSION() antlr.TerminalNode
+	TIMEOUT() antlr.TerminalNode
+	NUMBER() antlr.TerminalNode
+
+	// IsSesstimeoutContext differentiates from other interfaces.
+	IsSesstimeoutContext()
+}
+
+type SesstimeoutContext struct {
+	antlr.BaseParserRuleContext
+	parser antlr.Parser
+}
+
+func NewEmptySesstimeoutContext() *SesstimeoutContext {
+	var p = new(SesstimeoutContext)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = CONFIGParserRULE_sesstimeout
+	return p
+}
+
+func InitEmptySesstimeoutContext(p *SesstimeoutContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = CONFIGParserRULE_sesstimeout
+}
+
+func (*SesstimeoutContext) IsSesstimeoutContext() {}
+
+func NewSesstimeoutContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *SesstimeoutContext {
+	var p = new(SesstimeoutContext)
+
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
+
+	p.parser = parser
+	p.RuleIndex = CONFIGParserRULE_sesstimeout
+
+	return p
+}
+
+func (s *SesstimeoutContext) GetParser() antlr.Parser { return s.parser }
+
+func (s *SesstimeoutContext) SESSION() antlr.TerminalNode {
+	return s.GetToken(CONFIGParserSESSION, 0)
+}
+
+func (s *SesstimeoutContext) TIMEOUT() antlr.TerminalNode {
+	return s.GetToken(CONFIGParserTIMEOUT, 0)
+}
+
+func (s *SesstimeoutContext) NUMBER() antlr.TerminalNode {
+	return s.GetToken(CONFIGParserNUMBER, 0)
+}
+
+func (s *SesstimeoutContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *SesstimeoutContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+	return antlr.TreesStringTree(s, ruleNames, recog)
+}
+
+func (s *SesstimeoutContext) EnterRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(CONFIGListener); ok {
+		listenerT.EnterSesstimeout(s)
+	}
+}
+
+func (s *SesstimeoutContext) ExitRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(CONFIGListener); ok {
+		listenerT.ExitSesstimeout(s)
+	}
+}
+
+func (p *CONFIGParser) Sesstimeout() (localctx ISesstimeoutContext) {
+	localctx = NewSesstimeoutContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 54, CONFIGParserRULE_sesstimeout)
+	p.EnterOuterAlt(localctx, 1)
+	{
+		p.SetState(217)
+		p.Match(CONFIGParserSESSION)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
+	}
+	{
+		p.SetState(218)
+		p.Match(CONFIGParserTIMEOUT)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
+	}
+	{
+		p.SetState(219)
+		p.Match(CONFIGParserNUMBER)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
+	}
+
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
+	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
+}
+
+// IStickyContext is an interface to support dynamic dispatch.
+type IStickyContext interface {
+	antlr.ParserRuleContext
+
+	// GetParser returns the parser.
+	GetParser() antlr.Parser
+
+	// Getter signatures
+	STICKY_ADDRESS() antlr.TerminalNode
+
+	// IsStickyContext differentiates from other interfaces.
+	IsStickyContext()
+}
+
+type StickyContext struct {
+	antlr.BaseParserRuleContext
+	parser antlr.Parser
+}
+
+func NewEmptyStickyContext() *StickyContext {
+	var p = new(StickyContext)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = CONFIGParserRULE_sticky
+	return p
+}
+
+func InitEmptyStickyContext(p *StickyContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = CONFIGParserRULE_sticky
+}
+
+func (*StickyContext) IsStickyContext() {}
+
+func NewStickyContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *StickyContext {
+	var p = new(StickyContext)
+
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
+
+	p.parser = parser
+	p.RuleIndex = CONFIGParserRULE_sticky
+
+	return p
+}
+
+func (s *StickyContext) GetParser() antlr.Parser { return s.parser }
+
+func (s *StickyContext) STICKY_ADDRESS() antlr.TerminalNode {
+	return s.GetToken(CONFIGParserSTICKY_ADDRESS, 0)
+}
+
+func (s *StickyContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *StickyContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+	return antlr.TreesStringTree(s, ruleNames, recog)
+}
+
+func (s *StickyContext) EnterRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(CONFIGListener); ok {
+		listenerT.EnterSticky(s)
+	}
+}
+
+func (s *StickyContext) ExitRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(CONFIGListener); ok {
+		listenerT.ExitSticky(s)
+	}
+}
+
+func (p *CONFIGParser) Sticky() (localctx IStickyContext) {
+	localctx = NewStickyContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 56, CONFIGParserRULE_sticky)
+	p.EnterOuterAlt(localctx, 1)
+	{
+		p.SetState(221)
+		p.Match(CONFIGParserSTICKY_ADDRESS)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
+	}
+
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
+	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
+}
+
+// IRedirectContext is an interface to support dynamic dispatch.
+type IRedirectContext interface {
+	antlr.ParserRuleContext
+
+	// GetParser returns the parser.
+	GetParser() antlr.Parser
+
+	// Getter signatures
+	REDIRECT() antlr.TerminalNode
+	Rname() IRnameContext
+	Rstmt() IRstmtContext
+
+	// IsRedirectContext differentiates from other interfaces.
+	IsRedirectContext()
+}
+
+type RedirectContext struct {
+	antlr.BaseParserRuleContext
+	parser antlr.Parser
+}
+
+func NewEmptyRedirectContext() *RedirectContext {
+	var p = new(RedirectContext)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = CONFIGParserRULE_redirect
+	return p
+}
+
+func InitEmptyRedirectContext(p *RedirectContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = CONFIGParserRULE_redirect
+}
+
+func (*RedirectContext) IsRedirectContext() {}
+
+func NewRedirectContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *RedirectContext {
+	var p = new(RedirectContext)
+
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
+
+	p.parser = parser
+	p.RuleIndex = CONFIGParserRULE_redirect
+
+	return p
+}
+
+func (s *RedirectContext) GetParser() antlr.Parser { return s.parser }
+
+func (s *RedirectContext) REDIRECT() antlr.TerminalNode {
+	return s.GetToken(CONFIGParserREDIRECT, 0)
+}
+
+func (s *RedirectContext) Rname() IRnameContext {
+	var t antlr.RuleContext
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(IRnameContext); ok {
+			t = ctx.(antlr.RuleContext)
+			break
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IRnameContext)
+}
+
+func (s *RedirectContext) Rstmt() IRstmtContext {
+	var t antlr.RuleContext
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(IRstmtContext); ok {
+			t = ctx.(antlr.RuleContext)
+			break
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IRstmtContext)
+}
+
+func (s *RedirectContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *RedirectContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+	return antlr.TreesStringTree(s, ruleNames, recog)
+}
+
+func (s *RedirectContext) EnterRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(CONFIGListener); ok {
+		listenerT.EnterRedirect(s)
+	}
+}
+
+func (s *RedirectContext) ExitRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(CONFIGListener); ok {
+		listenerT.ExitRedirect(s)
+	}
+}
+
+func (p *CONFIGParser) Redirect() (localctx IRedirectContext) {
+	localctx = NewRedirectContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 58, CONFIGParserRULE_redirect)
+	p.EnterOuterAlt(localctx, 1)
+	{
+		p.SetState(223)
+		p.Match(CONFIGParserREDIRECT)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
+	}
+	{
+		p.SetState(224)
+		p.Rname()
+	}
+	{
+		p.SetState(225)
+		p.Match(CONFIGParserT__2)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
+	}
+	{
+		p.SetState(226)
+		p.Rstmt()
+	}
+	{
+		p.SetState(227)
+		p.Match(CONFIGParserT__3)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
+	}
+
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
+	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
+}
+
+// IRnameContext is an interface to support dynamic dispatch.
+type IRnameContext interface {
+	antlr.ParserRuleContext
+
+	// GetParser returns the parser.
+	GetParser() antlr.Parser
+
+	// Getter signatures
+	NAME() antlr.TerminalNode
+
+	// IsRnameContext differentiates from other interfaces.
+	IsRnameContext()
+}
+
+type RnameContext struct {
+	antlr.BaseParserRuleContext
+	parser antlr.Parser
+}
+
+func NewEmptyRnameContext() *RnameContext {
+	var p = new(RnameContext)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = CONFIGParserRULE_rname
+	return p
+}
+
+func InitEmptyRnameContext(p *RnameContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = CONFIGParserRULE_rname
+}
+
+func (*RnameContext) IsRnameContext() {}
+
+func NewRnameContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *RnameContext {
+	var p = new(RnameContext)
+
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
+
+	p.parser = parser
+	p.RuleIndex = CONFIGParserRULE_rname
+
+	return p
+}
+
+func (s *RnameContext) GetParser() antlr.Parser { return s.parser }
+
+func (s *RnameContext) NAME() antlr.TerminalNode {
+	return s.GetToken(CONFIGParserNAME, 0)
+}
+
+func (s *RnameContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *RnameContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+	return antlr.TreesStringTree(s, ruleNames, recog)
+}
+
+func (s *RnameContext) EnterRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(CONFIGListener); ok {
+		listenerT.EnterRname(s)
+	}
+}
+
+func (s *RnameContext) ExitRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(CONFIGListener); ok {
+		listenerT.ExitRname(s)
+	}
+}
+
+func (p *CONFIGParser) Rname() (localctx IRnameContext) {
+	localctx = NewRnameContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 60, CONFIGParserRULE_rname)
+	p.EnterOuterAlt(localctx, 1)
+	{
+		p.SetState(229)
+		p.Match(CONFIGParserT__7)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
+	}
+	{
+		p.SetState(230)
+		p.Match(CONFIGParserNAME)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
+	}
+	{
+		p.SetState(231)
+		p.Match(CONFIGParserT__7)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
+	}
+
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
+	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
+}
+
+// IRstmtContext is an interface to support dynamic dispatch.
+type IRstmtContext interface {
+	antlr.ParserRuleContext
+
+	// GetParser returns the parser.
+	GetParser() antlr.Parser
+
+	// Getter signatures
+	DISABLE() antlr.TerminalNode
+	Listen() IListenContext
+	Forward() IForwardContext
+	Sesstimeout() ISesstimeoutContext
+	Sticky() IStickyContext
+
+	// IsRstmtContext differentiates from other interfaces.
+	IsRstmtContext()
+}
+
+type RstmtContext struct {
+	antlr.BaseParserRuleContext
+	parser antlr.Parser
+}
+
+func NewEmptyRstmtContext() *RstmtContext {
+	var p = new(RstmtContext)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = CONFIGParserRULE_rstmt
+	return p
+}
+
+func InitEmptyRstmtContext(p *RstmtContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = CONFIGParserRULE_rstmt
+}
+
+func (*RstmtContext) IsRstmtContext() {}
+
+func NewRstmtContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *RstmtContext {
+	var p = new(RstmtContext)
+
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
+
+	p.parser = parser
+	p.RuleIndex = CONFIGParserRULE_rstmt
+
+	return p
+}
+
+func (s *RstmtContext) GetParser() antlr.Parser { return s.parser }
+
+func (s *RstmtContext) DISABLE() antlr.TerminalNode {
+	return s.GetToken(CONFIGParserDISABLE, 0)
+}
+
+func (s *RstmtContext) Listen() IListenContext {
+	var t antlr.RuleContext
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(IListenContext); ok {
+			t = ctx.(antlr.RuleContext)
+			break
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IListenContext)
+}
+
+func (s *RstmtContext) Forward() IForwardContext {
+	var t antlr.RuleContext
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(IForwardContext); ok {
+			t = ctx.(antlr.RuleContext)
+			break
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IForwardContext)
+}
+
+func (s *RstmtContext) Sesstimeout() ISesstimeoutContext {
+	var t antlr.RuleContext
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(ISesstimeoutContext); ok {
+			t = ctx.(antlr.RuleContext)
+			break
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(ISesstimeoutContext)
+}
+
+func (s *RstmtContext) Sticky() IStickyContext {
+	var t antlr.RuleContext
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(IStickyContext); ok {
+			t = ctx.(antlr.RuleContext)
+			break
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IStickyContext)
+}
+
+func (s *RstmtContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *RstmtContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+	return antlr.TreesStringTree(s, ruleNames, recog)
+}
+
+func (s *RstmtContext) EnterRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(CONFIGListener); ok {
+		listenerT.EnterRstmt(s)
+	}
+}
+
+func (s *RstmtContext) ExitRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(CONFIGListener); ok {
+		listenerT.ExitRstmt(s)
+	}
+}
+
+func (p *CONFIGParser) Rstmt() (localctx IRstmtContext) {
+	localctx = NewRstmtContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 62, CONFIGParserRULE_rstmt)
+	p.SetState(238)
+	p.GetErrorHandler().Sync(p)
+	if p.HasError() {
+		goto errorExit
+	}
+
+	switch p.GetTokenStream().LA(1) {
+	case CONFIGParserDISABLE:
+		p.EnterOuterAlt(localctx, 1)
+		{
+			p.SetState(233)
+			p.Match(CONFIGParserDISABLE)
+			if p.HasError() {
+				// Recognition error - abort rule
+				goto errorExit
+			}
+		}
+
+	case CONFIGParserLISTEN:
+		p.EnterOuterAlt(localctx, 2)
+		{
+			p.SetState(234)
+			p.Listen()
+		}
+
+	case CONFIGParserFORWARD:
+		p.EnterOuterAlt(localctx, 3)
+		{
+			p.SetState(235)
+			p.Forward()
+		}
+
+	case CONFIGParserSESSION:
+		p.EnterOuterAlt(localctx, 4)
+		{
+			p.SetState(236)
+			p.Sesstimeout()
+		}
+
+	case CONFIGParserSTICKY_ADDRESS:
+		p.EnterOuterAlt(localctx, 5)
+		{
+			p.SetState(237)
+			p.Sticky()
+		}
+
+	default:
+		p.SetError(antlr.NewNoViableAltException(p, nil, nil, nil, nil, nil))
+		goto errorExit
 	}
 
 errorExit:
