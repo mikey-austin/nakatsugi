@@ -82,6 +82,12 @@ type CONFIGListener interface {
 	// EnterCtype is called when entering the ctype production.
 	EnterCtype(c *CtypeContext)
 
+	// EnterChost is called when entering the chost production.
+	EnterChost(c *ChostContext)
+
+	// EnterCdigest is called when entering the cdigest production.
+	EnterCdigest(c *CdigestContext)
+
 	// EnterChttpcode is called when entering the chttpcode production.
 	EnterChttpcode(c *ChttpcodeContext)
 
@@ -186,6 +192,12 @@ type CONFIGListener interface {
 
 	// ExitCtype is called when exiting the ctype production.
 	ExitCtype(c *CtypeContext)
+
+	// ExitChost is called when exiting the chost production.
+	ExitChost(c *ChostContext)
+
+	// ExitCdigest is called when exiting the cdigest production.
+	ExitCdigest(c *CdigestContext)
 
 	// ExitChttpcode is called when exiting the chttpcode production.
 	ExitChttpcode(c *ChttpcodeContext)

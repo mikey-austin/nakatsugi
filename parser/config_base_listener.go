@@ -170,6 +170,18 @@ func (s *BaseCONFIGListener) EnterCtype(ctx *CtypeContext) {}
 // ExitCtype is called when production ctype is exited.
 func (s *BaseCONFIGListener) ExitCtype(ctx *CtypeContext) {}
 
+// EnterChost is called when production chost is entered.
+func (s *BaseCONFIGListener) EnterChost(ctx *ChostContext) {}
+
+// ExitChost is called when production chost is exited.
+func (s *BaseCONFIGListener) ExitChost(ctx *ChostContext) {}
+
+// EnterCdigest is called when production cdigest is entered.
+func (s *BaseCONFIGListener) EnterCdigest(ctx *CdigestContext) {}
+
+// ExitCdigest is called when production cdigest is exited.
+func (s *BaseCONFIGListener) ExitCdigest(ctx *CdigestContext) {}
+
 // EnterChttpcode is called when production chttpcode is entered.
 func (s *BaseCONFIGListener) EnterChttpcode(ctx *ChttpcodeContext) {}
 

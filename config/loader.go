@@ -184,14 +184,74 @@ func (this *loader) ExitRedirect(ctx *parser.RedirectContext) {
 	redirect.Disabled = false
 	redirect.SessionTimeout = time.Duration(600) * time.Second
 
+	var defaultPort uint16 = 0
 	for _, rstmt := range ctx.AllRstmt() {
-		err := SetRstmt(rstmt, &redirect)
+		lastListenPort, err := this.setRstmt(rstmt, &redirect, defaultPort)
 		if err != nil {
 			this.addErr(rstmt, "error parsing redirect statement: %v", err.Error())
+		}
+		if lastListenPort != 0 {
+			defaultPort = lastListenPort
 		}
 	}
 
 	this.Config.Redirects[name] = &redirect
+}
+
+func (this *loader) setRstmt(ctx parser.IRstmtContext, redirect *Redirect, defaultPort uint16) (uint16, error) {
+	var seenPort uint16 = 0
+
+	if ctx.DISABLE() != nil {
+		redirect.Disabled = true
+	}
+
+	if ctx.STICKY_ADDRESS() != nil {
+		redirect.StickyAddress = true
+	}
+
+	if ctx.Sesstimeout() != nil {
+		parsedTimeout, err := strconv.Atoi(ctx.Sesstimeout().NUMBER().GetText())
+		if err != nil {
+			return seenPort, err
+		}
+		redirect.SessionTimeout = time.Duration(parsedTimeout) * time.Second
+	}
+
+	if ctx.Listen() != nil {
+		listen, err := NewListen(ctx.Listen())
+		if err != nil {
+			return seenPort, err
+		}
+		redirect.Listens = append(redirect.Listens, listen)
+		seenPort = listen.MinPort
+	}
+
+	if ctx.Forward() != nil {
+		forward, err := NewForward(ctx.Forward(), this.resolveTable, defaultPort)
+		if err != nil {
+			return seenPort, err
+		}
+		redirect.Forwards = append(redirect.Forwards, forward)
+	}
+
+	if ctx.Route() != nil {
+		route, err := NewRoute(ctx.Route(), this.resolveTable, defaultPort)
+		if err != nil {
+			return seenPort, err
+		}
+		redirect.Routes = append(redirect.Routes, route)
+	}
+
+	return seenPort, nil
+}
+
+func (this *loader) resolveTable(ctx parser.ITnameContext) (*Table, error) {
+	name := StripTableName(ctx.GetText())
+	table, ok := this.Config.Tables[name]
+	if !ok {
+		return nil, fmt.Errorf("unknown table referenced: %v", name)
+	}
+	return table, nil
 }
 
 func NewConfigFromReader(r io.Reader) (*Config, error) {

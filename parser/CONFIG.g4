@@ -71,10 +71,12 @@ ctype
     | ctcp
     | ctls */
     ;
-chttpcode: HTTP QNAME (HOST NAME)? CODE NUMBER ;
-chttpdigest: HTTP QNAME (HOST NAME)? DIGEST NAME ;
-chttpscode: HTTPS QNAME (HOST NAME)? CODE NUMBER ;
-chttpsdigest: HTTPS QNAME (HOST NAME)? DIGEST NAME ;
+chost: HOST NAME ;
+cdigest: DIGEST NAME ;
+chttpcode: HTTP QNAME chost? CODE NUMBER ;
+chttpdigest: HTTP QNAME chost? cdigest ;
+chttpscode: HTTPS QNAME chost? CODE NUMBER ;
+chttpsdigest: HTTPS QNAME chost? cdigest ;
 
 // Common settings
 forward: FORWARD TO tname port? check? ;
@@ -90,6 +92,7 @@ rstmt
     | sesstimeout
     | listen
     | forward
+    | route
     ;
 
 // Terminal tokens

@@ -58,15 +58,55 @@ type Listen struct {
 	Interface string
 }
 
+type Forward struct {
+	ToTable *Table
+	Port    uint16
+	Check   *Check
+}
+
+type Route struct {
+	ToTable *Table
+	Port    uint16
+	Check   *Check
+}
+
 // Redirect types
 type Redirect struct {
 	Name           string
 	Disabled       bool
 	SessionTimeout time.Duration
 	StickyAddress  bool
-	Listen         []*Listen
-	// forward
-	// route
+	Listens        []*Listen
+	Forwards       []*Forward
+	Routes         []*Route
 }
 
 // Check types
+type CheckType int
+
+const (
+	CheckTypeHttpCode CheckType = iota
+	CheckTypeHttpDigest
+)
+
+type Check struct {
+	Type            CheckType
+	CheckHttpCode   *CheckHttpCode
+	CheckHttpDigest *CheckHttpDigest
+}
+
+type CheckHttpBase struct {
+	Path     string
+	Hostname string
+	Https    bool
+}
+
+type CheckHttpCode struct {
+	CheckHttpBase
+	Code uint
+}
+
+type CheckHttpDigest struct {
+	CheckHttpBase
+	Digest string
+}

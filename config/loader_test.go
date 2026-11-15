@@ -8,6 +8,8 @@ import (
 	"time"
 )
 
+// TODO: add more test cases for error handling paths
+
 func TestSimpleConfigLoad(t *testing.T) {
 	c := `
 myvar = test.com
@@ -133,7 +135,7 @@ redirect "tcpsingle" {
 			Disabled:       true,
 			StickyAddress:  true,
 			SessionTimeout: time.Duration(13) * time.Second,
-			Listen: []*Listen{
+			Listens: []*Listen{
 				&Listen{Address: net.ParseIP("10.23.1.3"), Proto: ProtoUdp, MinPort: 333, MaxPort: 335, Interface: "em0"},
 			}},
 		&Redirect{
@@ -141,7 +143,7 @@ redirect "tcpsingle" {
 			Disabled:       false,                            // Default
 			StickyAddress:  false,                            // Default
 			SessionTimeout: time.Duration(600) * time.Second, // Default
-			Listen: []*Listen{
+			Listens: []*Listen{
 				&Listen{Address: net.ParseIP("10.23.1.2"), Proto: ProtoTcp, MinPort: 555, MaxPort: 555, Interface: ""},
 			}},
 	}
@@ -150,6 +152,71 @@ redirect "tcpsingle" {
 		g := got[i]
 		if !reflect.DeepEqual(&e, &g) {
 			t.Errorf("TestRedirect(%d): expected %v, got %v", i, e, g)
+		}
+	}
+}
+
+func TestRedirectForwards(t *testing.T) {
+	c := `
+table <t1> { 10.23.1.1 }
+redirect "r1" {
+    listen on 10.23.1.2 port 555
+    forward to <t1> port 777 check http "/" host example.com code 200
+
+    # Should default to the last listen port
+    forward to <t1> check http "/health" digest a9993e36476816aba3e25717850c26c9cd0d89d
+}
+`
+	config, error := NewConfigFromReader(strings.NewReader(c))
+	if error != nil {
+		t.Errorf("could not load config: %v", error)
+	}
+
+	r1, ok := config.Redirects["r1"]
+	if !ok {
+		t.Error("udprange is nil")
+		return
+	}
+
+	table := Table{
+		Name: "t1",
+		Items: []*TItem{
+			&TItem{Type: IPv4Host, IP: net.ParseIP("10.23.1.1")},
+		},
+	}
+	expected := []*Forward{
+		&Forward{
+			ToTable: &table,
+			Port:    777,
+			Check: &Check{
+				Type: CheckTypeHttpCode,
+				CheckHttpCode: &CheckHttpCode{
+					CheckHttpBase: CheckHttpBase{Path: "/", Hostname: "example.com", Https: false},
+					Code:          200,
+				}},
+		},
+		&Forward{
+			ToTable: &table,
+			Port:    555, // Defaults to the listen port defined above it
+			Check: &Check{
+				Type: CheckTypeHttpDigest,
+				CheckHttpDigest: &CheckHttpDigest{
+					CheckHttpBase: CheckHttpBase{Path: "/health", Hostname: "", Https: false},
+					Digest:        "a9993e36476816aba3e25717850c26c9cd0d89d",
+				}},
+		},
+	}
+
+	for i, e := range expected {
+		g := r1.Forwards[i]
+		if e.Port != g.Port {
+			t.Errorf("TestForward(%d).Port: expected %v, got %v", i, e.Port, g.Port)
+		}
+		if !reflect.DeepEqual(e.ToTable, g.ToTable) {
+			t.Errorf("TestForward(%d).ToTable: expected %v, got %v", i, e.ToTable, g.ToTable)
+		}
+		if !reflect.DeepEqual(e.Check, g.Check) {
+			t.Errorf("TestForward(%d).Check: expected %v, got %v", i, e.Check, g.Check)
 		}
 	}
 }
