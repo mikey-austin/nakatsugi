@@ -5,6 +5,7 @@ import (
 	"net"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/antlr4-go/antlr/v4"
 	"github.com/mikey-austin/nakatsugi/parser"
@@ -88,7 +89,7 @@ func NewListen(ctx parser.IListenContext) (*Listen, error) {
 }
 
 func NewForward(ctx parser.IForwardContext, tableResolver func(ctx parser.ITnameContext) (*Table, error), defaultPort uint16) (*Forward, error) {
-	destination, error := NewDestination(ctx.Destination(), tableResolver, defaultPort)
+	destination, error := newDestination(ctx.Destination(), tableResolver, defaultPort)
 	if error != nil {
 		return nil, error
 	}
@@ -97,7 +98,7 @@ func NewForward(ctx parser.IForwardContext, tableResolver func(ctx parser.ITname
 }
 
 func NewRoute(ctx parser.IRouteContext, tableResolver func(ctx parser.ITnameContext) (*Table, error), defaultPort uint16) (*Route, error) {
-	destination, error := NewDestination(ctx.Destination(), tableResolver, defaultPort)
+	destination, error := newDestination(ctx.Destination(), tableResolver, defaultPort)
 	if error != nil {
 		return nil, error
 	}
@@ -105,7 +106,7 @@ func NewRoute(ctx parser.IRouteContext, tableResolver func(ctx parser.ITnameCont
 	return &route, nil
 }
 
-func NewDestination(ctx parser.IDestinationContext, tableResolver func(ctx parser.ITnameContext) (*Table, error), defaultPort uint16) (*Destination, error) {
+func newDestination(ctx parser.IDestinationContext, tableResolver func(ctx parser.ITnameContext) (*Table, error), defaultPort uint16) (*Destination, error) {
 	table, err := tableResolver(ctx.Tname())
 	if err != nil {
 		return nil, err
@@ -129,6 +130,22 @@ func NewDestination(ctx parser.IDestinationContext, tableResolver func(ctx parse
 				return nil, err
 			}
 			destination.Check = check
+			break
+
+		case dopt.Interval() != nil:
+			i, err := strconv.Atoi(dopt.Interval().NUMBER().GetText())
+			if err != nil {
+				return nil, err
+			}
+			destination.Interval = i
+			break
+
+		case dopt.Timeout() != nil:
+			t, err := strconv.Atoi(dopt.Timeout().NUMBER().GetText())
+			if err != nil {
+				return nil, err
+			}
+			destination.Timeout = time.Duration(t) * time.Second
 			break
 		}
 	}

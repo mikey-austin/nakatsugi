@@ -158,13 +158,20 @@ redirect "tcpsingle" {
 
 func TestRedirectForwards(t *testing.T) {
 	c := `
+interval 5
 table <t1> { 10.23.1.1 }
 redirect "r1" {
     listen on 10.23.1.2 port 555
-    forward to <t1> port 777 check http "/" host example.com code 200
+    forward to <t1> port 777 \
+        check http "/" host example.com code 200 \
+        interval 10 \
+        timeout 25
 
     # Should default to the last listen port
-    forward to <t1> check http "/health" digest "a9993e36476816aba3e25717850c26c9cd0d89d"
+    forward to <t1> \
+        timeout 27 \
+        interval 15 \
+        check http "/health" digest "a9993e36476816aba3e25717850c26c9cd0d89d"
 }
 `
 	config, error := NewConfigFromReader(strings.NewReader(c))

@@ -59,9 +59,13 @@ type Listen struct {
 }
 
 type Destination struct {
-	ToTable *Table
-	Port    uint16
-	Check   *Check
+	ToTable  *Table
+	Port     uint16
+	Check    *Check
+	Interval int
+	Timeout  time.Duration
+
+	// TODO: add mode here
 }
 
 type Forward struct {
