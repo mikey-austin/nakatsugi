@@ -164,7 +164,7 @@ redirect "r1" {
     forward to <t1> port 777 check http "/" host example.com code 200
 
     # Should default to the last listen port
-    forward to <t1> check http "/health" digest a9993e36476816aba3e25717850c26c9cd0d89d
+    forward to <t1> check http "/health" digest "a9993e36476816aba3e25717850c26c9cd0d89d"
 }
 `
 	config, error := NewConfigFromReader(strings.NewReader(c))
@@ -184,8 +184,8 @@ redirect "r1" {
 			&TItem{Type: IPv4Host, IP: net.ParseIP("10.23.1.1")},
 		},
 	}
-	expected := []*Forward{
-		&Forward{
+	expected := []*Destination{
+		&Destination{
 			ToTable: &table,
 			Port:    777,
 			Check: &Check{
@@ -195,7 +195,7 @@ redirect "r1" {
 					Code:          200,
 				}},
 		},
-		&Forward{
+		&Destination{
 			ToTable: &table,
 			Port:    555, // Defaults to the listen port defined above it
 			Check: &Check{

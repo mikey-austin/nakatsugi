@@ -22,6 +22,9 @@ type CONFIGListener interface {
 	// EnterGopts is called when entering the gopts production.
 	EnterGopts(c *GoptsContext)
 
+	// EnterTimeout is called when entering the timeout production.
+	EnterTimeout(c *TimeoutContext)
+
 	// EnterInterval is called when entering the interval production.
 	EnterInterval(c *IntervalContext)
 
@@ -100,6 +103,39 @@ type CONFIGListener interface {
 	// EnterChttpsdigest is called when entering the chttpsdigest production.
 	EnterChttpsdigest(c *ChttpsdigestContext)
 
+	// EnterBalancemode is called when entering the balancemode production.
+	EnterBalancemode(c *BalancemodeContext)
+
+	// EnterMtype is called when entering the mtype production.
+	EnterMtype(c *MtypeContext)
+
+	// EnterMhash is called when entering the mhash production.
+	EnterMhash(c *MhashContext)
+
+	// EnterMleaststates is called when entering the mleaststates production.
+	EnterMleaststates(c *MleaststatesContext)
+
+	// EnterMloadbalance is called when entering the mloadbalance production.
+	EnterMloadbalance(c *MloadbalanceContext)
+
+	// EnterMrandom is called when entering the mrandom production.
+	EnterMrandom(c *MrandomContext)
+
+	// EnterMroundrobin is called when entering the mroundrobin production.
+	EnterMroundrobin(c *MroundrobinContext)
+
+	// EnterMsourcehash is called when entering the msourcehash production.
+	EnterMsourcehash(c *MsourcehashContext)
+
+	// EnterDemote is called when entering the demote production.
+	EnterDemote(c *DemoteContext)
+
+	// EnterDopts is called when entering the dopts production.
+	EnterDopts(c *DoptsContext)
+
+	// EnterDestination is called when entering the destination production.
+	EnterDestination(c *DestinationContext)
+
 	// EnterForward is called when entering the forward production.
 	EnterForward(c *ForwardContext)
 
@@ -132,6 +168,9 @@ type CONFIGListener interface {
 
 	// ExitGopts is called when exiting the gopts production.
 	ExitGopts(c *GoptsContext)
+
+	// ExitTimeout is called when exiting the timeout production.
+	ExitTimeout(c *TimeoutContext)
 
 	// ExitInterval is called when exiting the interval production.
 	ExitInterval(c *IntervalContext)
@@ -210,6 +249,39 @@ type CONFIGListener interface {
 
 	// ExitChttpsdigest is called when exiting the chttpsdigest production.
 	ExitChttpsdigest(c *ChttpsdigestContext)
+
+	// ExitBalancemode is called when exiting the balancemode production.
+	ExitBalancemode(c *BalancemodeContext)
+
+	// ExitMtype is called when exiting the mtype production.
+	ExitMtype(c *MtypeContext)
+
+	// ExitMhash is called when exiting the mhash production.
+	ExitMhash(c *MhashContext)
+
+	// ExitMleaststates is called when exiting the mleaststates production.
+	ExitMleaststates(c *MleaststatesContext)
+
+	// ExitMloadbalance is called when exiting the mloadbalance production.
+	ExitMloadbalance(c *MloadbalanceContext)
+
+	// ExitMrandom is called when exiting the mrandom production.
+	ExitMrandom(c *MrandomContext)
+
+	// ExitMroundrobin is called when exiting the mroundrobin production.
+	ExitMroundrobin(c *MroundrobinContext)
+
+	// ExitMsourcehash is called when exiting the msourcehash production.
+	ExitMsourcehash(c *MsourcehashContext)
+
+	// ExitDemote is called when exiting the demote production.
+	ExitDemote(c *DemoteContext)
+
+	// ExitDopts is called when exiting the dopts production.
+	ExitDopts(c *DoptsContext)
+
+	// ExitDestination is called when exiting the destination production.
+	ExitDestination(c *DestinationContext)
 
 	// ExitForward is called when exiting the forward production.
 	ExitForward(c *ForwardContext)

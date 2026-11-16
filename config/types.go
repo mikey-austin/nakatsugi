@@ -58,16 +58,18 @@ type Listen struct {
 	Interface string
 }
 
-type Forward struct {
+type Destination struct {
 	ToTable *Table
 	Port    uint16
 	Check   *Check
 }
 
+type Forward struct {
+	*Destination
+}
+
 type Route struct {
-	ToTable *Table
-	Port    uint16
-	Check   *Check
+	*Destination
 }
 
 // Redirect types

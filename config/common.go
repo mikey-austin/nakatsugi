@@ -88,65 +88,52 @@ func NewListen(ctx parser.IListenContext) (*Listen, error) {
 }
 
 func NewForward(ctx parser.IForwardContext, tableResolver func(ctx parser.ITnameContext) (*Table, error), defaultPort uint16) (*Forward, error) {
-	table, err := tableResolver(ctx.Tname())
-	if err != nil {
-		return nil, err
+	destination, error := NewDestination(ctx.Destination(), tableResolver, defaultPort)
+	if error != nil {
+		return nil, error
 	}
-
-	port := defaultPort
-	if ctx.Port() != nil {
-		p, err := strconv.ParseUint(ctx.Port().NUMBER().GetText(), 10, 16)
-		if err != nil {
-			return nil, err
-		}
-		port = uint16(p)
-	}
-
-	var check *Check
-	if cctx := ctx.Check(); cctx != nil {
-		c, err := NewCheck(cctx)
-		if err != nil {
-			return nil, err
-		}
-		check = c
-	}
-
-	return &Forward{
-		ToTable: table,
-		Port:    port,
-		Check:   check,
-	}, nil
+	forward := Forward{Destination: destination}
+	return &forward, nil
 }
 
 func NewRoute(ctx parser.IRouteContext, tableResolver func(ctx parser.ITnameContext) (*Table, error), defaultPort uint16) (*Route, error) {
+	destination, error := NewDestination(ctx.Destination(), tableResolver, defaultPort)
+	if error != nil {
+		return nil, error
+	}
+	route := Route{Destination: destination}
+	return &route, nil
+}
+
+func NewDestination(ctx parser.IDestinationContext, tableResolver func(ctx parser.ITnameContext) (*Table, error), defaultPort uint16) (*Destination, error) {
 	table, err := tableResolver(ctx.Tname())
 	if err != nil {
 		return nil, err
 	}
 
-	port := defaultPort
+	destination := Destination{ToTable: table}
+	destination.Port = defaultPort
 	if ctx.Port() != nil {
 		p, err := strconv.ParseUint(ctx.Port().NUMBER().GetText(), 10, 16)
 		if err != nil {
 			return nil, err
 		}
-		port = uint16(p)
+		destination.Port = uint16(p)
 	}
 
-	var check *Check
-	if cctx := ctx.Check(); cctx != nil {
-		c, err := NewCheck(cctx)
-		if err != nil {
-			return nil, err
+	for _, dopt := range ctx.AllDopts() {
+		switch {
+		case dopt.Check() != nil:
+			check, err := NewCheck(dopt.Check())
+			if err != nil {
+				return nil, err
+			}
+			destination.Check = check
+			break
 		}
-		check = c
 	}
 
-	return &Route{
-		ToTable: table,
-		Port:    port,
-		Check:   check,
-	}, nil
+	return &destination, nil
 }
 
 func unquote(qname antlr.TerminalNode) string {
@@ -202,7 +189,7 @@ func NewCheck(ctx parser.ICheckContext) (*Check, error) {
 			return nil, err
 		}
 		base := CheckHttpBase{Path: unquote(c.QNAME()), Hostname: host, Https: false}
-		check.CheckHttpDigest = &CheckHttpDigest{CheckHttpBase: base, Digest: c.Cdigest().NAME().GetText()}
+		check.CheckHttpDigest = &CheckHttpDigest{CheckHttpBase: base, Digest: unquote(c.Cdigest().QNAME())}
 		break
 	case ct.Chttpscode() != nil:
 		c := ct.Chttpscode()
@@ -226,7 +213,7 @@ func NewCheck(ctx parser.ICheckContext) (*Check, error) {
 			return nil, err
 		}
 		base := CheckHttpBase{Path: unquote(c.QNAME()), Hostname: host, Https: true}
-		check.CheckHttpDigest = &CheckHttpDigest{CheckHttpBase: base, Digest: c.Cdigest().NAME().GetText()}
+		check.CheckHttpDigest = &CheckHttpDigest{CheckHttpBase: base, Digest: unquote(c.Cdigest().QNAME())}
 		break
 	}
 

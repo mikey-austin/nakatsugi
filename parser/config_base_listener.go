@@ -50,6 +50,12 @@ func (s *BaseCONFIGListener) EnterGopts(ctx *GoptsContext) {}
 // ExitGopts is called when production gopts is exited.
 func (s *BaseCONFIGListener) ExitGopts(ctx *GoptsContext) {}
 
+// EnterTimeout is called when production timeout is entered.
+func (s *BaseCONFIGListener) EnterTimeout(ctx *TimeoutContext) {}
+
+// ExitTimeout is called when production timeout is exited.
+func (s *BaseCONFIGListener) ExitTimeout(ctx *TimeoutContext) {}
+
 // EnterInterval is called when production interval is entered.
 func (s *BaseCONFIGListener) EnterInterval(ctx *IntervalContext) {}
 
@@ -205,6 +211,72 @@ func (s *BaseCONFIGListener) EnterChttpsdigest(ctx *ChttpsdigestContext) {}
 
 // ExitChttpsdigest is called when production chttpsdigest is exited.
 func (s *BaseCONFIGListener) ExitChttpsdigest(ctx *ChttpsdigestContext) {}
+
+// EnterBalancemode is called when production balancemode is entered.
+func (s *BaseCONFIGListener) EnterBalancemode(ctx *BalancemodeContext) {}
+
+// ExitBalancemode is called when production balancemode is exited.
+func (s *BaseCONFIGListener) ExitBalancemode(ctx *BalancemodeContext) {}
+
+// EnterMtype is called when production mtype is entered.
+func (s *BaseCONFIGListener) EnterMtype(ctx *MtypeContext) {}
+
+// ExitMtype is called when production mtype is exited.
+func (s *BaseCONFIGListener) ExitMtype(ctx *MtypeContext) {}
+
+// EnterMhash is called when production mhash is entered.
+func (s *BaseCONFIGListener) EnterMhash(ctx *MhashContext) {}
+
+// ExitMhash is called when production mhash is exited.
+func (s *BaseCONFIGListener) ExitMhash(ctx *MhashContext) {}
+
+// EnterMleaststates is called when production mleaststates is entered.
+func (s *BaseCONFIGListener) EnterMleaststates(ctx *MleaststatesContext) {}
+
+// ExitMleaststates is called when production mleaststates is exited.
+func (s *BaseCONFIGListener) ExitMleaststates(ctx *MleaststatesContext) {}
+
+// EnterMloadbalance is called when production mloadbalance is entered.
+func (s *BaseCONFIGListener) EnterMloadbalance(ctx *MloadbalanceContext) {}
+
+// ExitMloadbalance is called when production mloadbalance is exited.
+func (s *BaseCONFIGListener) ExitMloadbalance(ctx *MloadbalanceContext) {}
+
+// EnterMrandom is called when production mrandom is entered.
+func (s *BaseCONFIGListener) EnterMrandom(ctx *MrandomContext) {}
+
+// ExitMrandom is called when production mrandom is exited.
+func (s *BaseCONFIGListener) ExitMrandom(ctx *MrandomContext) {}
+
+// EnterMroundrobin is called when production mroundrobin is entered.
+func (s *BaseCONFIGListener) EnterMroundrobin(ctx *MroundrobinContext) {}
+
+// ExitMroundrobin is called when production mroundrobin is exited.
+func (s *BaseCONFIGListener) ExitMroundrobin(ctx *MroundrobinContext) {}
+
+// EnterMsourcehash is called when production msourcehash is entered.
+func (s *BaseCONFIGListener) EnterMsourcehash(ctx *MsourcehashContext) {}
+
+// ExitMsourcehash is called when production msourcehash is exited.
+func (s *BaseCONFIGListener) ExitMsourcehash(ctx *MsourcehashContext) {}
+
+// EnterDemote is called when production demote is entered.
+func (s *BaseCONFIGListener) EnterDemote(ctx *DemoteContext) {}
+
+// ExitDemote is called when production demote is exited.
+func (s *BaseCONFIGListener) ExitDemote(ctx *DemoteContext) {}
+
+// EnterDopts is called when production dopts is entered.
+func (s *BaseCONFIGListener) EnterDopts(ctx *DoptsContext) {}
+
+// ExitDopts is called when production dopts is exited.
+func (s *BaseCONFIGListener) ExitDopts(ctx *DoptsContext) {}
+
+// EnterDestination is called when production destination is entered.
+func (s *BaseCONFIGListener) EnterDestination(ctx *DestinationContext) {}
+
+// ExitDestination is called when production destination is exited.
+func (s *BaseCONFIGListener) ExitDestination(ctx *DestinationContext) {}
 
 // EnterForward is called when production forward is entered.
 func (s *BaseCONFIGListener) EnterForward(ctx *ForwardContext) {}

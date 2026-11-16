@@ -15,8 +15,10 @@ var: DOLLA NAME ;
 // Global top-level options
 gopts
     : interval
+    | timeout
     | prefork
     ;
+timeout: TIMEOUT NUMBER ;
 interval: INTERVAL NUMBER ;
 prefork: PREFORK NUMBER ;
 // agentx (also prometheus extension)
@@ -24,7 +26,6 @@ prefork: PREFORK NUMBER ;
 // log connection
 // log level
 // socket
-// timeout
 
 // Tables
 table: TABLE tname tdisable? LCURLY tlist RCURLY ;
@@ -72,15 +73,39 @@ ctype
     | ctls */
     ;
 chost: HOST NAME ;
-cdigest: DIGEST NAME ;
+cdigest: DIGEST QNAME ;
 chttpcode: HTTP QNAME chost? CODE NUMBER ;
 chttpdigest: HTTP QNAME chost? cdigest ;
 chttpscode: HTTPS QNAME chost? CODE NUMBER ;
 chttpsdigest: HTTPS QNAME chost? cdigest ;
 
-// Common settings
-forward: FORWARD TO tname port? check? ;
-route: ROUTE TO tname port? check? ;
+balancemode: MODE mtype ;
+mtype
+    : mhash
+    | mleaststates
+    | mloadbalance
+    | mrandom
+    | mroundrobin
+    | msourcehash
+    ;
+mhash: HASH QNAME ;
+mleaststates: LEAST_STATES ;
+mloadbalance: LOAD_BALANCE QNAME ;
+mrandom: RANDOM ;
+mroundrobin: ROUND_ROBIN ;
+msourcehash: SOURCE_HASH QNAME ;
+
+demote: DEMOTE NAME ;
+dopts
+    : check
+    | balancemode
+    | interval
+    | timeout
+    | demote
+    ;
+destination: tname port? dopts* ;
+forward: FORWARD TO destination ;
+route: ROUTE TO destination ;
 sesstimeout: SESSION TIMEOUT NUMBER ;
 
 // Redirects
@@ -103,6 +128,9 @@ LANGLE: '<' ;
 RANGLE: '>' ;
 LCURLY: '{' ;
 RCURLY: '}' ;
+HASH: 'hash' ;
+MODE: 'mode' ;
+DEMOTE: 'demote' ;
 PROTO: 'proto' ;
 CHECK: 'check' ;
 HTTP: 'http' ;
@@ -116,6 +144,11 @@ PARENT: 'parent' ;
 IP: 'ip' ;
 TTL: 'ttl' ;
 ROUTE: 'route' ;
+SOURCE_HASH: 'source-hash' ;
+ROUND_ROBIN: 'roundrobin' ;
+RANDOM: 'random' ;
+LOAD_BALANCE: 'loadbalance' ;
+LEAST_STATES: 'least-states' ;
 STICKY_ADDRESS: 'sticky-address' ;
 SESSION: 'session' ;
 TIMEOUT: 'timeout' ;
