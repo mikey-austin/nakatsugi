@@ -6,7 +6,8 @@ import (
 )
 
 type Config struct {
-	Interval  int
+	Interval  time.Duration
+	Timeout   time.Duration
 	Tables    map[string]*Table
 	Redirects map[string]*Redirect
 
@@ -62,7 +63,7 @@ type Destination struct {
 	ToTable  *Table
 	Port     uint16
 	Check    *Check
-	Interval int
+	Interval time.Duration
 	Timeout  time.Duration
 
 	// TODO: add mode here

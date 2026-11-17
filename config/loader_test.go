@@ -14,7 +14,8 @@ func TestSimpleConfigLoad(t *testing.T) {
 	c := `
 myvar = test.com
 
-interval 39
+interval 39 # seconds
+timeout 210 # millis
 
 # A normal table over multiple lines
 table <mytable> { \
@@ -30,8 +31,14 @@ table <dtable> disable { $myvar }
 		t.Errorf("could not load config: %v", error)
 	}
 
-	if config.Interval != 39 {
-		t.Errorf("expected %v, got %v", 39, config.Interval)
+	expectedInterval := time.Duration(39) * time.Second
+	if config.Interval != expectedInterval {
+		t.Errorf("expected %v, got %v", expectedInterval, config.Interval)
+	}
+
+	expectedTimeout := time.Duration(210) * time.Millisecond
+	if config.Timeout != expectedTimeout {
+		t.Errorf("expected %v, got %v", expectedTimeout, config.Timeout)
 	}
 
 	mytable := config.Tables["mytable"]
@@ -162,6 +169,7 @@ interval 5
 table <t1> { 10.23.1.1 }
 redirect "r1" {
     listen on 10.23.1.2 port 555
+
     forward to <t1> port 777 \
         check http "/" host example.com code 200 \
         interval 10 \

@@ -137,7 +137,7 @@ func newDestination(ctx parser.IDestinationContext, tableResolver func(ctx parse
 			if err != nil {
 				return nil, err
 			}
-			destination.Interval = i
+			destination.Interval = time.Duration(i) * time.Second
 			break
 
 		case dopt.Timeout() != nil:
@@ -145,7 +145,7 @@ func newDestination(ctx parser.IDestinationContext, tableResolver func(ctx parse
 			if err != nil {
 				return nil, err
 			}
-			destination.Timeout = time.Duration(t) * time.Second
+			destination.Timeout = time.Duration(t) * time.Millisecond
 			break
 		}
 	}

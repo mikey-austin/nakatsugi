@@ -51,6 +51,8 @@ func newLoader() *loader {
 	return &loader{
 		Assignments: make(map[string]string),
 		Config: &Config{
+			Interval:  time.Duration(10) * time.Second,
+			Timeout:   time.Duration(200) * time.Millisecond,
 			Tables:    make(map[string]*Table),
 			Redirects: make(map[string]*Redirect),
 		},
@@ -120,11 +122,30 @@ func (this *loader) resolveVar(name string) (string, error) {
 }
 
 func (this *loader) ExitInterval(ctx *parser.IntervalContext) {
+	if _, ok := ctx.GetParent().(*parser.GoptsContext); !ok {
+		// only top-level intervals here
+		return
+	}
+
 	value, error := strconv.Atoi(ctx.NUMBER().GetText())
 	if error != nil {
 		this.addErr(ctx, error.Error())
 	} else {
-		this.Config.Interval = value
+		this.Config.Interval = time.Duration(value) * time.Second
+	}
+}
+
+func (this *loader) ExitTimeout(ctx *parser.TimeoutContext) {
+	if _, ok := ctx.GetParent().(*parser.GoptsContext); !ok {
+		// only top-level timeouts here
+		return
+	}
+
+	value, error := strconv.Atoi(ctx.NUMBER().GetText())
+	if error != nil {
+		this.addErr(ctx, error.Error())
+	} else {
+		this.Config.Timeout = time.Duration(value) * time.Millisecond
 	}
 }
 
