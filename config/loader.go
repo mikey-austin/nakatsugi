@@ -51,10 +51,11 @@ func newLoader() *loader {
 	return &loader{
 		Assignments: make(map[string]string),
 		Config: &Config{
-			Interval:  time.Duration(10) * time.Second,
-			Timeout:   time.Duration(200) * time.Millisecond,
-			Tables:    make(map[string]*Table),
-			Redirects: make(map[string]*Redirect),
+			Interval:   time.Duration(10) * time.Second,
+			Timeout:    time.Duration(200) * time.Millisecond,
+			SocketPath: "/var/run/nakatsugi.sock",
+			Tables:     make(map[string]*Table),
+			Redirects:  make(map[string]*Redirect),
 		},
 	}
 }
@@ -133,6 +134,10 @@ func (this *loader) ExitInterval(ctx *parser.IntervalContext) {
 	} else {
 		this.Config.Interval = time.Duration(value) * time.Second
 	}
+}
+
+func (this *loader) ExitSocket(ctx *parser.SocketContext) {
+	this.Config.SocketPath = unquote(ctx.QNAME())
 }
 
 func (this *loader) ExitTimeout(ctx *parser.TimeoutContext) {

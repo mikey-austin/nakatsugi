@@ -31,6 +31,9 @@ type CONFIGListener interface {
 	// EnterPrefork is called when entering the prefork production.
 	EnterPrefork(c *PreforkContext)
 
+	// EnterSocket is called when entering the socket production.
+	EnterSocket(c *SocketContext)
+
 	// EnterTable is called when entering the table production.
 	EnterTable(c *TableContext)
 
@@ -177,6 +180,9 @@ type CONFIGListener interface {
 
 	// ExitPrefork is called when exiting the prefork production.
 	ExitPrefork(c *PreforkContext)
+
+	// ExitSocket is called when exiting the socket production.
+	ExitSocket(c *SocketContext)
 
 	// ExitTable is called when exiting the table production.
 	ExitTable(c *TableContext)

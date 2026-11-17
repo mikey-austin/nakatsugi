@@ -16,6 +16,7 @@ myvar = test.com
 
 interval 39 # seconds
 timeout 210 # millis
+socket "/tmp/my.sock"
 
 # A normal table over multiple lines
 table <mytable> { \
@@ -29,6 +30,11 @@ table <dtable> disable { $myvar }
 	config, error := NewConfigFromReader(strings.NewReader(c))
 	if error != nil {
 		t.Errorf("could not load config: %v", error)
+	}
+
+	expectedSocket := "/tmp/my.sock"
+	if config.SocketPath != expectedSocket {
+		t.Errorf("expected %v, got %v", expectedSocket, config.SocketPath)
 	}
 
 	expectedInterval := time.Duration(39) * time.Second

@@ -68,6 +68,12 @@ func (s *BaseCONFIGListener) EnterPrefork(ctx *PreforkContext) {}
 // ExitPrefork is called when production prefork is exited.
 func (s *BaseCONFIGListener) ExitPrefork(ctx *PreforkContext) {}
 
+// EnterSocket is called when production socket is entered.
+func (s *BaseCONFIGListener) EnterSocket(ctx *SocketContext) {}
+
+// ExitSocket is called when production socket is exited.
+func (s *BaseCONFIGListener) ExitSocket(ctx *SocketContext) {}
+
 // EnterTable is called when production table is entered.
 func (s *BaseCONFIGListener) EnterTable(ctx *TableContext) {}
 

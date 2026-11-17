@@ -36,32 +36,33 @@ func configParserInit() {
 		"'demote'", "'proto'", "'check'", "'http'", "'https'", "'code'", "'digest'",
 		"'prefork'", "'priority'", "'retry'", "'parent'", "'ip'", "'ttl'", "'route'",
 		"'source-hash'", "'roundrobin'", "'random'", "'loadbalance'", "'least-states'",
-		"'sticky-address'", "'session'", "'timeout'", "'forward'", "'port'",
-		"'interface'", "'listen'", "'to'", "'on'", "'host'", "'redirect'", "'disable'",
-		"'interval'", "'table'",
+		"'sticky-address'", "'session'", "'timeout'", "'forward'", "'socket'",
+		"'port'", "'interface'", "'listen'", "'to'", "'on'", "'host'", "'redirect'",
+		"'disable'", "'interval'", "'table'",
 	}
 	staticData.SymbolicNames = []string{
 		"", "DOLLA", "EQUALS", "COMMA", "LANGLE", "RANGLE", "LCURLY", "RCURLY",
 		"HASH", "MODE", "DEMOTE", "PROTO", "CHECK", "HTTP", "HTTPS", "CODE",
 		"DIGEST", "PREFORK", "PRIORITY", "RETRY", "PARENT", "IP", "TTL", "ROUTE",
 		"SOURCE_HASH", "ROUND_ROBIN", "RANDOM", "LOAD_BALANCE", "LEAST_STATES",
-		"STICKY_ADDRESS", "SESSION", "TIMEOUT", "FORWARD", "PORT", "INTERFACE",
-		"LISTEN", "TO", "ON", "HOST", "REDIRECT", "DISABLE", "INTERVAL", "TABLE",
-		"NUMBER", "NAME", "QNAME", "COMMENT", "WS", "CONTINUATION", "NEWLINE",
+		"STICKY_ADDRESS", "SESSION", "TIMEOUT", "FORWARD", "SOCKET", "PORT",
+		"INTERFACE", "LISTEN", "TO", "ON", "HOST", "REDIRECT", "DISABLE", "INTERVAL",
+		"TABLE", "NUMBER", "NAME", "QNAME", "COMMENT", "WS", "CONTINUATION",
+		"NEWLINE",
 	}
 	staticData.RuleNames = []string{
 		"config", "stmt", "assignment", "var", "gopts", "timeout", "interval",
-		"prefork", "table", "tname", "tlist", "titem", "tdisable", "topts",
-		"toptipttl", "toptparent", "toptpriority", "toptretry", "listen", "port",
-		"portrange", "lport", "proto", "interface", "check", "ctype", "chost",
-		"cdigest", "chttpcode", "chttpdigest", "chttpscode", "chttpsdigest",
+		"prefork", "socket", "table", "tname", "tlist", "titem", "tdisable",
+		"topts", "toptipttl", "toptparent", "toptpriority", "toptretry", "listen",
+		"port", "portrange", "lport", "proto", "interface", "check", "ctype",
+		"chost", "cdigest", "chttpcode", "chttpdigest", "chttpscode", "chttpsdigest",
 		"balancemode", "mtype", "mhash", "mleaststates", "mloadbalance", "mrandom",
 		"mroundrobin", "msourcehash", "demote", "dopts", "destination", "forward",
 		"route", "sesstimeout", "redirect", "rname", "rstmt",
 	}
 	staticData.PredictionContextCache = antlr.NewPredictionContextCache()
 	staticData.serializedATN = []int32{
-		4, 1, 49, 357, 2, 0, 7, 0, 2, 1, 7, 1, 2, 2, 7, 2, 2, 3, 7, 3, 2, 4, 7,
+		4, 1, 50, 363, 2, 0, 7, 0, 2, 1, 7, 1, 2, 2, 7, 2, 2, 3, 7, 3, 2, 4, 7,
 		4, 2, 5, 7, 5, 2, 6, 7, 6, 2, 7, 7, 7, 2, 8, 7, 8, 2, 9, 7, 9, 2, 10, 7,
 		10, 2, 11, 7, 11, 2, 12, 7, 12, 2, 13, 7, 13, 2, 14, 7, 14, 2, 15, 7, 15,
 		2, 16, 7, 16, 2, 17, 7, 17, 2, 18, 7, 18, 2, 19, 7, 19, 2, 20, 7, 20, 2,
@@ -70,147 +71,149 @@ func configParserInit() {
 		31, 2, 32, 7, 32, 2, 33, 7, 33, 2, 34, 7, 34, 2, 35, 7, 35, 2, 36, 7, 36,
 		2, 37, 7, 37, 2, 38, 7, 38, 2, 39, 7, 39, 2, 40, 7, 40, 2, 41, 7, 41, 2,
 		42, 7, 42, 2, 43, 7, 43, 2, 44, 7, 44, 2, 45, 7, 45, 2, 46, 7, 46, 2, 47,
-		7, 47, 2, 48, 7, 48, 1, 0, 1, 0, 1, 0, 1, 0, 5, 0, 103, 8, 0, 10, 0, 12,
-		0, 106, 9, 0, 1, 0, 3, 0, 109, 8, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1,
-		3, 1, 117, 8, 1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 3, 1, 3, 1, 3, 1, 4, 1, 4,
-		1, 4, 3, 4, 129, 8, 4, 1, 5, 1, 5, 1, 5, 1, 6, 1, 6, 1, 6, 1, 7, 1, 7,
-		1, 7, 1, 8, 1, 8, 1, 8, 3, 8, 143, 8, 8, 1, 8, 1, 8, 1, 8, 1, 8, 1, 9,
-		1, 9, 1, 9, 1, 9, 1, 10, 1, 10, 1, 10, 5, 10, 156, 8, 10, 10, 10, 12, 10,
-		159, 9, 10, 1, 10, 3, 10, 162, 8, 10, 3, 10, 164, 8, 10, 1, 11, 1, 11,
-		5, 11, 168, 8, 11, 10, 11, 12, 11, 171, 9, 11, 1, 11, 1, 11, 5, 11, 175,
-		8, 11, 10, 11, 12, 11, 178, 9, 11, 3, 11, 180, 8, 11, 1, 12, 1, 12, 1,
-		13, 1, 13, 1, 13, 1, 13, 3, 13, 188, 8, 13, 1, 14, 1, 14, 1, 14, 1, 14,
-		1, 15, 1, 15, 1, 15, 1, 16, 1, 16, 1, 16, 1, 17, 1, 17, 1, 17, 1, 18, 1,
-		18, 1, 18, 1, 18, 3, 18, 207, 8, 18, 1, 18, 1, 18, 3, 18, 211, 8, 18, 1,
-		19, 1, 19, 1, 19, 1, 20, 1, 20, 1, 20, 1, 21, 1, 21, 3, 21, 221, 8, 21,
-		1, 22, 1, 22, 1, 22, 1, 23, 1, 23, 1, 23, 1, 24, 1, 24, 1, 24, 1, 25, 1,
-		25, 1, 25, 1, 25, 3, 25, 236, 8, 25, 1, 26, 1, 26, 1, 26, 1, 27, 1, 27,
-		1, 27, 1, 28, 1, 28, 1, 28, 3, 28, 247, 8, 28, 1, 28, 1, 28, 1, 28, 1,
-		29, 1, 29, 1, 29, 3, 29, 255, 8, 29, 1, 29, 1, 29, 1, 30, 1, 30, 1, 30,
-		3, 30, 262, 8, 30, 1, 30, 1, 30, 1, 30, 1, 31, 1, 31, 1, 31, 3, 31, 270,
-		8, 31, 1, 31, 1, 31, 1, 32, 1, 32, 1, 32, 1, 33, 1, 33, 1, 33, 1, 33, 1,
-		33, 1, 33, 3, 33, 283, 8, 33, 1, 34, 1, 34, 1, 34, 1, 35, 1, 35, 1, 36,
-		1, 36, 1, 36, 1, 37, 1, 37, 1, 38, 1, 38, 1, 39, 1, 39, 1, 39, 1, 40, 1,
-		40, 1, 40, 1, 41, 1, 41, 1, 41, 1, 41, 1, 41, 3, 41, 308, 8, 41, 1, 42,
-		1, 42, 3, 42, 312, 8, 42, 1, 42, 5, 42, 315, 8, 42, 10, 42, 12, 42, 318,
-		9, 42, 1, 43, 1, 43, 1, 43, 1, 43, 1, 44, 1, 44, 1, 44, 1, 44, 1, 45, 1,
-		45, 1, 45, 1, 45, 1, 46, 1, 46, 1, 46, 1, 46, 1, 46, 5, 46, 337, 8, 46,
-		10, 46, 12, 46, 340, 9, 46, 1, 46, 3, 46, 343, 8, 46, 1, 46, 1, 46, 1,
-		47, 1, 47, 1, 48, 1, 48, 1, 48, 1, 48, 1, 48, 1, 48, 3, 48, 355, 8, 48,
-		1, 48, 0, 0, 49, 0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28,
-		30, 32, 34, 36, 38, 40, 42, 44, 46, 48, 50, 52, 54, 56, 58, 60, 62, 64,
-		66, 68, 70, 72, 74, 76, 78, 80, 82, 84, 86, 88, 90, 92, 94, 96, 0, 0, 354,
-		0, 104, 1, 0, 0, 0, 2, 116, 1, 0, 0, 0, 4, 118, 1, 0, 0, 0, 6, 122, 1,
-		0, 0, 0, 8, 128, 1, 0, 0, 0, 10, 130, 1, 0, 0, 0, 12, 133, 1, 0, 0, 0,
-		14, 136, 1, 0, 0, 0, 16, 139, 1, 0, 0, 0, 18, 148, 1, 0, 0, 0, 20, 163,
-		1, 0, 0, 0, 22, 179, 1, 0, 0, 0, 24, 181, 1, 0, 0, 0, 26, 187, 1, 0, 0,
-		0, 28, 189, 1, 0, 0, 0, 30, 193, 1, 0, 0, 0, 32, 196, 1, 0, 0, 0, 34, 199,
-		1, 0, 0, 0, 36, 202, 1, 0, 0, 0, 38, 212, 1, 0, 0, 0, 40, 215, 1, 0, 0,
-		0, 42, 220, 1, 0, 0, 0, 44, 222, 1, 0, 0, 0, 46, 225, 1, 0, 0, 0, 48, 228,
-		1, 0, 0, 0, 50, 235, 1, 0, 0, 0, 52, 237, 1, 0, 0, 0, 54, 240, 1, 0, 0,
-		0, 56, 243, 1, 0, 0, 0, 58, 251, 1, 0, 0, 0, 60, 258, 1, 0, 0, 0, 62, 266,
-		1, 0, 0, 0, 64, 273, 1, 0, 0, 0, 66, 282, 1, 0, 0, 0, 68, 284, 1, 0, 0,
-		0, 70, 287, 1, 0, 0, 0, 72, 289, 1, 0, 0, 0, 74, 292, 1, 0, 0, 0, 76, 294,
-		1, 0, 0, 0, 78, 296, 1, 0, 0, 0, 80, 299, 1, 0, 0, 0, 82, 307, 1, 0, 0,
-		0, 84, 309, 1, 0, 0, 0, 86, 319, 1, 0, 0, 0, 88, 323, 1, 0, 0, 0, 90, 327,
-		1, 0, 0, 0, 92, 331, 1, 0, 0, 0, 94, 346, 1, 0, 0, 0, 96, 354, 1, 0, 0,
-		0, 98, 103, 5, 49, 0, 0, 99, 100, 3, 2, 1, 0, 100, 101, 5, 49, 0, 0, 101,
-		103, 1, 0, 0, 0, 102, 98, 1, 0, 0, 0, 102, 99, 1, 0, 0, 0, 103, 106, 1,
-		0, 0, 0, 104, 102, 1, 0, 0, 0, 104, 105, 1, 0, 0, 0, 105, 108, 1, 0, 0,
-		0, 106, 104, 1, 0, 0, 0, 107, 109, 3, 2, 1, 0, 108, 107, 1, 0, 0, 0, 108,
-		109, 1, 0, 0, 0, 109, 110, 1, 0, 0, 0, 110, 111, 5, 0, 0, 1, 111, 1, 1,
-		0, 0, 0, 112, 117, 3, 4, 2, 0, 113, 117, 3, 16, 8, 0, 114, 117, 3, 8, 4,
-		0, 115, 117, 3, 92, 46, 0, 116, 112, 1, 0, 0, 0, 116, 113, 1, 0, 0, 0,
-		116, 114, 1, 0, 0, 0, 116, 115, 1, 0, 0, 0, 117, 3, 1, 0, 0, 0, 118, 119,
-		5, 44, 0, 0, 119, 120, 5, 2, 0, 0, 120, 121, 5, 44, 0, 0, 121, 5, 1, 0,
-		0, 0, 122, 123, 5, 1, 0, 0, 123, 124, 5, 44, 0, 0, 124, 7, 1, 0, 0, 0,
-		125, 129, 3, 12, 6, 0, 126, 129, 3, 10, 5, 0, 127, 129, 3, 14, 7, 0, 128,
-		125, 1, 0, 0, 0, 128, 126, 1, 0, 0, 0, 128, 127, 1, 0, 0, 0, 129, 9, 1,
-		0, 0, 0, 130, 131, 5, 31, 0, 0, 131, 132, 5, 43, 0, 0, 132, 11, 1, 0, 0,
-		0, 133, 134, 5, 41, 0, 0, 134, 135, 5, 43, 0, 0, 135, 13, 1, 0, 0, 0, 136,
-		137, 5, 17, 0, 0, 137, 138, 5, 43, 0, 0, 138, 15, 1, 0, 0, 0, 139, 140,
-		5, 42, 0, 0, 140, 142, 3, 18, 9, 0, 141, 143, 3, 24, 12, 0, 142, 141, 1,
-		0, 0, 0, 142, 143, 1, 0, 0, 0, 143, 144, 1, 0, 0, 0, 144, 145, 5, 6, 0,
-		0, 145, 146, 3, 20, 10, 0, 146, 147, 5, 7, 0, 0, 147, 17, 1, 0, 0, 0, 148,
-		149, 5, 4, 0, 0, 149, 150, 5, 44, 0, 0, 150, 151, 5, 5, 0, 0, 151, 19,
-		1, 0, 0, 0, 152, 157, 3, 22, 11, 0, 153, 154, 5, 3, 0, 0, 154, 156, 3,
-		22, 11, 0, 155, 153, 1, 0, 0, 0, 156, 159, 1, 0, 0, 0, 157, 155, 1, 0,
-		0, 0, 157, 158, 1, 0, 0, 0, 158, 161, 1, 0, 0, 0, 159, 157, 1, 0, 0, 0,
-		160, 162, 5, 3, 0, 0, 161, 160, 1, 0, 0, 0, 161, 162, 1, 0, 0, 0, 162,
-		164, 1, 0, 0, 0, 163, 152, 1, 0, 0, 0, 163, 164, 1, 0, 0, 0, 164, 21, 1,
-		0, 0, 0, 165, 169, 3, 6, 3, 0, 166, 168, 3, 26, 13, 0, 167, 166, 1, 0,
-		0, 0, 168, 171, 1, 0, 0, 0, 169, 167, 1, 0, 0, 0, 169, 170, 1, 0, 0, 0,
-		170, 180, 1, 0, 0, 0, 171, 169, 1, 0, 0, 0, 172, 176, 5, 44, 0, 0, 173,
-		175, 3, 26, 13, 0, 174, 173, 1, 0, 0, 0, 175, 178, 1, 0, 0, 0, 176, 174,
-		1, 0, 0, 0, 176, 177, 1, 0, 0, 0, 177, 180, 1, 0, 0, 0, 178, 176, 1, 0,
-		0, 0, 179, 165, 1, 0, 0, 0, 179, 172, 1, 0, 0, 0, 180, 23, 1, 0, 0, 0,
-		181, 182, 5, 40, 0, 0, 182, 25, 1, 0, 0, 0, 183, 188, 3, 28, 14, 0, 184,
-		188, 3, 30, 15, 0, 185, 188, 3, 32, 16, 0, 186, 188, 3, 34, 17, 0, 187,
-		183, 1, 0, 0, 0, 187, 184, 1, 0, 0, 0, 187, 185, 1, 0, 0, 0, 187, 186,
-		1, 0, 0, 0, 188, 27, 1, 0, 0, 0, 189, 190, 5, 21, 0, 0, 190, 191, 5, 22,
-		0, 0, 191, 192, 5, 43, 0, 0, 192, 29, 1, 0, 0, 0, 193, 194, 5, 20, 0, 0,
-		194, 195, 5, 43, 0, 0, 195, 31, 1, 0, 0, 0, 196, 197, 5, 18, 0, 0, 197,
-		198, 5, 43, 0, 0, 198, 33, 1, 0, 0, 0, 199, 200, 5, 19, 0, 0, 200, 201,
-		5, 43, 0, 0, 201, 35, 1, 0, 0, 0, 202, 203, 5, 35, 0, 0, 203, 204, 5, 37,
-		0, 0, 204, 206, 5, 44, 0, 0, 205, 207, 3, 44, 22, 0, 206, 205, 1, 0, 0,
-		0, 206, 207, 1, 0, 0, 0, 207, 208, 1, 0, 0, 0, 208, 210, 3, 42, 21, 0,
-		209, 211, 3, 46, 23, 0, 210, 209, 1, 0, 0, 0, 210, 211, 1, 0, 0, 0, 211,
-		37, 1, 0, 0, 0, 212, 213, 5, 33, 0, 0, 213, 214, 5, 43, 0, 0, 214, 39,
-		1, 0, 0, 0, 215, 216, 5, 33, 0, 0, 216, 217, 5, 44, 0, 0, 217, 41, 1, 0,
-		0, 0, 218, 221, 3, 40, 20, 0, 219, 221, 3, 38, 19, 0, 220, 218, 1, 0, 0,
-		0, 220, 219, 1, 0, 0, 0, 221, 43, 1, 0, 0, 0, 222, 223, 5, 11, 0, 0, 223,
-		224, 5, 44, 0, 0, 224, 45, 1, 0, 0, 0, 225, 226, 5, 34, 0, 0, 226, 227,
-		5, 44, 0, 0, 227, 47, 1, 0, 0, 0, 228, 229, 5, 12, 0, 0, 229, 230, 3, 50,
-		25, 0, 230, 49, 1, 0, 0, 0, 231, 236, 3, 56, 28, 0, 232, 236, 3, 58, 29,
-		0, 233, 236, 3, 60, 30, 0, 234, 236, 3, 62, 31, 0, 235, 231, 1, 0, 0, 0,
-		235, 232, 1, 0, 0, 0, 235, 233, 1, 0, 0, 0, 235, 234, 1, 0, 0, 0, 236,
-		51, 1, 0, 0, 0, 237, 238, 5, 38, 0, 0, 238, 239, 5, 44, 0, 0, 239, 53,
-		1, 0, 0, 0, 240, 241, 5, 16, 0, 0, 241, 242, 5, 45, 0, 0, 242, 55, 1, 0,
-		0, 0, 243, 244, 5, 13, 0, 0, 244, 246, 5, 45, 0, 0, 245, 247, 3, 52, 26,
-		0, 246, 245, 1, 0, 0, 0, 246, 247, 1, 0, 0, 0, 247, 248, 1, 0, 0, 0, 248,
-		249, 5, 15, 0, 0, 249, 250, 5, 43, 0, 0, 250, 57, 1, 0, 0, 0, 251, 252,
-		5, 13, 0, 0, 252, 254, 5, 45, 0, 0, 253, 255, 3, 52, 26, 0, 254, 253, 1,
-		0, 0, 0, 254, 255, 1, 0, 0, 0, 255, 256, 1, 0, 0, 0, 256, 257, 3, 54, 27,
-		0, 257, 59, 1, 0, 0, 0, 258, 259, 5, 14, 0, 0, 259, 261, 5, 45, 0, 0, 260,
-		262, 3, 52, 26, 0, 261, 260, 1, 0, 0, 0, 261, 262, 1, 0, 0, 0, 262, 263,
-		1, 0, 0, 0, 263, 264, 5, 15, 0, 0, 264, 265, 5, 43, 0, 0, 265, 61, 1, 0,
-		0, 0, 266, 267, 5, 14, 0, 0, 267, 269, 5, 45, 0, 0, 268, 270, 3, 52, 26,
-		0, 269, 268, 1, 0, 0, 0, 269, 270, 1, 0, 0, 0, 270, 271, 1, 0, 0, 0, 271,
-		272, 3, 54, 27, 0, 272, 63, 1, 0, 0, 0, 273, 274, 5, 9, 0, 0, 274, 275,
-		3, 66, 33, 0, 275, 65, 1, 0, 0, 0, 276, 283, 3, 68, 34, 0, 277, 283, 3,
-		70, 35, 0, 278, 283, 3, 72, 36, 0, 279, 283, 3, 74, 37, 0, 280, 283, 3,
-		76, 38, 0, 281, 283, 3, 78, 39, 0, 282, 276, 1, 0, 0, 0, 282, 277, 1, 0,
-		0, 0, 282, 278, 1, 0, 0, 0, 282, 279, 1, 0, 0, 0, 282, 280, 1, 0, 0, 0,
-		282, 281, 1, 0, 0, 0, 283, 67, 1, 0, 0, 0, 284, 285, 5, 8, 0, 0, 285, 286,
-		5, 45, 0, 0, 286, 69, 1, 0, 0, 0, 287, 288, 5, 28, 0, 0, 288, 71, 1, 0,
-		0, 0, 289, 290, 5, 27, 0, 0, 290, 291, 5, 45, 0, 0, 291, 73, 1, 0, 0, 0,
-		292, 293, 5, 26, 0, 0, 293, 75, 1, 0, 0, 0, 294, 295, 5, 25, 0, 0, 295,
-		77, 1, 0, 0, 0, 296, 297, 5, 24, 0, 0, 297, 298, 5, 45, 0, 0, 298, 79,
-		1, 0, 0, 0, 299, 300, 5, 10, 0, 0, 300, 301, 5, 44, 0, 0, 301, 81, 1, 0,
-		0, 0, 302, 308, 3, 48, 24, 0, 303, 308, 3, 64, 32, 0, 304, 308, 3, 12,
-		6, 0, 305, 308, 3, 10, 5, 0, 306, 308, 3, 80, 40, 0, 307, 302, 1, 0, 0,
-		0, 307, 303, 1, 0, 0, 0, 307, 304, 1, 0, 0, 0, 307, 305, 1, 0, 0, 0, 307,
-		306, 1, 0, 0, 0, 308, 83, 1, 0, 0, 0, 309, 311, 3, 18, 9, 0, 310, 312,
-		3, 38, 19, 0, 311, 310, 1, 0, 0, 0, 311, 312, 1, 0, 0, 0, 312, 316, 1,
-		0, 0, 0, 313, 315, 3, 82, 41, 0, 314, 313, 1, 0, 0, 0, 315, 318, 1, 0,
-		0, 0, 316, 314, 1, 0, 0, 0, 316, 317, 1, 0, 0, 0, 317, 85, 1, 0, 0, 0,
-		318, 316, 1, 0, 0, 0, 319, 320, 5, 32, 0, 0, 320, 321, 5, 36, 0, 0, 321,
-		322, 3, 84, 42, 0, 322, 87, 1, 0, 0, 0, 323, 324, 5, 23, 0, 0, 324, 325,
-		5, 36, 0, 0, 325, 326, 3, 84, 42, 0, 326, 89, 1, 0, 0, 0, 327, 328, 5,
-		30, 0, 0, 328, 329, 5, 31, 0, 0, 329, 330, 5, 43, 0, 0, 330, 91, 1, 0,
-		0, 0, 331, 332, 5, 39, 0, 0, 332, 333, 3, 94, 47, 0, 333, 338, 5, 6, 0,
-		0, 334, 337, 5, 49, 0, 0, 335, 337, 3, 96, 48, 0, 336, 334, 1, 0, 0, 0,
-		336, 335, 1, 0, 0, 0, 337, 340, 1, 0, 0, 0, 338, 336, 1, 0, 0, 0, 338,
-		339, 1, 0, 0, 0, 339, 342, 1, 0, 0, 0, 340, 338, 1, 0, 0, 0, 341, 343,
-		3, 96, 48, 0, 342, 341, 1, 0, 0, 0, 342, 343, 1, 0, 0, 0, 343, 344, 1,
-		0, 0, 0, 344, 345, 5, 7, 0, 0, 345, 93, 1, 0, 0, 0, 346, 347, 5, 45, 0,
-		0, 347, 95, 1, 0, 0, 0, 348, 355, 5, 40, 0, 0, 349, 355, 5, 29, 0, 0, 350,
-		355, 3, 90, 45, 0, 351, 355, 3, 36, 18, 0, 352, 355, 3, 86, 43, 0, 353,
-		355, 3, 88, 44, 0, 354, 348, 1, 0, 0, 0, 354, 349, 1, 0, 0, 0, 354, 350,
-		1, 0, 0, 0, 354, 351, 1, 0, 0, 0, 354, 352, 1, 0, 0, 0, 354, 353, 1, 0,
-		0, 0, 355, 97, 1, 0, 0, 0, 29, 102, 104, 108, 116, 128, 142, 157, 161,
-		163, 169, 176, 179, 187, 206, 210, 220, 235, 246, 254, 261, 269, 282, 307,
-		311, 316, 336, 338, 342, 354,
+		7, 47, 2, 48, 7, 48, 2, 49, 7, 49, 1, 0, 1, 0, 1, 0, 1, 0, 5, 0, 105, 8,
+		0, 10, 0, 12, 0, 108, 9, 0, 1, 0, 3, 0, 111, 8, 0, 1, 0, 1, 0, 1, 1, 1,
+		1, 1, 1, 1, 1, 3, 1, 119, 8, 1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 3, 1, 3, 1,
+		3, 1, 4, 1, 4, 1, 4, 1, 4, 3, 4, 132, 8, 4, 1, 5, 1, 5, 1, 5, 1, 6, 1,
+		6, 1, 6, 1, 7, 1, 7, 1, 7, 1, 8, 1, 8, 1, 8, 1, 9, 1, 9, 1, 9, 3, 9, 149,
+		8, 9, 1, 9, 1, 9, 1, 9, 1, 9, 1, 10, 1, 10, 1, 10, 1, 10, 1, 11, 1, 11,
+		1, 11, 5, 11, 162, 8, 11, 10, 11, 12, 11, 165, 9, 11, 1, 11, 3, 11, 168,
+		8, 11, 3, 11, 170, 8, 11, 1, 12, 1, 12, 5, 12, 174, 8, 12, 10, 12, 12,
+		12, 177, 9, 12, 1, 12, 1, 12, 5, 12, 181, 8, 12, 10, 12, 12, 12, 184, 9,
+		12, 3, 12, 186, 8, 12, 1, 13, 1, 13, 1, 14, 1, 14, 1, 14, 1, 14, 3, 14,
+		194, 8, 14, 1, 15, 1, 15, 1, 15, 1, 15, 1, 16, 1, 16, 1, 16, 1, 17, 1,
+		17, 1, 17, 1, 18, 1, 18, 1, 18, 1, 19, 1, 19, 1, 19, 1, 19, 3, 19, 213,
+		8, 19, 1, 19, 1, 19, 3, 19, 217, 8, 19, 1, 20, 1, 20, 1, 20, 1, 21, 1,
+		21, 1, 21, 1, 22, 1, 22, 3, 22, 227, 8, 22, 1, 23, 1, 23, 1, 23, 1, 24,
+		1, 24, 1, 24, 1, 25, 1, 25, 1, 25, 1, 26, 1, 26, 1, 26, 1, 26, 3, 26, 242,
+		8, 26, 1, 27, 1, 27, 1, 27, 1, 28, 1, 28, 1, 28, 1, 29, 1, 29, 1, 29, 3,
+		29, 253, 8, 29, 1, 29, 1, 29, 1, 29, 1, 30, 1, 30, 1, 30, 3, 30, 261, 8,
+		30, 1, 30, 1, 30, 1, 31, 1, 31, 1, 31, 3, 31, 268, 8, 31, 1, 31, 1, 31,
+		1, 31, 1, 32, 1, 32, 1, 32, 3, 32, 276, 8, 32, 1, 32, 1, 32, 1, 33, 1,
+		33, 1, 33, 1, 34, 1, 34, 1, 34, 1, 34, 1, 34, 1, 34, 3, 34, 289, 8, 34,
+		1, 35, 1, 35, 1, 35, 1, 36, 1, 36, 1, 37, 1, 37, 1, 37, 1, 38, 1, 38, 1,
+		39, 1, 39, 1, 40, 1, 40, 1, 40, 1, 41, 1, 41, 1, 41, 1, 42, 1, 42, 1, 42,
+		1, 42, 1, 42, 3, 42, 314, 8, 42, 1, 43, 1, 43, 3, 43, 318, 8, 43, 1, 43,
+		5, 43, 321, 8, 43, 10, 43, 12, 43, 324, 9, 43, 1, 44, 1, 44, 1, 44, 1,
+		44, 1, 45, 1, 45, 1, 45, 1, 45, 1, 46, 1, 46, 1, 46, 1, 46, 1, 47, 1, 47,
+		1, 47, 1, 47, 1, 47, 5, 47, 343, 8, 47, 10, 47, 12, 47, 346, 9, 47, 1,
+		47, 3, 47, 349, 8, 47, 1, 47, 1, 47, 1, 48, 1, 48, 1, 49, 1, 49, 1, 49,
+		1, 49, 1, 49, 1, 49, 3, 49, 361, 8, 49, 1, 49, 0, 0, 50, 0, 2, 4, 6, 8,
+		10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40, 42, 44,
+		46, 48, 50, 52, 54, 56, 58, 60, 62, 64, 66, 68, 70, 72, 74, 76, 78, 80,
+		82, 84, 86, 88, 90, 92, 94, 96, 98, 0, 0, 360, 0, 106, 1, 0, 0, 0, 2, 118,
+		1, 0, 0, 0, 4, 120, 1, 0, 0, 0, 6, 124, 1, 0, 0, 0, 8, 131, 1, 0, 0, 0,
+		10, 133, 1, 0, 0, 0, 12, 136, 1, 0, 0, 0, 14, 139, 1, 0, 0, 0, 16, 142,
+		1, 0, 0, 0, 18, 145, 1, 0, 0, 0, 20, 154, 1, 0, 0, 0, 22, 169, 1, 0, 0,
+		0, 24, 185, 1, 0, 0, 0, 26, 187, 1, 0, 0, 0, 28, 193, 1, 0, 0, 0, 30, 195,
+		1, 0, 0, 0, 32, 199, 1, 0, 0, 0, 34, 202, 1, 0, 0, 0, 36, 205, 1, 0, 0,
+		0, 38, 208, 1, 0, 0, 0, 40, 218, 1, 0, 0, 0, 42, 221, 1, 0, 0, 0, 44, 226,
+		1, 0, 0, 0, 46, 228, 1, 0, 0, 0, 48, 231, 1, 0, 0, 0, 50, 234, 1, 0, 0,
+		0, 52, 241, 1, 0, 0, 0, 54, 243, 1, 0, 0, 0, 56, 246, 1, 0, 0, 0, 58, 249,
+		1, 0, 0, 0, 60, 257, 1, 0, 0, 0, 62, 264, 1, 0, 0, 0, 64, 272, 1, 0, 0,
+		0, 66, 279, 1, 0, 0, 0, 68, 288, 1, 0, 0, 0, 70, 290, 1, 0, 0, 0, 72, 293,
+		1, 0, 0, 0, 74, 295, 1, 0, 0, 0, 76, 298, 1, 0, 0, 0, 78, 300, 1, 0, 0,
+		0, 80, 302, 1, 0, 0, 0, 82, 305, 1, 0, 0, 0, 84, 313, 1, 0, 0, 0, 86, 315,
+		1, 0, 0, 0, 88, 325, 1, 0, 0, 0, 90, 329, 1, 0, 0, 0, 92, 333, 1, 0, 0,
+		0, 94, 337, 1, 0, 0, 0, 96, 352, 1, 0, 0, 0, 98, 360, 1, 0, 0, 0, 100,
+		105, 5, 50, 0, 0, 101, 102, 3, 2, 1, 0, 102, 103, 5, 50, 0, 0, 103, 105,
+		1, 0, 0, 0, 104, 100, 1, 0, 0, 0, 104, 101, 1, 0, 0, 0, 105, 108, 1, 0,
+		0, 0, 106, 104, 1, 0, 0, 0, 106, 107, 1, 0, 0, 0, 107, 110, 1, 0, 0, 0,
+		108, 106, 1, 0, 0, 0, 109, 111, 3, 2, 1, 0, 110, 109, 1, 0, 0, 0, 110,
+		111, 1, 0, 0, 0, 111, 112, 1, 0, 0, 0, 112, 113, 5, 0, 0, 1, 113, 1, 1,
+		0, 0, 0, 114, 119, 3, 4, 2, 0, 115, 119, 3, 18, 9, 0, 116, 119, 3, 8, 4,
+		0, 117, 119, 3, 94, 47, 0, 118, 114, 1, 0, 0, 0, 118, 115, 1, 0, 0, 0,
+		118, 116, 1, 0, 0, 0, 118, 117, 1, 0, 0, 0, 119, 3, 1, 0, 0, 0, 120, 121,
+		5, 45, 0, 0, 121, 122, 5, 2, 0, 0, 122, 123, 5, 45, 0, 0, 123, 5, 1, 0,
+		0, 0, 124, 125, 5, 1, 0, 0, 125, 126, 5, 45, 0, 0, 126, 7, 1, 0, 0, 0,
+		127, 132, 3, 12, 6, 0, 128, 132, 3, 10, 5, 0, 129, 132, 3, 14, 7, 0, 130,
+		132, 3, 16, 8, 0, 131, 127, 1, 0, 0, 0, 131, 128, 1, 0, 0, 0, 131, 129,
+		1, 0, 0, 0, 131, 130, 1, 0, 0, 0, 132, 9, 1, 0, 0, 0, 133, 134, 5, 31,
+		0, 0, 134, 135, 5, 44, 0, 0, 135, 11, 1, 0, 0, 0, 136, 137, 5, 42, 0, 0,
+		137, 138, 5, 44, 0, 0, 138, 13, 1, 0, 0, 0, 139, 140, 5, 17, 0, 0, 140,
+		141, 5, 44, 0, 0, 141, 15, 1, 0, 0, 0, 142, 143, 5, 33, 0, 0, 143, 144,
+		5, 46, 0, 0, 144, 17, 1, 0, 0, 0, 145, 146, 5, 43, 0, 0, 146, 148, 3, 20,
+		10, 0, 147, 149, 3, 26, 13, 0, 148, 147, 1, 0, 0, 0, 148, 149, 1, 0, 0,
+		0, 149, 150, 1, 0, 0, 0, 150, 151, 5, 6, 0, 0, 151, 152, 3, 22, 11, 0,
+		152, 153, 5, 7, 0, 0, 153, 19, 1, 0, 0, 0, 154, 155, 5, 4, 0, 0, 155, 156,
+		5, 45, 0, 0, 156, 157, 5, 5, 0, 0, 157, 21, 1, 0, 0, 0, 158, 163, 3, 24,
+		12, 0, 159, 160, 5, 3, 0, 0, 160, 162, 3, 24, 12, 0, 161, 159, 1, 0, 0,
+		0, 162, 165, 1, 0, 0, 0, 163, 161, 1, 0, 0, 0, 163, 164, 1, 0, 0, 0, 164,
+		167, 1, 0, 0, 0, 165, 163, 1, 0, 0, 0, 166, 168, 5, 3, 0, 0, 167, 166,
+		1, 0, 0, 0, 167, 168, 1, 0, 0, 0, 168, 170, 1, 0, 0, 0, 169, 158, 1, 0,
+		0, 0, 169, 170, 1, 0, 0, 0, 170, 23, 1, 0, 0, 0, 171, 175, 3, 6, 3, 0,
+		172, 174, 3, 28, 14, 0, 173, 172, 1, 0, 0, 0, 174, 177, 1, 0, 0, 0, 175,
+		173, 1, 0, 0, 0, 175, 176, 1, 0, 0, 0, 176, 186, 1, 0, 0, 0, 177, 175,
+		1, 0, 0, 0, 178, 182, 5, 45, 0, 0, 179, 181, 3, 28, 14, 0, 180, 179, 1,
+		0, 0, 0, 181, 184, 1, 0, 0, 0, 182, 180, 1, 0, 0, 0, 182, 183, 1, 0, 0,
+		0, 183, 186, 1, 0, 0, 0, 184, 182, 1, 0, 0, 0, 185, 171, 1, 0, 0, 0, 185,
+		178, 1, 0, 0, 0, 186, 25, 1, 0, 0, 0, 187, 188, 5, 41, 0, 0, 188, 27, 1,
+		0, 0, 0, 189, 194, 3, 30, 15, 0, 190, 194, 3, 32, 16, 0, 191, 194, 3, 34,
+		17, 0, 192, 194, 3, 36, 18, 0, 193, 189, 1, 0, 0, 0, 193, 190, 1, 0, 0,
+		0, 193, 191, 1, 0, 0, 0, 193, 192, 1, 0, 0, 0, 194, 29, 1, 0, 0, 0, 195,
+		196, 5, 21, 0, 0, 196, 197, 5, 22, 0, 0, 197, 198, 5, 44, 0, 0, 198, 31,
+		1, 0, 0, 0, 199, 200, 5, 20, 0, 0, 200, 201, 5, 44, 0, 0, 201, 33, 1, 0,
+		0, 0, 202, 203, 5, 18, 0, 0, 203, 204, 5, 44, 0, 0, 204, 35, 1, 0, 0, 0,
+		205, 206, 5, 19, 0, 0, 206, 207, 5, 44, 0, 0, 207, 37, 1, 0, 0, 0, 208,
+		209, 5, 36, 0, 0, 209, 210, 5, 38, 0, 0, 210, 212, 5, 45, 0, 0, 211, 213,
+		3, 46, 23, 0, 212, 211, 1, 0, 0, 0, 212, 213, 1, 0, 0, 0, 213, 214, 1,
+		0, 0, 0, 214, 216, 3, 44, 22, 0, 215, 217, 3, 48, 24, 0, 216, 215, 1, 0,
+		0, 0, 216, 217, 1, 0, 0, 0, 217, 39, 1, 0, 0, 0, 218, 219, 5, 34, 0, 0,
+		219, 220, 5, 44, 0, 0, 220, 41, 1, 0, 0, 0, 221, 222, 5, 34, 0, 0, 222,
+		223, 5, 45, 0, 0, 223, 43, 1, 0, 0, 0, 224, 227, 3, 42, 21, 0, 225, 227,
+		3, 40, 20, 0, 226, 224, 1, 0, 0, 0, 226, 225, 1, 0, 0, 0, 227, 45, 1, 0,
+		0, 0, 228, 229, 5, 11, 0, 0, 229, 230, 5, 45, 0, 0, 230, 47, 1, 0, 0, 0,
+		231, 232, 5, 35, 0, 0, 232, 233, 5, 45, 0, 0, 233, 49, 1, 0, 0, 0, 234,
+		235, 5, 12, 0, 0, 235, 236, 3, 52, 26, 0, 236, 51, 1, 0, 0, 0, 237, 242,
+		3, 58, 29, 0, 238, 242, 3, 60, 30, 0, 239, 242, 3, 62, 31, 0, 240, 242,
+		3, 64, 32, 0, 241, 237, 1, 0, 0, 0, 241, 238, 1, 0, 0, 0, 241, 239, 1,
+		0, 0, 0, 241, 240, 1, 0, 0, 0, 242, 53, 1, 0, 0, 0, 243, 244, 5, 39, 0,
+		0, 244, 245, 5, 45, 0, 0, 245, 55, 1, 0, 0, 0, 246, 247, 5, 16, 0, 0, 247,
+		248, 5, 46, 0, 0, 248, 57, 1, 0, 0, 0, 249, 250, 5, 13, 0, 0, 250, 252,
+		5, 46, 0, 0, 251, 253, 3, 54, 27, 0, 252, 251, 1, 0, 0, 0, 252, 253, 1,
+		0, 0, 0, 253, 254, 1, 0, 0, 0, 254, 255, 5, 15, 0, 0, 255, 256, 5, 44,
+		0, 0, 256, 59, 1, 0, 0, 0, 257, 258, 5, 13, 0, 0, 258, 260, 5, 46, 0, 0,
+		259, 261, 3, 54, 27, 0, 260, 259, 1, 0, 0, 0, 260, 261, 1, 0, 0, 0, 261,
+		262, 1, 0, 0, 0, 262, 263, 3, 56, 28, 0, 263, 61, 1, 0, 0, 0, 264, 265,
+		5, 14, 0, 0, 265, 267, 5, 46, 0, 0, 266, 268, 3, 54, 27, 0, 267, 266, 1,
+		0, 0, 0, 267, 268, 1, 0, 0, 0, 268, 269, 1, 0, 0, 0, 269, 270, 5, 15, 0,
+		0, 270, 271, 5, 44, 0, 0, 271, 63, 1, 0, 0, 0, 272, 273, 5, 14, 0, 0, 273,
+		275, 5, 46, 0, 0, 274, 276, 3, 54, 27, 0, 275, 274, 1, 0, 0, 0, 275, 276,
+		1, 0, 0, 0, 276, 277, 1, 0, 0, 0, 277, 278, 3, 56, 28, 0, 278, 65, 1, 0,
+		0, 0, 279, 280, 5, 9, 0, 0, 280, 281, 3, 68, 34, 0, 281, 67, 1, 0, 0, 0,
+		282, 289, 3, 70, 35, 0, 283, 289, 3, 72, 36, 0, 284, 289, 3, 74, 37, 0,
+		285, 289, 3, 76, 38, 0, 286, 289, 3, 78, 39, 0, 287, 289, 3, 80, 40, 0,
+		288, 282, 1, 0, 0, 0, 288, 283, 1, 0, 0, 0, 288, 284, 1, 0, 0, 0, 288,
+		285, 1, 0, 0, 0, 288, 286, 1, 0, 0, 0, 288, 287, 1, 0, 0, 0, 289, 69, 1,
+		0, 0, 0, 290, 291, 5, 8, 0, 0, 291, 292, 5, 46, 0, 0, 292, 71, 1, 0, 0,
+		0, 293, 294, 5, 28, 0, 0, 294, 73, 1, 0, 0, 0, 295, 296, 5, 27, 0, 0, 296,
+		297, 5, 46, 0, 0, 297, 75, 1, 0, 0, 0, 298, 299, 5, 26, 0, 0, 299, 77,
+		1, 0, 0, 0, 300, 301, 5, 25, 0, 0, 301, 79, 1, 0, 0, 0, 302, 303, 5, 24,
+		0, 0, 303, 304, 5, 46, 0, 0, 304, 81, 1, 0, 0, 0, 305, 306, 5, 10, 0, 0,
+		306, 307, 5, 45, 0, 0, 307, 83, 1, 0, 0, 0, 308, 314, 3, 50, 25, 0, 309,
+		314, 3, 66, 33, 0, 310, 314, 3, 12, 6, 0, 311, 314, 3, 10, 5, 0, 312, 314,
+		3, 82, 41, 0, 313, 308, 1, 0, 0, 0, 313, 309, 1, 0, 0, 0, 313, 310, 1,
+		0, 0, 0, 313, 311, 1, 0, 0, 0, 313, 312, 1, 0, 0, 0, 314, 85, 1, 0, 0,
+		0, 315, 317, 3, 20, 10, 0, 316, 318, 3, 40, 20, 0, 317, 316, 1, 0, 0, 0,
+		317, 318, 1, 0, 0, 0, 318, 322, 1, 0, 0, 0, 319, 321, 3, 84, 42, 0, 320,
+		319, 1, 0, 0, 0, 321, 324, 1, 0, 0, 0, 322, 320, 1, 0, 0, 0, 322, 323,
+		1, 0, 0, 0, 323, 87, 1, 0, 0, 0, 324, 322, 1, 0, 0, 0, 325, 326, 5, 32,
+		0, 0, 326, 327, 5, 37, 0, 0, 327, 328, 3, 86, 43, 0, 328, 89, 1, 0, 0,
+		0, 329, 330, 5, 23, 0, 0, 330, 331, 5, 37, 0, 0, 331, 332, 3, 86, 43, 0,
+		332, 91, 1, 0, 0, 0, 333, 334, 5, 30, 0, 0, 334, 335, 5, 31, 0, 0, 335,
+		336, 5, 44, 0, 0, 336, 93, 1, 0, 0, 0, 337, 338, 5, 40, 0, 0, 338, 339,
+		3, 96, 48, 0, 339, 344, 5, 6, 0, 0, 340, 343, 5, 50, 0, 0, 341, 343, 3,
+		98, 49, 0, 342, 340, 1, 0, 0, 0, 342, 341, 1, 0, 0, 0, 343, 346, 1, 0,
+		0, 0, 344, 342, 1, 0, 0, 0, 344, 345, 1, 0, 0, 0, 345, 348, 1, 0, 0, 0,
+		346, 344, 1, 0, 0, 0, 347, 349, 3, 98, 49, 0, 348, 347, 1, 0, 0, 0, 348,
+		349, 1, 0, 0, 0, 349, 350, 1, 0, 0, 0, 350, 351, 5, 7, 0, 0, 351, 95, 1,
+		0, 0, 0, 352, 353, 5, 46, 0, 0, 353, 97, 1, 0, 0, 0, 354, 361, 5, 41, 0,
+		0, 355, 361, 5, 29, 0, 0, 356, 361, 3, 92, 46, 0, 357, 361, 3, 38, 19,
+		0, 358, 361, 3, 88, 44, 0, 359, 361, 3, 90, 45, 0, 360, 354, 1, 0, 0, 0,
+		360, 355, 1, 0, 0, 0, 360, 356, 1, 0, 0, 0, 360, 357, 1, 0, 0, 0, 360,
+		358, 1, 0, 0, 0, 360, 359, 1, 0, 0, 0, 361, 99, 1, 0, 0, 0, 29, 104, 106,
+		110, 118, 131, 148, 163, 167, 169, 175, 182, 185, 193, 212, 216, 226, 241,
+		252, 260, 267, 275, 288, 313, 317, 322, 342, 344, 348, 360,
 	}
 	deserializer := antlr.NewATNDeserializer(nil)
 	staticData.atn = deserializer.Deserialize(staticData.serializedATN)
@@ -281,23 +284,24 @@ const (
 	CONFIGParserSESSION        = 30
 	CONFIGParserTIMEOUT        = 31
 	CONFIGParserFORWARD        = 32
-	CONFIGParserPORT           = 33
-	CONFIGParserINTERFACE      = 34
-	CONFIGParserLISTEN         = 35
-	CONFIGParserTO             = 36
-	CONFIGParserON             = 37
-	CONFIGParserHOST           = 38
-	CONFIGParserREDIRECT       = 39
-	CONFIGParserDISABLE        = 40
-	CONFIGParserINTERVAL       = 41
-	CONFIGParserTABLE          = 42
-	CONFIGParserNUMBER         = 43
-	CONFIGParserNAME           = 44
-	CONFIGParserQNAME          = 45
-	CONFIGParserCOMMENT        = 46
-	CONFIGParserWS             = 47
-	CONFIGParserCONTINUATION   = 48
-	CONFIGParserNEWLINE        = 49
+	CONFIGParserSOCKET         = 33
+	CONFIGParserPORT           = 34
+	CONFIGParserINTERFACE      = 35
+	CONFIGParserLISTEN         = 36
+	CONFIGParserTO             = 37
+	CONFIGParserON             = 38
+	CONFIGParserHOST           = 39
+	CONFIGParserREDIRECT       = 40
+	CONFIGParserDISABLE        = 41
+	CONFIGParserINTERVAL       = 42
+	CONFIGParserTABLE          = 43
+	CONFIGParserNUMBER         = 44
+	CONFIGParserNAME           = 45
+	CONFIGParserQNAME          = 46
+	CONFIGParserCOMMENT        = 47
+	CONFIGParserWS             = 48
+	CONFIGParserCONTINUATION   = 49
+	CONFIGParserNEWLINE        = 50
 )
 
 // CONFIGParser rules.
@@ -310,47 +314,48 @@ const (
 	CONFIGParserRULE_timeout      = 5
 	CONFIGParserRULE_interval     = 6
 	CONFIGParserRULE_prefork      = 7
-	CONFIGParserRULE_table        = 8
-	CONFIGParserRULE_tname        = 9
-	CONFIGParserRULE_tlist        = 10
-	CONFIGParserRULE_titem        = 11
-	CONFIGParserRULE_tdisable     = 12
-	CONFIGParserRULE_topts        = 13
-	CONFIGParserRULE_toptipttl    = 14
-	CONFIGParserRULE_toptparent   = 15
-	CONFIGParserRULE_toptpriority = 16
-	CONFIGParserRULE_toptretry    = 17
-	CONFIGParserRULE_listen       = 18
-	CONFIGParserRULE_port         = 19
-	CONFIGParserRULE_portrange    = 20
-	CONFIGParserRULE_lport        = 21
-	CONFIGParserRULE_proto        = 22
-	CONFIGParserRULE_interface    = 23
-	CONFIGParserRULE_check        = 24
-	CONFIGParserRULE_ctype        = 25
-	CONFIGParserRULE_chost        = 26
-	CONFIGParserRULE_cdigest      = 27
-	CONFIGParserRULE_chttpcode    = 28
-	CONFIGParserRULE_chttpdigest  = 29
-	CONFIGParserRULE_chttpscode   = 30
-	CONFIGParserRULE_chttpsdigest = 31
-	CONFIGParserRULE_balancemode  = 32
-	CONFIGParserRULE_mtype        = 33
-	CONFIGParserRULE_mhash        = 34
-	CONFIGParserRULE_mleaststates = 35
-	CONFIGParserRULE_mloadbalance = 36
-	CONFIGParserRULE_mrandom      = 37
-	CONFIGParserRULE_mroundrobin  = 38
-	CONFIGParserRULE_msourcehash  = 39
-	CONFIGParserRULE_demote       = 40
-	CONFIGParserRULE_dopts        = 41
-	CONFIGParserRULE_destination  = 42
-	CONFIGParserRULE_forward      = 43
-	CONFIGParserRULE_route        = 44
-	CONFIGParserRULE_sesstimeout  = 45
-	CONFIGParserRULE_redirect     = 46
-	CONFIGParserRULE_rname        = 47
-	CONFIGParserRULE_rstmt        = 48
+	CONFIGParserRULE_socket       = 8
+	CONFIGParserRULE_table        = 9
+	CONFIGParserRULE_tname        = 10
+	CONFIGParserRULE_tlist        = 11
+	CONFIGParserRULE_titem        = 12
+	CONFIGParserRULE_tdisable     = 13
+	CONFIGParserRULE_topts        = 14
+	CONFIGParserRULE_toptipttl    = 15
+	CONFIGParserRULE_toptparent   = 16
+	CONFIGParserRULE_toptpriority = 17
+	CONFIGParserRULE_toptretry    = 18
+	CONFIGParserRULE_listen       = 19
+	CONFIGParserRULE_port         = 20
+	CONFIGParserRULE_portrange    = 21
+	CONFIGParserRULE_lport        = 22
+	CONFIGParserRULE_proto        = 23
+	CONFIGParserRULE_interface    = 24
+	CONFIGParserRULE_check        = 25
+	CONFIGParserRULE_ctype        = 26
+	CONFIGParserRULE_chost        = 27
+	CONFIGParserRULE_cdigest      = 28
+	CONFIGParserRULE_chttpcode    = 29
+	CONFIGParserRULE_chttpdigest  = 30
+	CONFIGParserRULE_chttpscode   = 31
+	CONFIGParserRULE_chttpsdigest = 32
+	CONFIGParserRULE_balancemode  = 33
+	CONFIGParserRULE_mtype        = 34
+	CONFIGParserRULE_mhash        = 35
+	CONFIGParserRULE_mleaststates = 36
+	CONFIGParserRULE_mloadbalance = 37
+	CONFIGParserRULE_mrandom      = 38
+	CONFIGParserRULE_mroundrobin  = 39
+	CONFIGParserRULE_msourcehash  = 40
+	CONFIGParserRULE_demote       = 41
+	CONFIGParserRULE_dopts        = 42
+	CONFIGParserRULE_destination  = 43
+	CONFIGParserRULE_forward      = 44
+	CONFIGParserRULE_route        = 45
+	CONFIGParserRULE_sesstimeout  = 46
+	CONFIGParserRULE_redirect     = 47
+	CONFIGParserRULE_rname        = 48
+	CONFIGParserRULE_rstmt        = 49
 )
 
 // IConfigContext is an interface to support dynamic dispatch.
@@ -484,7 +489,7 @@ func (p *CONFIGParser) Config() (localctx IConfigContext) {
 	var _alt int
 
 	p.EnterOuterAlt(localctx, 1)
-	p.SetState(104)
+	p.SetState(106)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
@@ -495,7 +500,7 @@ func (p *CONFIGParser) Config() (localctx IConfigContext) {
 	}
 	for _alt != 2 && _alt != antlr.ATNInvalidAltNumber {
 		if _alt == 1 {
-			p.SetState(102)
+			p.SetState(104)
 			p.GetErrorHandler().Sync(p)
 			if p.HasError() {
 				goto errorExit
@@ -504,7 +509,7 @@ func (p *CONFIGParser) Config() (localctx IConfigContext) {
 			switch p.GetTokenStream().LA(1) {
 			case CONFIGParserNEWLINE:
 				{
-					p.SetState(98)
+					p.SetState(100)
 					p.Match(CONFIGParserNEWLINE)
 					if p.HasError() {
 						// Recognition error - abort rule
@@ -512,13 +517,13 @@ func (p *CONFIGParser) Config() (localctx IConfigContext) {
 					}
 				}
 
-			case CONFIGParserPREFORK, CONFIGParserTIMEOUT, CONFIGParserREDIRECT, CONFIGParserINTERVAL, CONFIGParserTABLE, CONFIGParserNAME:
+			case CONFIGParserPREFORK, CONFIGParserTIMEOUT, CONFIGParserSOCKET, CONFIGParserREDIRECT, CONFIGParserINTERVAL, CONFIGParserTABLE, CONFIGParserNAME:
 				{
-					p.SetState(99)
+					p.SetState(101)
 					p.Stmt()
 				}
 				{
-					p.SetState(100)
+					p.SetState(102)
 					p.Match(CONFIGParserNEWLINE)
 					if p.HasError() {
 						// Recognition error - abort rule
@@ -532,7 +537,7 @@ func (p *CONFIGParser) Config() (localctx IConfigContext) {
 			}
 
 		}
-		p.SetState(106)
+		p.SetState(108)
 		p.GetErrorHandler().Sync(p)
 		if p.HasError() {
 			goto errorExit
@@ -542,22 +547,22 @@ func (p *CONFIGParser) Config() (localctx IConfigContext) {
 			goto errorExit
 		}
 	}
-	p.SetState(108)
+	p.SetState(110)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
 	}
 	_la = p.GetTokenStream().LA(1)
 
-	if (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&24741159239680) != 0 {
+	if (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&49488760799232) != 0 {
 		{
-			p.SetState(107)
+			p.SetState(109)
 			p.Stmt()
 		}
 
 	}
 	{
-		p.SetState(110)
+		p.SetState(112)
 		p.Match(CONFIGParserEOF)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -714,7 +719,7 @@ func (s *StmtContext) ExitRule(listener antlr.ParseTreeListener) {
 func (p *CONFIGParser) Stmt() (localctx IStmtContext) {
 	localctx = NewStmtContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 2, CONFIGParserRULE_stmt)
-	p.SetState(116)
+	p.SetState(118)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
@@ -724,28 +729,28 @@ func (p *CONFIGParser) Stmt() (localctx IStmtContext) {
 	case CONFIGParserNAME:
 		p.EnterOuterAlt(localctx, 1)
 		{
-			p.SetState(112)
+			p.SetState(114)
 			p.Assignment()
 		}
 
 	case CONFIGParserTABLE:
 		p.EnterOuterAlt(localctx, 2)
 		{
-			p.SetState(113)
+			p.SetState(115)
 			p.Table()
 		}
 
-	case CONFIGParserPREFORK, CONFIGParserTIMEOUT, CONFIGParserINTERVAL:
+	case CONFIGParserPREFORK, CONFIGParserTIMEOUT, CONFIGParserSOCKET, CONFIGParserINTERVAL:
 		p.EnterOuterAlt(localctx, 3)
 		{
-			p.SetState(114)
+			p.SetState(116)
 			p.Gopts()
 		}
 
 	case CONFIGParserREDIRECT:
 		p.EnterOuterAlt(localctx, 4)
 		{
-			p.SetState(115)
+			p.SetState(117)
 			p.Redirect()
 		}
 
@@ -852,7 +857,7 @@ func (p *CONFIGParser) Assignment() (localctx IAssignmentContext) {
 	p.EnterRule(localctx, 4, CONFIGParserRULE_assignment)
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(118)
+		p.SetState(120)
 		p.Match(CONFIGParserNAME)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -860,7 +865,7 @@ func (p *CONFIGParser) Assignment() (localctx IAssignmentContext) {
 		}
 	}
 	{
-		p.SetState(119)
+		p.SetState(121)
 		p.Match(CONFIGParserEQUALS)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -868,7 +873,7 @@ func (p *CONFIGParser) Assignment() (localctx IAssignmentContext) {
 		}
 	}
 	{
-		p.SetState(120)
+		p.SetState(122)
 		p.Match(CONFIGParserNAME)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -969,7 +974,7 @@ func (p *CONFIGParser) Var_() (localctx IVarContext) {
 	p.EnterRule(localctx, 6, CONFIGParserRULE_var)
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(122)
+		p.SetState(124)
 		p.Match(CONFIGParserDOLLA)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -977,7 +982,7 @@ func (p *CONFIGParser) Var_() (localctx IVarContext) {
 		}
 	}
 	{
-		p.SetState(123)
+		p.SetState(125)
 		p.Match(CONFIGParserNAME)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -1009,6 +1014,7 @@ type IGoptsContext interface {
 	Interval() IIntervalContext
 	Timeout() ITimeoutContext
 	Prefork() IPreforkContext
+	Socket() ISocketContext
 
 	// IsGoptsContext differentiates from other interfaces.
 	IsGoptsContext()
@@ -1094,6 +1100,22 @@ func (s *GoptsContext) Prefork() IPreforkContext {
 	return t.(IPreforkContext)
 }
 
+func (s *GoptsContext) Socket() ISocketContext {
+	var t antlr.RuleContext
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(ISocketContext); ok {
+			t = ctx.(antlr.RuleContext)
+			break
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(ISocketContext)
+}
+
 func (s *GoptsContext) GetRuleContext() antlr.RuleContext {
 	return s
 }
@@ -1117,7 +1139,7 @@ func (s *GoptsContext) ExitRule(listener antlr.ParseTreeListener) {
 func (p *CONFIGParser) Gopts() (localctx IGoptsContext) {
 	localctx = NewGoptsContext(p, p.GetParserRuleContext(), p.GetState())
 	p.EnterRule(localctx, 8, CONFIGParserRULE_gopts)
-	p.SetState(128)
+	p.SetState(131)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
@@ -1127,22 +1149,29 @@ func (p *CONFIGParser) Gopts() (localctx IGoptsContext) {
 	case CONFIGParserINTERVAL:
 		p.EnterOuterAlt(localctx, 1)
 		{
-			p.SetState(125)
+			p.SetState(127)
 			p.Interval()
 		}
 
 	case CONFIGParserTIMEOUT:
 		p.EnterOuterAlt(localctx, 2)
 		{
-			p.SetState(126)
+			p.SetState(128)
 			p.Timeout()
 		}
 
 	case CONFIGParserPREFORK:
 		p.EnterOuterAlt(localctx, 3)
 		{
-			p.SetState(127)
+			p.SetState(129)
 			p.Prefork()
+		}
+
+	case CONFIGParserSOCKET:
+		p.EnterOuterAlt(localctx, 4)
+		{
+			p.SetState(130)
+			p.Socket()
 		}
 
 	default:
@@ -1243,7 +1272,7 @@ func (p *CONFIGParser) Timeout() (localctx ITimeoutContext) {
 	p.EnterRule(localctx, 10, CONFIGParserRULE_timeout)
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(130)
+		p.SetState(133)
 		p.Match(CONFIGParserTIMEOUT)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -1251,7 +1280,7 @@ func (p *CONFIGParser) Timeout() (localctx ITimeoutContext) {
 		}
 	}
 	{
-		p.SetState(131)
+		p.SetState(134)
 		p.Match(CONFIGParserNUMBER)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -1352,7 +1381,7 @@ func (p *CONFIGParser) Interval() (localctx IIntervalContext) {
 	p.EnterRule(localctx, 12, CONFIGParserRULE_interval)
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(133)
+		p.SetState(136)
 		p.Match(CONFIGParserINTERVAL)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -1360,7 +1389,7 @@ func (p *CONFIGParser) Interval() (localctx IIntervalContext) {
 		}
 	}
 	{
-		p.SetState(134)
+		p.SetState(137)
 		p.Match(CONFIGParserNUMBER)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -1461,7 +1490,7 @@ func (p *CONFIGParser) Prefork() (localctx IPreforkContext) {
 	p.EnterRule(localctx, 14, CONFIGParserRULE_prefork)
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(136)
+		p.SetState(139)
 		p.Match(CONFIGParserPREFORK)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -1469,8 +1498,117 @@ func (p *CONFIGParser) Prefork() (localctx IPreforkContext) {
 		}
 	}
 	{
-		p.SetState(137)
+		p.SetState(140)
 		p.Match(CONFIGParserNUMBER)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
+	}
+
+errorExit:
+	if p.HasError() {
+		v := p.GetError()
+		localctx.SetException(v)
+		p.GetErrorHandler().ReportError(p, v)
+		p.GetErrorHandler().Recover(p, v)
+		p.SetError(nil)
+	}
+	p.ExitRule()
+	return localctx
+	goto errorExit // Trick to prevent compiler error if the label is not used
+}
+
+// ISocketContext is an interface to support dynamic dispatch.
+type ISocketContext interface {
+	antlr.ParserRuleContext
+
+	// GetParser returns the parser.
+	GetParser() antlr.Parser
+
+	// Getter signatures
+	SOCKET() antlr.TerminalNode
+	QNAME() antlr.TerminalNode
+
+	// IsSocketContext differentiates from other interfaces.
+	IsSocketContext()
+}
+
+type SocketContext struct {
+	antlr.BaseParserRuleContext
+	parser antlr.Parser
+}
+
+func NewEmptySocketContext() *SocketContext {
+	var p = new(SocketContext)
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = CONFIGParserRULE_socket
+	return p
+}
+
+func InitEmptySocketContext(p *SocketContext) {
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, nil, -1)
+	p.RuleIndex = CONFIGParserRULE_socket
+}
+
+func (*SocketContext) IsSocketContext() {}
+
+func NewSocketContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *SocketContext {
+	var p = new(SocketContext)
+
+	antlr.InitBaseParserRuleContext(&p.BaseParserRuleContext, parent, invokingState)
+
+	p.parser = parser
+	p.RuleIndex = CONFIGParserRULE_socket
+
+	return p
+}
+
+func (s *SocketContext) GetParser() antlr.Parser { return s.parser }
+
+func (s *SocketContext) SOCKET() antlr.TerminalNode {
+	return s.GetToken(CONFIGParserSOCKET, 0)
+}
+
+func (s *SocketContext) QNAME() antlr.TerminalNode {
+	return s.GetToken(CONFIGParserQNAME, 0)
+}
+
+func (s *SocketContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *SocketContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+	return antlr.TreesStringTree(s, ruleNames, recog)
+}
+
+func (s *SocketContext) EnterRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(CONFIGListener); ok {
+		listenerT.EnterSocket(s)
+	}
+}
+
+func (s *SocketContext) ExitRule(listener antlr.ParseTreeListener) {
+	if listenerT, ok := listener.(CONFIGListener); ok {
+		listenerT.ExitSocket(s)
+	}
+}
+
+func (p *CONFIGParser) Socket() (localctx ISocketContext) {
+	localctx = NewSocketContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 16, CONFIGParserRULE_socket)
+	p.EnterOuterAlt(localctx, 1)
+	{
+		p.SetState(142)
+		p.Match(CONFIGParserSOCKET)
+		if p.HasError() {
+			// Recognition error - abort rule
+			goto errorExit
+		}
+	}
+	{
+		p.SetState(143)
+		p.Match(CONFIGParserQNAME)
 		if p.HasError() {
 			// Recognition error - abort rule
 			goto errorExit
@@ -1623,12 +1761,12 @@ func (s *TableContext) ExitRule(listener antlr.ParseTreeListener) {
 
 func (p *CONFIGParser) Table() (localctx ITableContext) {
 	localctx = NewTableContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 16, CONFIGParserRULE_table)
+	p.EnterRule(localctx, 18, CONFIGParserRULE_table)
 	var _la int
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(139)
+		p.SetState(145)
 		p.Match(CONFIGParserTABLE)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -1636,10 +1774,10 @@ func (p *CONFIGParser) Table() (localctx ITableContext) {
 		}
 	}
 	{
-		p.SetState(140)
+		p.SetState(146)
 		p.Tname()
 	}
-	p.SetState(142)
+	p.SetState(148)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
@@ -1648,13 +1786,13 @@ func (p *CONFIGParser) Table() (localctx ITableContext) {
 
 	if _la == CONFIGParserDISABLE {
 		{
-			p.SetState(141)
+			p.SetState(147)
 			p.Tdisable()
 		}
 
 	}
 	{
-		p.SetState(144)
+		p.SetState(150)
 		p.Match(CONFIGParserLCURLY)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -1662,11 +1800,11 @@ func (p *CONFIGParser) Table() (localctx ITableContext) {
 		}
 	}
 	{
-		p.SetState(145)
+		p.SetState(151)
 		p.Tlist()
 	}
 	{
-		p.SetState(146)
+		p.SetState(152)
 		p.Match(CONFIGParserRCURLY)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -1769,10 +1907,10 @@ func (s *TnameContext) ExitRule(listener antlr.ParseTreeListener) {
 
 func (p *CONFIGParser) Tname() (localctx ITnameContext) {
 	localctx = NewTnameContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 18, CONFIGParserRULE_tname)
+	p.EnterRule(localctx, 20, CONFIGParserRULE_tname)
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(148)
+		p.SetState(154)
 		p.Match(CONFIGParserLANGLE)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -1780,7 +1918,7 @@ func (p *CONFIGParser) Tname() (localctx ITnameContext) {
 		}
 	}
 	{
-		p.SetState(149)
+		p.SetState(155)
 		p.Match(CONFIGParserNAME)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -1788,7 +1926,7 @@ func (p *CONFIGParser) Tname() (localctx ITnameContext) {
 		}
 	}
 	{
-		p.SetState(150)
+		p.SetState(156)
 		p.Match(CONFIGParserRANGLE)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -1929,13 +2067,13 @@ func (s *TlistContext) ExitRule(listener antlr.ParseTreeListener) {
 
 func (p *CONFIGParser) Tlist() (localctx ITlistContext) {
 	localctx = NewTlistContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 20, CONFIGParserRULE_tlist)
+	p.EnterRule(localctx, 22, CONFIGParserRULE_tlist)
 	var _la int
 
 	var _alt int
 
 	p.EnterOuterAlt(localctx, 1)
-	p.SetState(163)
+	p.SetState(169)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
@@ -1944,10 +2082,10 @@ func (p *CONFIGParser) Tlist() (localctx ITlistContext) {
 
 	if _la == CONFIGParserDOLLA || _la == CONFIGParserNAME {
 		{
-			p.SetState(152)
+			p.SetState(158)
 			p.Titem()
 		}
-		p.SetState(157)
+		p.SetState(163)
 		p.GetErrorHandler().Sync(p)
 		if p.HasError() {
 			goto errorExit
@@ -1959,7 +2097,7 @@ func (p *CONFIGParser) Tlist() (localctx ITlistContext) {
 		for _alt != 2 && _alt != antlr.ATNInvalidAltNumber {
 			if _alt == 1 {
 				{
-					p.SetState(153)
+					p.SetState(159)
 					p.Match(CONFIGParserCOMMA)
 					if p.HasError() {
 						// Recognition error - abort rule
@@ -1967,12 +2105,12 @@ func (p *CONFIGParser) Tlist() (localctx ITlistContext) {
 					}
 				}
 				{
-					p.SetState(154)
+					p.SetState(160)
 					p.Titem()
 				}
 
 			}
-			p.SetState(159)
+			p.SetState(165)
 			p.GetErrorHandler().Sync(p)
 			if p.HasError() {
 				goto errorExit
@@ -1982,7 +2120,7 @@ func (p *CONFIGParser) Tlist() (localctx ITlistContext) {
 				goto errorExit
 			}
 		}
-		p.SetState(161)
+		p.SetState(167)
 		p.GetErrorHandler().Sync(p)
 		if p.HasError() {
 			goto errorExit
@@ -1991,7 +2129,7 @@ func (p *CONFIGParser) Tlist() (localctx ITlistContext) {
 
 		if _la == CONFIGParserCOMMA {
 			{
-				p.SetState(160)
+				p.SetState(166)
 				p.Match(CONFIGParserCOMMA)
 				if p.HasError() {
 					// Recognition error - abort rule
@@ -2148,10 +2286,10 @@ func (s *TitemContext) ExitRule(listener antlr.ParseTreeListener) {
 
 func (p *CONFIGParser) Titem() (localctx ITitemContext) {
 	localctx = NewTitemContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 22, CONFIGParserRULE_titem)
+	p.EnterRule(localctx, 24, CONFIGParserRULE_titem)
 	var _la int
 
-	p.SetState(179)
+	p.SetState(185)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
@@ -2161,10 +2299,10 @@ func (p *CONFIGParser) Titem() (localctx ITitemContext) {
 	case CONFIGParserDOLLA:
 		p.EnterOuterAlt(localctx, 1)
 		{
-			p.SetState(165)
+			p.SetState(171)
 			p.Var_()
 		}
-		p.SetState(169)
+		p.SetState(175)
 		p.GetErrorHandler().Sync(p)
 		if p.HasError() {
 			goto errorExit
@@ -2173,11 +2311,11 @@ func (p *CONFIGParser) Titem() (localctx ITitemContext) {
 
 		for (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&3932160) != 0 {
 			{
-				p.SetState(166)
+				p.SetState(172)
 				p.Topts()
 			}
 
-			p.SetState(171)
+			p.SetState(177)
 			p.GetErrorHandler().Sync(p)
 			if p.HasError() {
 				goto errorExit
@@ -2188,14 +2326,14 @@ func (p *CONFIGParser) Titem() (localctx ITitemContext) {
 	case CONFIGParserNAME:
 		p.EnterOuterAlt(localctx, 2)
 		{
-			p.SetState(172)
+			p.SetState(178)
 			p.Match(CONFIGParserNAME)
 			if p.HasError() {
 				// Recognition error - abort rule
 				goto errorExit
 			}
 		}
-		p.SetState(176)
+		p.SetState(182)
 		p.GetErrorHandler().Sync(p)
 		if p.HasError() {
 			goto errorExit
@@ -2204,11 +2342,11 @@ func (p *CONFIGParser) Titem() (localctx ITitemContext) {
 
 		for (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&3932160) != 0 {
 			{
-				p.SetState(173)
+				p.SetState(179)
 				p.Topts()
 			}
 
-			p.SetState(178)
+			p.SetState(184)
 			p.GetErrorHandler().Sync(p)
 			if p.HasError() {
 				goto errorExit
@@ -2306,10 +2444,10 @@ func (s *TdisableContext) ExitRule(listener antlr.ParseTreeListener) {
 
 func (p *CONFIGParser) Tdisable() (localctx ITdisableContext) {
 	localctx = NewTdisableContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 24, CONFIGParserRULE_tdisable)
+	p.EnterRule(localctx, 26, CONFIGParserRULE_tdisable)
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(181)
+		p.SetState(187)
 		p.Match(CONFIGParserDISABLE)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -2465,8 +2603,8 @@ func (s *ToptsContext) ExitRule(listener antlr.ParseTreeListener) {
 
 func (p *CONFIGParser) Topts() (localctx IToptsContext) {
 	localctx = NewToptsContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 26, CONFIGParserRULE_topts)
-	p.SetState(187)
+	p.EnterRule(localctx, 28, CONFIGParserRULE_topts)
+	p.SetState(193)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
@@ -2476,28 +2614,28 @@ func (p *CONFIGParser) Topts() (localctx IToptsContext) {
 	case CONFIGParserIP:
 		p.EnterOuterAlt(localctx, 1)
 		{
-			p.SetState(183)
+			p.SetState(189)
 			p.Toptipttl()
 		}
 
 	case CONFIGParserPARENT:
 		p.EnterOuterAlt(localctx, 2)
 		{
-			p.SetState(184)
+			p.SetState(190)
 			p.Toptparent()
 		}
 
 	case CONFIGParserPRIORITY:
 		p.EnterOuterAlt(localctx, 3)
 		{
-			p.SetState(185)
+			p.SetState(191)
 			p.Toptpriority()
 		}
 
 	case CONFIGParserRETRY:
 		p.EnterOuterAlt(localctx, 4)
 		{
-			p.SetState(186)
+			p.SetState(192)
 			p.Toptretry()
 		}
 
@@ -2601,10 +2739,10 @@ func (s *ToptipttlContext) ExitRule(listener antlr.ParseTreeListener) {
 
 func (p *CONFIGParser) Toptipttl() (localctx IToptipttlContext) {
 	localctx = NewToptipttlContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 28, CONFIGParserRULE_toptipttl)
+	p.EnterRule(localctx, 30, CONFIGParserRULE_toptipttl)
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(189)
+		p.SetState(195)
 		p.Match(CONFIGParserIP)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -2612,7 +2750,7 @@ func (p *CONFIGParser) Toptipttl() (localctx IToptipttlContext) {
 		}
 	}
 	{
-		p.SetState(190)
+		p.SetState(196)
 		p.Match(CONFIGParserTTL)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -2620,7 +2758,7 @@ func (p *CONFIGParser) Toptipttl() (localctx IToptipttlContext) {
 		}
 	}
 	{
-		p.SetState(191)
+		p.SetState(197)
 		p.Match(CONFIGParserNUMBER)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -2718,10 +2856,10 @@ func (s *ToptparentContext) ExitRule(listener antlr.ParseTreeListener) {
 
 func (p *CONFIGParser) Toptparent() (localctx IToptparentContext) {
 	localctx = NewToptparentContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 30, CONFIGParserRULE_toptparent)
+	p.EnterRule(localctx, 32, CONFIGParserRULE_toptparent)
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(193)
+		p.SetState(199)
 		p.Match(CONFIGParserPARENT)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -2729,7 +2867,7 @@ func (p *CONFIGParser) Toptparent() (localctx IToptparentContext) {
 		}
 	}
 	{
-		p.SetState(194)
+		p.SetState(200)
 		p.Match(CONFIGParserNUMBER)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -2827,10 +2965,10 @@ func (s *ToptpriorityContext) ExitRule(listener antlr.ParseTreeListener) {
 
 func (p *CONFIGParser) Toptpriority() (localctx IToptpriorityContext) {
 	localctx = NewToptpriorityContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 32, CONFIGParserRULE_toptpriority)
+	p.EnterRule(localctx, 34, CONFIGParserRULE_toptpriority)
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(196)
+		p.SetState(202)
 		p.Match(CONFIGParserPRIORITY)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -2838,7 +2976,7 @@ func (p *CONFIGParser) Toptpriority() (localctx IToptpriorityContext) {
 		}
 	}
 	{
-		p.SetState(197)
+		p.SetState(203)
 		p.Match(CONFIGParserNUMBER)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -2936,10 +3074,10 @@ func (s *ToptretryContext) ExitRule(listener antlr.ParseTreeListener) {
 
 func (p *CONFIGParser) Toptretry() (localctx IToptretryContext) {
 	localctx = NewToptretryContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 34, CONFIGParserRULE_toptretry)
+	p.EnterRule(localctx, 36, CONFIGParserRULE_toptretry)
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(199)
+		p.SetState(205)
 		p.Match(CONFIGParserRETRY)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -2947,7 +3085,7 @@ func (p *CONFIGParser) Toptretry() (localctx IToptretryContext) {
 		}
 	}
 	{
-		p.SetState(200)
+		p.SetState(206)
 		p.Match(CONFIGParserNUMBER)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -3101,12 +3239,12 @@ func (s *ListenContext) ExitRule(listener antlr.ParseTreeListener) {
 
 func (p *CONFIGParser) Listen() (localctx IListenContext) {
 	localctx = NewListenContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 36, CONFIGParserRULE_listen)
+	p.EnterRule(localctx, 38, CONFIGParserRULE_listen)
 	var _la int
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(202)
+		p.SetState(208)
 		p.Match(CONFIGParserLISTEN)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -3114,7 +3252,7 @@ func (p *CONFIGParser) Listen() (localctx IListenContext) {
 		}
 	}
 	{
-		p.SetState(203)
+		p.SetState(209)
 		p.Match(CONFIGParserON)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -3122,14 +3260,14 @@ func (p *CONFIGParser) Listen() (localctx IListenContext) {
 		}
 	}
 	{
-		p.SetState(204)
+		p.SetState(210)
 		p.Match(CONFIGParserNAME)
 		if p.HasError() {
 			// Recognition error - abort rule
 			goto errorExit
 		}
 	}
-	p.SetState(206)
+	p.SetState(212)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
@@ -3138,16 +3276,16 @@ func (p *CONFIGParser) Listen() (localctx IListenContext) {
 
 	if _la == CONFIGParserPROTO {
 		{
-			p.SetState(205)
+			p.SetState(211)
 			p.Proto()
 		}
 
 	}
 	{
-		p.SetState(208)
+		p.SetState(214)
 		p.Lport()
 	}
-	p.SetState(210)
+	p.SetState(216)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
@@ -3156,7 +3294,7 @@ func (p *CONFIGParser) Listen() (localctx IListenContext) {
 
 	if _la == CONFIGParserINTERFACE {
 		{
-			p.SetState(209)
+			p.SetState(215)
 			p.Interface_()
 		}
 
@@ -3252,10 +3390,10 @@ func (s *PortContext) ExitRule(listener antlr.ParseTreeListener) {
 
 func (p *CONFIGParser) Port() (localctx IPortContext) {
 	localctx = NewPortContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 38, CONFIGParserRULE_port)
+	p.EnterRule(localctx, 40, CONFIGParserRULE_port)
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(212)
+		p.SetState(218)
 		p.Match(CONFIGParserPORT)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -3263,7 +3401,7 @@ func (p *CONFIGParser) Port() (localctx IPortContext) {
 		}
 	}
 	{
-		p.SetState(213)
+		p.SetState(219)
 		p.Match(CONFIGParserNUMBER)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -3361,10 +3499,10 @@ func (s *PortrangeContext) ExitRule(listener antlr.ParseTreeListener) {
 
 func (p *CONFIGParser) Portrange() (localctx IPortrangeContext) {
 	localctx = NewPortrangeContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 40, CONFIGParserRULE_portrange)
+	p.EnterRule(localctx, 42, CONFIGParserRULE_portrange)
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(215)
+		p.SetState(221)
 		p.Match(CONFIGParserPORT)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -3372,7 +3510,7 @@ func (p *CONFIGParser) Portrange() (localctx IPortrangeContext) {
 		}
 	}
 	{
-		p.SetState(216)
+		p.SetState(222)
 		p.Match(CONFIGParserNAME)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -3494,8 +3632,8 @@ func (s *LportContext) ExitRule(listener antlr.ParseTreeListener) {
 
 func (p *CONFIGParser) Lport() (localctx ILportContext) {
 	localctx = NewLportContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 42, CONFIGParserRULE_lport)
-	p.SetState(220)
+	p.EnterRule(localctx, 44, CONFIGParserRULE_lport)
+	p.SetState(226)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
@@ -3505,14 +3643,14 @@ func (p *CONFIGParser) Lport() (localctx ILportContext) {
 	case 1:
 		p.EnterOuterAlt(localctx, 1)
 		{
-			p.SetState(218)
+			p.SetState(224)
 			p.Portrange()
 		}
 
 	case 2:
 		p.EnterOuterAlt(localctx, 2)
 		{
-			p.SetState(219)
+			p.SetState(225)
 			p.Port()
 		}
 
@@ -3610,10 +3748,10 @@ func (s *ProtoContext) ExitRule(listener antlr.ParseTreeListener) {
 
 func (p *CONFIGParser) Proto() (localctx IProtoContext) {
 	localctx = NewProtoContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 44, CONFIGParserRULE_proto)
+	p.EnterRule(localctx, 46, CONFIGParserRULE_proto)
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(222)
+		p.SetState(228)
 		p.Match(CONFIGParserPROTO)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -3621,7 +3759,7 @@ func (p *CONFIGParser) Proto() (localctx IProtoContext) {
 		}
 	}
 	{
-		p.SetState(223)
+		p.SetState(229)
 		p.Match(CONFIGParserNAME)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -3719,10 +3857,10 @@ func (s *InterfaceContext) ExitRule(listener antlr.ParseTreeListener) {
 
 func (p *CONFIGParser) Interface_() (localctx IInterfaceContext) {
 	localctx = NewInterfaceContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 46, CONFIGParserRULE_interface)
+	p.EnterRule(localctx, 48, CONFIGParserRULE_interface)
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(225)
+		p.SetState(231)
 		p.Match(CONFIGParserINTERFACE)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -3730,7 +3868,7 @@ func (p *CONFIGParser) Interface_() (localctx IInterfaceContext) {
 		}
 	}
 	{
-		p.SetState(226)
+		p.SetState(232)
 		p.Match(CONFIGParserNAME)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -3840,10 +3978,10 @@ func (s *CheckContext) ExitRule(listener antlr.ParseTreeListener) {
 
 func (p *CONFIGParser) Check() (localctx ICheckContext) {
 	localctx = NewCheckContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 48, CONFIGParserRULE_check)
+	p.EnterRule(localctx, 50, CONFIGParserRULE_check)
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(228)
+		p.SetState(234)
 		p.Match(CONFIGParserCHECK)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -3851,7 +3989,7 @@ func (p *CONFIGParser) Check() (localctx ICheckContext) {
 		}
 	}
 	{
-		p.SetState(229)
+		p.SetState(235)
 		p.Ctype()
 	}
 
@@ -4003,8 +4141,8 @@ func (s *CtypeContext) ExitRule(listener antlr.ParseTreeListener) {
 
 func (p *CONFIGParser) Ctype() (localctx ICtypeContext) {
 	localctx = NewCtypeContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 50, CONFIGParserRULE_ctype)
-	p.SetState(235)
+	p.EnterRule(localctx, 52, CONFIGParserRULE_ctype)
+	p.SetState(241)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
@@ -4014,28 +4152,28 @@ func (p *CONFIGParser) Ctype() (localctx ICtypeContext) {
 	case 1:
 		p.EnterOuterAlt(localctx, 1)
 		{
-			p.SetState(231)
+			p.SetState(237)
 			p.Chttpcode()
 		}
 
 	case 2:
 		p.EnterOuterAlt(localctx, 2)
 		{
-			p.SetState(232)
+			p.SetState(238)
 			p.Chttpdigest()
 		}
 
 	case 3:
 		p.EnterOuterAlt(localctx, 3)
 		{
-			p.SetState(233)
+			p.SetState(239)
 			p.Chttpscode()
 		}
 
 	case 4:
 		p.EnterOuterAlt(localctx, 4)
 		{
-			p.SetState(234)
+			p.SetState(240)
 			p.Chttpsdigest()
 		}
 
@@ -4133,10 +4271,10 @@ func (s *ChostContext) ExitRule(listener antlr.ParseTreeListener) {
 
 func (p *CONFIGParser) Chost() (localctx IChostContext) {
 	localctx = NewChostContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 52, CONFIGParserRULE_chost)
+	p.EnterRule(localctx, 54, CONFIGParserRULE_chost)
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(237)
+		p.SetState(243)
 		p.Match(CONFIGParserHOST)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -4144,7 +4282,7 @@ func (p *CONFIGParser) Chost() (localctx IChostContext) {
 		}
 	}
 	{
-		p.SetState(238)
+		p.SetState(244)
 		p.Match(CONFIGParserNAME)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -4242,10 +4380,10 @@ func (s *CdigestContext) ExitRule(listener antlr.ParseTreeListener) {
 
 func (p *CONFIGParser) Cdigest() (localctx ICdigestContext) {
 	localctx = NewCdigestContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 54, CONFIGParserRULE_cdigest)
+	p.EnterRule(localctx, 56, CONFIGParserRULE_cdigest)
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(240)
+		p.SetState(246)
 		p.Match(CONFIGParserDIGEST)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -4253,7 +4391,7 @@ func (p *CONFIGParser) Cdigest() (localctx ICdigestContext) {
 		}
 	}
 	{
-		p.SetState(241)
+		p.SetState(247)
 		p.Match(CONFIGParserQNAME)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -4378,12 +4516,12 @@ func (s *ChttpcodeContext) ExitRule(listener antlr.ParseTreeListener) {
 
 func (p *CONFIGParser) Chttpcode() (localctx IChttpcodeContext) {
 	localctx = NewChttpcodeContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 56, CONFIGParserRULE_chttpcode)
+	p.EnterRule(localctx, 58, CONFIGParserRULE_chttpcode)
 	var _la int
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(243)
+		p.SetState(249)
 		p.Match(CONFIGParserHTTP)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -4391,14 +4529,14 @@ func (p *CONFIGParser) Chttpcode() (localctx IChttpcodeContext) {
 		}
 	}
 	{
-		p.SetState(244)
+		p.SetState(250)
 		p.Match(CONFIGParserQNAME)
 		if p.HasError() {
 			// Recognition error - abort rule
 			goto errorExit
 		}
 	}
-	p.SetState(246)
+	p.SetState(252)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
@@ -4407,13 +4545,13 @@ func (p *CONFIGParser) Chttpcode() (localctx IChttpcodeContext) {
 
 	if _la == CONFIGParserHOST {
 		{
-			p.SetState(245)
+			p.SetState(251)
 			p.Chost()
 		}
 
 	}
 	{
-		p.SetState(248)
+		p.SetState(254)
 		p.Match(CONFIGParserCODE)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -4421,7 +4559,7 @@ func (p *CONFIGParser) Chttpcode() (localctx IChttpcodeContext) {
 		}
 	}
 	{
-		p.SetState(249)
+		p.SetState(255)
 		p.Match(CONFIGParserNUMBER)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -4553,12 +4691,12 @@ func (s *ChttpdigestContext) ExitRule(listener antlr.ParseTreeListener) {
 
 func (p *CONFIGParser) Chttpdigest() (localctx IChttpdigestContext) {
 	localctx = NewChttpdigestContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 58, CONFIGParserRULE_chttpdigest)
+	p.EnterRule(localctx, 60, CONFIGParserRULE_chttpdigest)
 	var _la int
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(251)
+		p.SetState(257)
 		p.Match(CONFIGParserHTTP)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -4566,14 +4704,14 @@ func (p *CONFIGParser) Chttpdigest() (localctx IChttpdigestContext) {
 		}
 	}
 	{
-		p.SetState(252)
+		p.SetState(258)
 		p.Match(CONFIGParserQNAME)
 		if p.HasError() {
 			// Recognition error - abort rule
 			goto errorExit
 		}
 	}
-	p.SetState(254)
+	p.SetState(260)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
@@ -4582,13 +4720,13 @@ func (p *CONFIGParser) Chttpdigest() (localctx IChttpdigestContext) {
 
 	if _la == CONFIGParserHOST {
 		{
-			p.SetState(253)
+			p.SetState(259)
 			p.Chost()
 		}
 
 	}
 	{
-		p.SetState(256)
+		p.SetState(262)
 		p.Cdigest()
 	}
 
@@ -4709,12 +4847,12 @@ func (s *ChttpscodeContext) ExitRule(listener antlr.ParseTreeListener) {
 
 func (p *CONFIGParser) Chttpscode() (localctx IChttpscodeContext) {
 	localctx = NewChttpscodeContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 60, CONFIGParserRULE_chttpscode)
+	p.EnterRule(localctx, 62, CONFIGParserRULE_chttpscode)
 	var _la int
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(258)
+		p.SetState(264)
 		p.Match(CONFIGParserHTTPS)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -4722,14 +4860,14 @@ func (p *CONFIGParser) Chttpscode() (localctx IChttpscodeContext) {
 		}
 	}
 	{
-		p.SetState(259)
+		p.SetState(265)
 		p.Match(CONFIGParserQNAME)
 		if p.HasError() {
 			// Recognition error - abort rule
 			goto errorExit
 		}
 	}
-	p.SetState(261)
+	p.SetState(267)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
@@ -4738,13 +4876,13 @@ func (p *CONFIGParser) Chttpscode() (localctx IChttpscodeContext) {
 
 	if _la == CONFIGParserHOST {
 		{
-			p.SetState(260)
+			p.SetState(266)
 			p.Chost()
 		}
 
 	}
 	{
-		p.SetState(263)
+		p.SetState(269)
 		p.Match(CONFIGParserCODE)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -4752,7 +4890,7 @@ func (p *CONFIGParser) Chttpscode() (localctx IChttpscodeContext) {
 		}
 	}
 	{
-		p.SetState(264)
+		p.SetState(270)
 		p.Match(CONFIGParserNUMBER)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -4884,12 +5022,12 @@ func (s *ChttpsdigestContext) ExitRule(listener antlr.ParseTreeListener) {
 
 func (p *CONFIGParser) Chttpsdigest() (localctx IChttpsdigestContext) {
 	localctx = NewChttpsdigestContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 62, CONFIGParserRULE_chttpsdigest)
+	p.EnterRule(localctx, 64, CONFIGParserRULE_chttpsdigest)
 	var _la int
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(266)
+		p.SetState(272)
 		p.Match(CONFIGParserHTTPS)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -4897,14 +5035,14 @@ func (p *CONFIGParser) Chttpsdigest() (localctx IChttpsdigestContext) {
 		}
 	}
 	{
-		p.SetState(267)
+		p.SetState(273)
 		p.Match(CONFIGParserQNAME)
 		if p.HasError() {
 			// Recognition error - abort rule
 			goto errorExit
 		}
 	}
-	p.SetState(269)
+	p.SetState(275)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
@@ -4913,13 +5051,13 @@ func (p *CONFIGParser) Chttpsdigest() (localctx IChttpsdigestContext) {
 
 	if _la == CONFIGParserHOST {
 		{
-			p.SetState(268)
+			p.SetState(274)
 			p.Chost()
 		}
 
 	}
 	{
-		p.SetState(271)
+		p.SetState(277)
 		p.Cdigest()
 	}
 
@@ -5025,10 +5163,10 @@ func (s *BalancemodeContext) ExitRule(listener antlr.ParseTreeListener) {
 
 func (p *CONFIGParser) Balancemode() (localctx IBalancemodeContext) {
 	localctx = NewBalancemodeContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 64, CONFIGParserRULE_balancemode)
+	p.EnterRule(localctx, 66, CONFIGParserRULE_balancemode)
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(273)
+		p.SetState(279)
 		p.Match(CONFIGParserMODE)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -5036,7 +5174,7 @@ func (p *CONFIGParser) Balancemode() (localctx IBalancemodeContext) {
 		}
 	}
 	{
-		p.SetState(274)
+		p.SetState(280)
 		p.Mtype()
 	}
 
@@ -5222,8 +5360,8 @@ func (s *MtypeContext) ExitRule(listener antlr.ParseTreeListener) {
 
 func (p *CONFIGParser) Mtype() (localctx IMtypeContext) {
 	localctx = NewMtypeContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 66, CONFIGParserRULE_mtype)
-	p.SetState(282)
+	p.EnterRule(localctx, 68, CONFIGParserRULE_mtype)
+	p.SetState(288)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
@@ -5233,42 +5371,42 @@ func (p *CONFIGParser) Mtype() (localctx IMtypeContext) {
 	case CONFIGParserHASH:
 		p.EnterOuterAlt(localctx, 1)
 		{
-			p.SetState(276)
+			p.SetState(282)
 			p.Mhash()
 		}
 
 	case CONFIGParserLEAST_STATES:
 		p.EnterOuterAlt(localctx, 2)
 		{
-			p.SetState(277)
+			p.SetState(283)
 			p.Mleaststates()
 		}
 
 	case CONFIGParserLOAD_BALANCE:
 		p.EnterOuterAlt(localctx, 3)
 		{
-			p.SetState(278)
+			p.SetState(284)
 			p.Mloadbalance()
 		}
 
 	case CONFIGParserRANDOM:
 		p.EnterOuterAlt(localctx, 4)
 		{
-			p.SetState(279)
+			p.SetState(285)
 			p.Mrandom()
 		}
 
 	case CONFIGParserROUND_ROBIN:
 		p.EnterOuterAlt(localctx, 5)
 		{
-			p.SetState(280)
+			p.SetState(286)
 			p.Mroundrobin()
 		}
 
 	case CONFIGParserSOURCE_HASH:
 		p.EnterOuterAlt(localctx, 6)
 		{
-			p.SetState(281)
+			p.SetState(287)
 			p.Msourcehash()
 		}
 
@@ -5367,10 +5505,10 @@ func (s *MhashContext) ExitRule(listener antlr.ParseTreeListener) {
 
 func (p *CONFIGParser) Mhash() (localctx IMhashContext) {
 	localctx = NewMhashContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 68, CONFIGParserRULE_mhash)
+	p.EnterRule(localctx, 70, CONFIGParserRULE_mhash)
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(284)
+		p.SetState(290)
 		p.Match(CONFIGParserHASH)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -5378,7 +5516,7 @@ func (p *CONFIGParser) Mhash() (localctx IMhashContext) {
 		}
 	}
 	{
-		p.SetState(285)
+		p.SetState(291)
 		p.Match(CONFIGParserQNAME)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -5471,10 +5609,10 @@ func (s *MleaststatesContext) ExitRule(listener antlr.ParseTreeListener) {
 
 func (p *CONFIGParser) Mleaststates() (localctx IMleaststatesContext) {
 	localctx = NewMleaststatesContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 70, CONFIGParserRULE_mleaststates)
+	p.EnterRule(localctx, 72, CONFIGParserRULE_mleaststates)
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(287)
+		p.SetState(293)
 		p.Match(CONFIGParserLEAST_STATES)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -5572,10 +5710,10 @@ func (s *MloadbalanceContext) ExitRule(listener antlr.ParseTreeListener) {
 
 func (p *CONFIGParser) Mloadbalance() (localctx IMloadbalanceContext) {
 	localctx = NewMloadbalanceContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 72, CONFIGParserRULE_mloadbalance)
+	p.EnterRule(localctx, 74, CONFIGParserRULE_mloadbalance)
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(289)
+		p.SetState(295)
 		p.Match(CONFIGParserLOAD_BALANCE)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -5583,7 +5721,7 @@ func (p *CONFIGParser) Mloadbalance() (localctx IMloadbalanceContext) {
 		}
 	}
 	{
-		p.SetState(290)
+		p.SetState(296)
 		p.Match(CONFIGParserQNAME)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -5676,10 +5814,10 @@ func (s *MrandomContext) ExitRule(listener antlr.ParseTreeListener) {
 
 func (p *CONFIGParser) Mrandom() (localctx IMrandomContext) {
 	localctx = NewMrandomContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 74, CONFIGParserRULE_mrandom)
+	p.EnterRule(localctx, 76, CONFIGParserRULE_mrandom)
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(292)
+		p.SetState(298)
 		p.Match(CONFIGParserRANDOM)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -5772,10 +5910,10 @@ func (s *MroundrobinContext) ExitRule(listener antlr.ParseTreeListener) {
 
 func (p *CONFIGParser) Mroundrobin() (localctx IMroundrobinContext) {
 	localctx = NewMroundrobinContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 76, CONFIGParserRULE_mroundrobin)
+	p.EnterRule(localctx, 78, CONFIGParserRULE_mroundrobin)
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(294)
+		p.SetState(300)
 		p.Match(CONFIGParserROUND_ROBIN)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -5873,10 +6011,10 @@ func (s *MsourcehashContext) ExitRule(listener antlr.ParseTreeListener) {
 
 func (p *CONFIGParser) Msourcehash() (localctx IMsourcehashContext) {
 	localctx = NewMsourcehashContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 78, CONFIGParserRULE_msourcehash)
+	p.EnterRule(localctx, 80, CONFIGParserRULE_msourcehash)
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(296)
+		p.SetState(302)
 		p.Match(CONFIGParserSOURCE_HASH)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -5884,7 +6022,7 @@ func (p *CONFIGParser) Msourcehash() (localctx IMsourcehashContext) {
 		}
 	}
 	{
-		p.SetState(297)
+		p.SetState(303)
 		p.Match(CONFIGParserQNAME)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -5982,10 +6120,10 @@ func (s *DemoteContext) ExitRule(listener antlr.ParseTreeListener) {
 
 func (p *CONFIGParser) Demote() (localctx IDemoteContext) {
 	localctx = NewDemoteContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 80, CONFIGParserRULE_demote)
+	p.EnterRule(localctx, 82, CONFIGParserRULE_demote)
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(299)
+		p.SetState(305)
 		p.Match(CONFIGParserDEMOTE)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -5993,7 +6131,7 @@ func (p *CONFIGParser) Demote() (localctx IDemoteContext) {
 		}
 	}
 	{
-		p.SetState(300)
+		p.SetState(306)
 		p.Match(CONFIGParserNAME)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -6166,8 +6304,8 @@ func (s *DoptsContext) ExitRule(listener antlr.ParseTreeListener) {
 
 func (p *CONFIGParser) Dopts() (localctx IDoptsContext) {
 	localctx = NewDoptsContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 82, CONFIGParserRULE_dopts)
-	p.SetState(307)
+	p.EnterRule(localctx, 84, CONFIGParserRULE_dopts)
+	p.SetState(313)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
@@ -6177,35 +6315,35 @@ func (p *CONFIGParser) Dopts() (localctx IDoptsContext) {
 	case CONFIGParserCHECK:
 		p.EnterOuterAlt(localctx, 1)
 		{
-			p.SetState(302)
+			p.SetState(308)
 			p.Check()
 		}
 
 	case CONFIGParserMODE:
 		p.EnterOuterAlt(localctx, 2)
 		{
-			p.SetState(303)
+			p.SetState(309)
 			p.Balancemode()
 		}
 
 	case CONFIGParserINTERVAL:
 		p.EnterOuterAlt(localctx, 3)
 		{
-			p.SetState(304)
+			p.SetState(310)
 			p.Interval()
 		}
 
 	case CONFIGParserTIMEOUT:
 		p.EnterOuterAlt(localctx, 4)
 		{
-			p.SetState(305)
+			p.SetState(311)
 			p.Timeout()
 		}
 
 	case CONFIGParserDEMOTE:
 		p.EnterOuterAlt(localctx, 5)
 		{
-			p.SetState(306)
+			p.SetState(312)
 			p.Demote()
 		}
 
@@ -6371,15 +6509,15 @@ func (s *DestinationContext) ExitRule(listener antlr.ParseTreeListener) {
 
 func (p *CONFIGParser) Destination() (localctx IDestinationContext) {
 	localctx = NewDestinationContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 84, CONFIGParserRULE_destination)
+	p.EnterRule(localctx, 86, CONFIGParserRULE_destination)
 	var _la int
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(309)
+		p.SetState(315)
 		p.Tname()
 	}
-	p.SetState(311)
+	p.SetState(317)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
@@ -6388,25 +6526,25 @@ func (p *CONFIGParser) Destination() (localctx IDestinationContext) {
 
 	if _la == CONFIGParserPORT {
 		{
-			p.SetState(310)
+			p.SetState(316)
 			p.Port()
 		}
 
 	}
-	p.SetState(316)
+	p.SetState(322)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
 	}
 	_la = p.GetTokenStream().LA(1)
 
-	for (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&2201170744832) != 0 {
+	for (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&4400194000384) != 0 {
 		{
-			p.SetState(313)
+			p.SetState(319)
 			p.Dopts()
 		}
 
-		p.SetState(318)
+		p.SetState(324)
 		p.GetErrorHandler().Sync(p)
 		if p.HasError() {
 			goto errorExit
@@ -6521,10 +6659,10 @@ func (s *ForwardContext) ExitRule(listener antlr.ParseTreeListener) {
 
 func (p *CONFIGParser) Forward() (localctx IForwardContext) {
 	localctx = NewForwardContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 86, CONFIGParserRULE_forward)
+	p.EnterRule(localctx, 88, CONFIGParserRULE_forward)
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(319)
+		p.SetState(325)
 		p.Match(CONFIGParserFORWARD)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -6532,7 +6670,7 @@ func (p *CONFIGParser) Forward() (localctx IForwardContext) {
 		}
 	}
 	{
-		p.SetState(320)
+		p.SetState(326)
 		p.Match(CONFIGParserTO)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -6540,7 +6678,7 @@ func (p *CONFIGParser) Forward() (localctx IForwardContext) {
 		}
 	}
 	{
-		p.SetState(321)
+		p.SetState(327)
 		p.Destination()
 	}
 
@@ -6651,10 +6789,10 @@ func (s *RouteContext) ExitRule(listener antlr.ParseTreeListener) {
 
 func (p *CONFIGParser) Route() (localctx IRouteContext) {
 	localctx = NewRouteContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 88, CONFIGParserRULE_route)
+	p.EnterRule(localctx, 90, CONFIGParserRULE_route)
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(323)
+		p.SetState(329)
 		p.Match(CONFIGParserROUTE)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -6662,7 +6800,7 @@ func (p *CONFIGParser) Route() (localctx IRouteContext) {
 		}
 	}
 	{
-		p.SetState(324)
+		p.SetState(330)
 		p.Match(CONFIGParserTO)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -6670,7 +6808,7 @@ func (p *CONFIGParser) Route() (localctx IRouteContext) {
 		}
 	}
 	{
-		p.SetState(325)
+		p.SetState(331)
 		p.Destination()
 	}
 
@@ -6769,10 +6907,10 @@ func (s *SesstimeoutContext) ExitRule(listener antlr.ParseTreeListener) {
 
 func (p *CONFIGParser) Sesstimeout() (localctx ISesstimeoutContext) {
 	localctx = NewSesstimeoutContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 90, CONFIGParserRULE_sesstimeout)
+	p.EnterRule(localctx, 92, CONFIGParserRULE_sesstimeout)
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(327)
+		p.SetState(333)
 		p.Match(CONFIGParserSESSION)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -6780,7 +6918,7 @@ func (p *CONFIGParser) Sesstimeout() (localctx ISesstimeoutContext) {
 		}
 	}
 	{
-		p.SetState(328)
+		p.SetState(334)
 		p.Match(CONFIGParserTIMEOUT)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -6788,7 +6926,7 @@ func (p *CONFIGParser) Sesstimeout() (localctx ISesstimeoutContext) {
 		}
 	}
 	{
-		p.SetState(329)
+		p.SetState(335)
 		p.Match(CONFIGParserNUMBER)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -6961,14 +7099,14 @@ func (s *RedirectContext) ExitRule(listener antlr.ParseTreeListener) {
 
 func (p *CONFIGParser) Redirect() (localctx IRedirectContext) {
 	localctx = NewRedirectContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 92, CONFIGParserRULE_redirect)
+	p.EnterRule(localctx, 94, CONFIGParserRULE_redirect)
 	var _la int
 
 	var _alt int
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(331)
+		p.SetState(337)
 		p.Match(CONFIGParserREDIRECT)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -6976,11 +7114,11 @@ func (p *CONFIGParser) Redirect() (localctx IRedirectContext) {
 		}
 	}
 	{
-		p.SetState(332)
+		p.SetState(338)
 		p.Rname()
 	}
 	{
-		p.SetState(333)
+		p.SetState(339)
 		p.Match(CONFIGParserLCURLY)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -6988,7 +7126,7 @@ func (p *CONFIGParser) Redirect() (localctx IRedirectContext) {
 		}
 	}
 
-	p.SetState(338)
+	p.SetState(344)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
@@ -6999,7 +7137,7 @@ func (p *CONFIGParser) Redirect() (localctx IRedirectContext) {
 	}
 	for _alt != 2 && _alt != antlr.ATNInvalidAltNumber {
 		if _alt == 1 {
-			p.SetState(336)
+			p.SetState(342)
 			p.GetErrorHandler().Sync(p)
 			if p.HasError() {
 				goto errorExit
@@ -7008,7 +7146,7 @@ func (p *CONFIGParser) Redirect() (localctx IRedirectContext) {
 			switch p.GetTokenStream().LA(1) {
 			case CONFIGParserNEWLINE:
 				{
-					p.SetState(334)
+					p.SetState(340)
 					p.Match(CONFIGParserNEWLINE)
 					if p.HasError() {
 						// Recognition error - abort rule
@@ -7018,7 +7156,7 @@ func (p *CONFIGParser) Redirect() (localctx IRedirectContext) {
 
 			case CONFIGParserROUTE, CONFIGParserSTICKY_ADDRESS, CONFIGParserSESSION, CONFIGParserFORWARD, CONFIGParserLISTEN, CONFIGParserDISABLE:
 				{
-					p.SetState(335)
+					p.SetState(341)
 					p.Rstmt()
 				}
 
@@ -7028,7 +7166,7 @@ func (p *CONFIGParser) Redirect() (localctx IRedirectContext) {
 			}
 
 		}
-		p.SetState(340)
+		p.SetState(346)
 		p.GetErrorHandler().Sync(p)
 		if p.HasError() {
 			goto errorExit
@@ -7038,23 +7176,23 @@ func (p *CONFIGParser) Redirect() (localctx IRedirectContext) {
 			goto errorExit
 		}
 	}
-	p.SetState(342)
+	p.SetState(348)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
 	}
 	_la = p.GetTokenStream().LA(1)
 
-	if (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&1139785334784) != 0 {
+	if (int64(_la) & ^0x3f) == 0 && ((int64(1)<<_la)&2273656700928) != 0 {
 		{
-			p.SetState(341)
+			p.SetState(347)
 			p.Rstmt()
 		}
 
 	}
 
 	{
-		p.SetState(344)
+		p.SetState(350)
 		p.Match(CONFIGParserRCURLY)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -7147,10 +7285,10 @@ func (s *RnameContext) ExitRule(listener antlr.ParseTreeListener) {
 
 func (p *CONFIGParser) Rname() (localctx IRnameContext) {
 	localctx = NewRnameContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 94, CONFIGParserRULE_rname)
+	p.EnterRule(localctx, 96, CONFIGParserRULE_rname)
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(346)
+		p.SetState(352)
 		p.Match(CONFIGParserQNAME)
 		if p.HasError() {
 			// Recognition error - abort rule
@@ -7316,8 +7454,8 @@ func (s *RstmtContext) ExitRule(listener antlr.ParseTreeListener) {
 
 func (p *CONFIGParser) Rstmt() (localctx IRstmtContext) {
 	localctx = NewRstmtContext(p, p.GetParserRuleContext(), p.GetState())
-	p.EnterRule(localctx, 96, CONFIGParserRULE_rstmt)
-	p.SetState(354)
+	p.EnterRule(localctx, 98, CONFIGParserRULE_rstmt)
+	p.SetState(360)
 	p.GetErrorHandler().Sync(p)
 	if p.HasError() {
 		goto errorExit
@@ -7327,7 +7465,7 @@ func (p *CONFIGParser) Rstmt() (localctx IRstmtContext) {
 	case CONFIGParserDISABLE:
 		p.EnterOuterAlt(localctx, 1)
 		{
-			p.SetState(348)
+			p.SetState(354)
 			p.Match(CONFIGParserDISABLE)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -7338,7 +7476,7 @@ func (p *CONFIGParser) Rstmt() (localctx IRstmtContext) {
 	case CONFIGParserSTICKY_ADDRESS:
 		p.EnterOuterAlt(localctx, 2)
 		{
-			p.SetState(349)
+			p.SetState(355)
 			p.Match(CONFIGParserSTICKY_ADDRESS)
 			if p.HasError() {
 				// Recognition error - abort rule
@@ -7349,28 +7487,28 @@ func (p *CONFIGParser) Rstmt() (localctx IRstmtContext) {
 	case CONFIGParserSESSION:
 		p.EnterOuterAlt(localctx, 3)
 		{
-			p.SetState(350)
+			p.SetState(356)
 			p.Sesstimeout()
 		}
 
 	case CONFIGParserLISTEN:
 		p.EnterOuterAlt(localctx, 4)
 		{
-			p.SetState(351)
+			p.SetState(357)
 			p.Listen()
 		}
 
 	case CONFIGParserFORWARD:
 		p.EnterOuterAlt(localctx, 5)
 		{
-			p.SetState(352)
+			p.SetState(358)
 			p.Forward()
 		}
 
 	case CONFIGParserROUTE:
 		p.EnterOuterAlt(localctx, 6)
 		{
-			p.SetState(353)
+			p.SetState(359)
 			p.Route()
 		}
 

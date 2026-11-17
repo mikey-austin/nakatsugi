@@ -17,15 +17,16 @@ gopts
     : interval
     | timeout
     | prefork
+    | socket
     ;
 timeout: TIMEOUT NUMBER ;
 interval: INTERVAL NUMBER ;
 prefork: PREFORK NUMBER ;
+socket: SOCKET QNAME ;
 // agentx (also prometheus extension)
 // log
 // log connection
 // log level
-// socket
 
 // Tables
 table: TABLE tname tdisable? LCURLY tlist RCURLY ;
@@ -153,6 +154,7 @@ STICKY_ADDRESS: 'sticky-address' ;
 SESSION: 'session' ;
 TIMEOUT: 'timeout' ;
 FORWARD: 'forward' ;
+SOCKET: 'socket' ;
 PORT: 'port' ;
 INTERFACE: 'interface' ;
 LISTEN: 'listen' ;

@@ -6,10 +6,11 @@ import (
 )
 
 type Config struct {
-	Interval  time.Duration
-	Timeout   time.Duration
-	Tables    map[string]*Table
-	Redirects map[string]*Redirect
+	Interval   time.Duration
+	Timeout    time.Duration
+	Tables     map[string]*Table
+	Redirects  map[string]*Redirect
+	SocketPath string
 
 	// TODO:
 	// - Relays
