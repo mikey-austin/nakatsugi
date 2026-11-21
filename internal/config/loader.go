@@ -244,7 +244,7 @@ func (this *loader) setRstmt(ctx parser.IRstmtContext, redirect *Redirect, defau
 	}
 
 	if ctx.Listen() != nil {
-		listen, err := NewListen(ctx.Listen())
+		listen, err := this.newListen(ctx.Listen())
 		if err != nil {
 			return seenPort, err
 		}
@@ -253,7 +253,7 @@ func (this *loader) setRstmt(ctx parser.IRstmtContext, redirect *Redirect, defau
 	}
 
 	if ctx.Forward() != nil {
-		forward, err := NewForward(ctx.Forward(), this.resolveTable, defaultPort)
+		forward, err := this.newForward(ctx.Forward(), defaultPort)
 		if err != nil {
 			return seenPort, err
 		}
@@ -261,7 +261,7 @@ func (this *loader) setRstmt(ctx parser.IRstmtContext, redirect *Redirect, defau
 	}
 
 	if ctx.Route() != nil {
-		route, err := NewRoute(ctx.Route(), this.resolveTable, defaultPort)
+		route, err := this.newRoute(ctx.Route(), defaultPort)
 		if err != nil {
 			return seenPort, err
 		}

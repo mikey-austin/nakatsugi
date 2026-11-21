@@ -11,7 +11,7 @@ import (
 	"github.com/mikey-austin/nakatsugi/internal/parser"
 )
 
-func NewListen(ctx parser.IListenContext) (*Listen, error) {
+func (this *loader) newListen(ctx parser.IListenContext) (*Listen, error) {
 	var listen Listen
 
 	address := net.ParseIP(ctx.NAME().GetText())
@@ -88,8 +88,8 @@ func NewListen(ctx parser.IListenContext) (*Listen, error) {
 	return &listen, nil
 }
 
-func NewForward(ctx parser.IForwardContext, tableResolver func(ctx parser.ITnameContext) (*Table, error), defaultPort uint16) (*Forward, error) {
-	destination, error := newDestination(ctx.Destination(), tableResolver, defaultPort)
+func (this *loader) newForward(ctx parser.IForwardContext, defaultPort uint16) (*Forward, error) {
+	destination, error := this.newDestination(ctx.Destination(), defaultPort)
 	if error != nil {
 		return nil, error
 	}
@@ -97,8 +97,8 @@ func NewForward(ctx parser.IForwardContext, tableResolver func(ctx parser.ITname
 	return &forward, nil
 }
 
-func NewRoute(ctx parser.IRouteContext, tableResolver func(ctx parser.ITnameContext) (*Table, error), defaultPort uint16) (*Route, error) {
-	destination, error := newDestination(ctx.Destination(), tableResolver, defaultPort)
+func (this *loader) newRoute(ctx parser.IRouteContext, defaultPort uint16) (*Route, error) {
+	destination, error := this.newDestination(ctx.Destination(), defaultPort)
 	if error != nil {
 		return nil, error
 	}
@@ -106,8 +106,8 @@ func NewRoute(ctx parser.IRouteContext, tableResolver func(ctx parser.ITnameCont
 	return &route, nil
 }
 
-func newDestination(ctx parser.IDestinationContext, tableResolver func(ctx parser.ITnameContext) (*Table, error), defaultPort uint16) (*Destination, error) {
-	table, err := tableResolver(ctx.Tname())
+func (this *loader) newDestination(ctx parser.IDestinationContext, defaultPort uint16) (*Destination, error) {
+	table, err := this.resolveTable(ctx.Tname())
 	if err != nil {
 		return nil, err
 	}
@@ -125,7 +125,7 @@ func newDestination(ctx parser.IDestinationContext, tableResolver func(ctx parse
 	for _, dopt := range ctx.AllDopts() {
 		switch {
 		case dopt.Check() != nil:
-			check, err := NewCheck(dopt.Check())
+			check, err := this.newCheck(dopt.Check())
 			if err != nil {
 				return nil, err
 			}
@@ -177,7 +177,7 @@ func code(number antlr.TerminalNode) (uint, error) {
 	return uint(code), nil
 }
 
-func NewCheck(ctx parser.ICheckContext) (*Check, error) {
+func (this *loader) newCheck(ctx parser.ICheckContext) (*Check, error) {
 	var check Check
 
 	// TODO: add general override options and mode options
