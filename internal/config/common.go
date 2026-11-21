@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/antlr4-go/antlr/v4"
-	"github.com/mikey-austin/nakatsugi/parser"
+	"github.com/mikey-austin/nakatsugi/internal/parser"
 )
 
 func NewListen(ctx parser.IListenContext) (*Listen, error) {

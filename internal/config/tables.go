@@ -7,7 +7,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/mikey-austin/nakatsugi/parser"
+	"github.com/mikey-austin/nakatsugi/internal/parser"
 )
 
 func StripTableName(raw string) string {

@@ -1,7 +1,7 @@
 .PHONY: parser test
 
 parser:
-	go generate ./...
+	go generate ./internal/...
 
 test:
-	go test ./config ./parser
+	go test ./internal/config ./internal/parser
