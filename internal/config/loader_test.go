@@ -169,15 +169,17 @@ redirect "tcpsingle" {
 	}
 }
 
-func TestRedirectForwards(t *testing.T) {
+func TestRedirectForwardsAndRoutes(t *testing.T) {
 	c := `
 interval 5
 table <t1> { 10.23.1.1 }
 redirect "r1" {
     listen on 10.23.1.2 port 555
 
+    # Test forward rule extraction
     forward to <t1> port 777 \
         check http "/" host example.com code 200 \
+        mode hash "myhashvalue" \
         interval 10 \
         timeout 25
 
@@ -185,7 +187,58 @@ redirect "r1" {
     forward to <t1> \
         timeout 27 \
         interval 15 \
+        mode least-states \
         check http "/health" digest "a9993e36476816aba3e25717850c26c9cd0d89d"
+
+    forward to <t1> \
+        timeout 27 \
+        interval 15 \
+        mode loadbalance "mybalancer" \
+        check https "/" digest "a9993e36476816aba3e25717850c26c9cd0d89d"
+
+    forward to <t1> \
+        mode random \
+        check https "/" host test.com code 202
+
+    forward to <t1> \
+        mode roundrobin \
+        check https "/" host test.com code 204
+
+    forward to <t1> \
+        mode source-hash "mysourcehash" \
+        check https "/" host test.com code 300
+
+    # Now the route rule versions of the above rules
+    route to <t1> port 777 \
+        check http "/" host example.com code 200 \
+        mode hash "myhashvalue" \
+        interval 10 \
+        timeout 25
+
+    # Should default to the last listen port
+    route to <t1> \
+        timeout 27 \
+        interval 15 \
+        mode least-states \
+        check http "/health" digest "a9993e36476816aba3e25717850c26c9cd0d89d"
+
+    route to <t1> \
+        timeout 27 \
+        interval 15 \
+        mode loadbalance "mybalancer" \
+        check https "/" digest "a9993e36476816aba3e25717850c26c9cd0d89d"
+
+    route to <t1> \
+        mode random \
+        check https "/" host test.com code 202
+
+    route to <t1> \
+        mode roundrobin \
+        check https "/" host test.com code 204
+
+    route to <t1> \
+        mode source-hash "mysourcehash" \
+        check https "/" host test.com code 300
 }
 `
 	config, error := NewConfigFromReader(strings.NewReader(c))
@@ -209,8 +262,10 @@ redirect "r1" {
 		&Destination{
 			ToTable: &table,
 			Port:    777,
+			Mode:    &ModeHash{hash: "myhashvalue"},
 			Check: &Check{
 				Type: CheckTypeHttpCode,
+
 				CheckHttpCode: &CheckHttpCode{
 					CheckHttpBase: CheckHttpBase{Path: "/", Hostname: "example.com", Https: false},
 					Code:          200,
@@ -219,11 +274,56 @@ redirect "r1" {
 		&Destination{
 			ToTable: &table,
 			Port:    555, // Defaults to the listen port defined above it
+			Mode:    &ModeLeastStates{},
 			Check: &Check{
 				Type: CheckTypeHttpDigest,
 				CheckHttpDigest: &CheckHttpDigest{
 					CheckHttpBase: CheckHttpBase{Path: "/health", Hostname: "", Https: false},
 					Digest:        "a9993e36476816aba3e25717850c26c9cd0d89d",
+				}},
+		},
+		&Destination{
+			ToTable: &table,
+			Port:    555, // Defaults to the listen port defined above it
+			Mode:    &ModeLoadBalance{name: "mybalancer"},
+			Check: &Check{
+				Type: CheckTypeHttpDigest,
+				CheckHttpDigest: &CheckHttpDigest{
+					CheckHttpBase: CheckHttpBase{Path: "/", Hostname: "", Https: true},
+					Digest:        "a9993e36476816aba3e25717850c26c9cd0d89d",
+				}},
+		},
+		&Destination{
+			ToTable: &table,
+			Port:    555, // Defaults to the listen port defined above it
+			Mode:    &ModeRandom{},
+			Check: &Check{
+				Type: CheckTypeHttpCode,
+				CheckHttpCode: &CheckHttpCode{
+					CheckHttpBase: CheckHttpBase{Path: "/", Hostname: "test.com", Https: true},
+					Code:          202,
+				}},
+		},
+		&Destination{
+			ToTable: &table,
+			Port:    555, // Defaults to the listen port defined above it
+			Mode:    &ModeRoundRobin{},
+			Check: &Check{
+				Type: CheckTypeHttpCode,
+				CheckHttpCode: &CheckHttpCode{
+					CheckHttpBase: CheckHttpBase{Path: "/", Hostname: "test.com", Https: true},
+					Code:          204,
+				}},
+		},
+		&Destination{
+			ToTable: &table,
+			Port:    555, // Defaults to the listen port defined above it
+			Mode:    &ModeSourceHash{hash: "mysourcehash"},
+			Check: &Check{
+				Type: CheckTypeHttpCode,
+				CheckHttpCode: &CheckHttpCode{
+					CheckHttpBase: CheckHttpBase{Path: "/", Hostname: "test.com", Https: true},
+					Code:          300,
 				}},
 		},
 	}
@@ -238,6 +338,25 @@ redirect "r1" {
 		}
 		if !reflect.DeepEqual(e.Check, g.Check) {
 			t.Errorf("TestForward(%d).Check: expected %v, got %v", i, e.Check, g.Check)
+		}
+		if !reflect.DeepEqual(e.Mode, g.Mode) {
+			t.Errorf("TestForward(%d).Mode: expected %v, got %v", i, e.Mode, g.Mode)
+		}
+	}
+
+	for i, e := range expected {
+		g := r1.Routes[i]
+		if e.Port != g.Port {
+			t.Errorf("TestRoute(%d).Port: expected %v, got %v", i, e.Port, g.Port)
+		}
+		if !reflect.DeepEqual(e.ToTable, g.ToTable) {
+			t.Errorf("TestRoute(%d).ToTable: expected %v, got %v", i, e.ToTable, g.ToTable)
+		}
+		if !reflect.DeepEqual(e.Check, g.Check) {
+			t.Errorf("TestRoute(%d).Check: expected %v, got %v", i, e.Check, g.Check)
+		}
+		if !reflect.DeepEqual(e.Mode, g.Mode) {
+			t.Errorf("TestRoute(%d).Mode: expected %v, got %v", i, e.Mode, g.Mode)
 		}
 	}
 }

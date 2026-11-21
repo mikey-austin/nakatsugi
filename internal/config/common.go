@@ -132,6 +132,14 @@ func (this *loader) newDestination(ctx parser.IDestinationContext, defaultPort u
 			destination.Check = check
 			break
 
+		case dopt.Balancemode() != nil:
+			mode, err := this.newMode(dopt.Balancemode().Mtype())
+			if err != nil {
+				return nil, err
+			}
+			destination.Mode = mode
+			break
+
 		case dopt.Interval() != nil:
 			i, err := strconv.Atoi(dopt.Interval().NUMBER().GetText())
 			if err != nil {
@@ -175,6 +183,30 @@ func code(number antlr.TerminalNode) (uint, error) {
 		return uint(code), err
 	}
 	return uint(code), nil
+}
+
+func (this *loader) newMode(ctx parser.IMtypeContext) (BalancerMode, error) {
+	var m BalancerMode
+	switch {
+	case ctx.Mhash() != nil:
+		m = &ModeHash{hash: unquote(ctx.Mhash().QNAME())}
+	case ctx.Mleaststates() != nil:
+		m = &ModeLeastStates{}
+	case ctx.Mloadbalance() != nil:
+		m = &ModeLoadBalance{name: unquote(ctx.Mloadbalance().QNAME())}
+	case ctx.Mrandom() != nil:
+		m = &ModeRandom{}
+	case ctx.Mroundrobin() != nil:
+		m = &ModeRoundRobin{}
+	case ctx.Msourcehash() != nil:
+		m = &ModeSourceHash{hash: unquote(ctx.Msourcehash().QNAME())}
+	}
+
+	if m == nil {
+		return nil, fmt.Errorf("unknown balancer mode")
+	}
+
+	return m, nil
 }
 
 func (this *loader) newCheck(ctx parser.ICheckContext) (*Check, error) {

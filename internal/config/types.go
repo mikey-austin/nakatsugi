@@ -1,6 +1,7 @@
 package config
 
 import (
+	"fmt"
 	"net"
 	"time"
 )
@@ -63,11 +64,10 @@ type Listen struct {
 type Destination struct {
 	ToTable  *Table
 	Port     uint16
-	Check    *Check
 	Interval time.Duration
 	Timeout  time.Duration
-
-	// TODO: add mode here
+	Check    *Check
+	Mode     BalancerMode
 }
 
 type Forward struct {
@@ -92,6 +92,17 @@ type Redirect struct {
 // Check types
 type CheckType int
 
+func (c CheckType) String() string {
+	switch c {
+	case CheckTypeHttpCode:
+		return "<check: http code>"
+	case CheckTypeHttpDigest:
+		return "<check: http digest>"
+	default:
+		return "<check: unknown>"
+	}
+}
+
 const (
 	CheckTypeHttpCode CheckType = iota
 	CheckTypeHttpDigest
@@ -109,6 +120,10 @@ type CheckHttpBase struct {
 	Https    bool
 }
 
+func (c CheckHttpBase) String() string {
+	return fmt.Sprintf("{path: '%s', hostname: '%s', https:%v}", c.Path, c.Hostname, c.Https)
+}
+
 type CheckHttpCode struct {
 	CheckHttpBase
 	Code uint
@@ -118,3 +133,12 @@ type CheckHttpDigest struct {
 	CheckHttpBase
 	Digest string
 }
+
+// Mode types
+type BalancerMode interface{}
+type ModeHash struct{ hash string }
+type ModeLeastStates struct{}
+type ModeLoadBalance struct{ name string }
+type ModeRandom struct{}
+type ModeRoundRobin struct{}
+type ModeSourceHash struct{ hash string }
