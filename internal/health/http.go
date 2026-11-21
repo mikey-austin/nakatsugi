@@ -2,9 +2,14 @@ package health
 
 import (
 	"context"
+	"fmt"
+	"net"
 	"net/http"
 	"net/url"
+	"strconv"
 	"time"
+
+	"github.com/mikey-austin/nakatsugi/internal/config"
 )
 
 type HttpChecker struct {
@@ -12,11 +17,13 @@ type HttpChecker struct {
 	reqBuilder CheckRequestBuilder
 	client     *http.Client
 	timeout    time.Duration
+	port       uint16
 }
 
 func NewHttpChecker(
 	client *http.Client,
-	checkTimeout time.Duration,
+	timeout time.Duration,
+	port uint16,
 	verifier CheckVerifier,
 	reqBuilder CheckRequestBuilder) *HttpChecker {
 
@@ -24,14 +31,15 @@ func NewHttpChecker(
 		verifier:   verifier,
 		reqBuilder: reqBuilder,
 		client:     client,
-		timeout:    checkTimeout,
+		timeout:    timeout,
+		port:       port,
 	}
 }
 
-func (h *HttpChecker) CheckHealth() *CheckResult {
+func (h *HttpChecker) CheckHealth(addr net.IP) *CheckResult {
 	// TODO: we may need to be able to cancel in-flight checks
 	ctx, _ := context.WithTimeout(context.Background(), h.timeout)
-	req, err := h.reqBuilder.NewRequest(ctx)
+	req, err := h.reqBuilder.NewRequest(ctx, addr, h.port)
 	if err != nil {
 		return NewUnknownCheckResult(err)
 	}
@@ -45,4 +53,81 @@ func (h *HttpChecker) CheckHealth() *CheckResult {
 	}
 
 	return h.verifier.Verify(resp)
+}
+
+type HttpDestination struct {
+	scheme   string
+	path     string
+	hostname string
+	verify   func(*http.Response) (*CheckResult, error)
+}
+
+func NewHttpRequestBuilder(destination config.Destination) (*HttpDestination, error) {
+	dest := &HttpDestination{}
+	var base config.CheckHttpBase
+
+	switch destination.Check.Type {
+	case config.CheckTypeHttpCode:
+		base = destination.Check.CheckHttpCode.CheckHttpBase
+		code := destination.Check.CheckHttpCode.Code
+		dest.verify = func(resp *http.Response) (*CheckResult, error) {
+			return dest.verifyByCode(code, resp)
+		}
+	case config.CheckTypeHttpDigest:
+		base = destination.Check.CheckHttpDigest.CheckHttpBase
+		dest.verify = func(resp *http.Response) (*CheckResult, error) {
+			return dest.verifyByDigest(destination.Check.CheckHttpDigest.Digest, resp)
+		}
+	default:
+		return nil, fmt.Errorf("not an http based check")
+	}
+
+	dest.hostname = base.Hostname
+	dest.path = base.Path
+	dest.scheme = "http"
+	if base.Https {
+		dest.scheme = "https"
+	}
+
+	return dest, nil
+}
+
+func (h *HttpDestination) Verify(resp *http.Response) *CheckResult {
+	res, err := h.verify(resp)
+	if err != nil {
+		return NewUnknownCheckResult(err)
+	}
+	return res
+}
+
+func (h *HttpDestination) verifyByDigest(digest string, resp *http.Response) (*CheckResult, error) {
+	// TODO: return digest and compare with argument
+	return nil, nil
+}
+
+func (h *HttpDestination) verifyByCode(code int, resp *http.Response) (*CheckResult, error) {
+	if resp.StatusCode == code {
+		return NewSuccessfulCheckResult(), nil
+	}
+	return NewErrorCheckResult(
+		fmt.Errorf("health check failed, expected %d but got %d", code, resp.StatusCode)), nil
+}
+
+func (h *HttpDestination) NewRequest(ctx context.Context, addr net.IP, port uint16) (*http.Request, error) {
+	url := url.URL{
+		Scheme: h.scheme,
+		Host:   net.JoinHostPort(addr.String(), strconv.Itoa(int(port))),
+		Path:   h.path,
+	}
+
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	if h.hostname != "" {
+		req.Host = h.hostname
+	}
+
+	return req, nil
 }

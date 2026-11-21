@@ -177,12 +177,12 @@ func host(ctx parser.IChostContext) (string, error) {
 	return hostname, nil
 }
 
-func code(number antlr.TerminalNode) (uint, error) {
-	code, err := strconv.ParseUint(number.GetText(), 10, 16)
+func code(number antlr.TerminalNode) (int, error) {
+	code, err := strconv.Atoi(number.GetText())
 	if err != nil {
-		return uint(code), err
+		return code, err
 	}
-	return uint(code), nil
+	return code, nil
 }
 
 func (this *loader) newMode(ctx parser.IMtypeContext) (BalancerMode, error) {

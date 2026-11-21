@@ -3,11 +3,12 @@ package health
 import (
 	"context"
 	"fmt"
+	"net"
 	"net/http"
 )
 
 type Checker interface {
-	CheckHealth() *CheckResult
+	CheckHealth(net.IP) *CheckResult
 }
 
 type CheckVerifier interface {
@@ -15,7 +16,7 @@ type CheckVerifier interface {
 }
 
 type CheckRequestBuilder interface {
-	NewRequest(context.Context) (*http.Request, error)
+	NewRequest(context.Context, net.IP, uint16) (*http.Request, error)
 }
 
 type CheckResultStatus int
@@ -30,6 +31,12 @@ const (
 type CheckResult struct {
 	status CheckResultStatus
 	error  error
+}
+
+var successfulResult CheckResult = CheckResult{status: CheckSucceeded}
+
+func NewSuccessfulCheckResult() *CheckResult {
+	return &successfulResult
 }
 
 func NewTimeoutCheckResult(e error) *CheckResult {

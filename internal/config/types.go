@@ -139,7 +139,7 @@ func (c CheckHttpBase) String() string {
 
 type CheckHttpCode struct {
 	CheckHttpBase
-	Code uint
+	Code int
 }
 
 type CheckHttpDigest struct {
