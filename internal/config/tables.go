@@ -17,8 +17,8 @@ func StripTableName(raw string) string {
 
 }
 
-func NewTItemFromParseCtx(itemVal string, ctx parser.ITitemContext) (*TItem, error) {
-	var item TItem
+func NewTItemFromParseCtx(itemVal string, ctx parser.ITitemContext) (*TableItem, error) {
+	var item TableItem
 	ip := net.ParseIP(itemVal)
 	if ip != nil {
 		if strings.ContainsAny(itemVal, ":") {

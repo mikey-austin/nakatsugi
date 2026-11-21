@@ -100,10 +100,10 @@ table <mytable> { \
 		t.Errorf("expected %d mytable items, got %d", 2, len(mytable.Items))
 	}
 
-	expected := []TItem{
-		TItem{Type: Hostname, Hostname: "x.org", TTL: time.Duration(12) * time.Second, Parent: 5, Prio: 23, Retry: 3},
-		TItem{Type: IPv4Host, IP: net.ParseIP("10.23.4.1"), TTL: time.Duration(21) * time.Second, Parent: 7, Prio: 27, Retry: 5},
-		TItem{Type: IPv6Host, IP: net.ParseIP("::ffff:c000:0280"), TTL: time.Duration(34) * time.Second, Parent: 8, Prio: 34, Retry: 8},
+	expected := []TableItem{
+		TableItem{Type: Hostname, Hostname: "x.org", TTL: time.Duration(12) * time.Second, Parent: 5, Prio: 23, Retry: 3},
+		TableItem{Type: IPv4Host, IP: net.ParseIP("10.23.4.1"), TTL: time.Duration(21) * time.Second, Parent: 7, Prio: 27, Retry: 5},
+		TableItem{Type: IPv6Host, IP: net.ParseIP("::ffff:c000:0280"), TTL: time.Duration(34) * time.Second, Parent: 8, Prio: 34, Retry: 8},
 	}
 	for i, e := range expected {
 		if !reflect.DeepEqual(*(mytable.Items[i]), e) {
@@ -254,8 +254,8 @@ redirect "r1" {
 
 	table := Table{
 		Name: "t1",
-		Items: []*TItem{
-			&TItem{Type: IPv4Host, IP: net.ParseIP("10.23.1.1")},
+		Items: []*TableItem{
+			&TableItem{Type: IPv4Host, IP: net.ParseIP("10.23.1.1")},
 		},
 	}
 	expected := []*Destination{

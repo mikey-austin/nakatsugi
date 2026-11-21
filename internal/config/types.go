@@ -23,19 +23,32 @@ type Config struct {
 type Table struct {
 	Name     string
 	Disabled bool
-	Items    []*TItem
+	Items    []*TableItem
 }
 
-type TItemType int
+type TableItemKind int
 
 const (
-	IPv4Host TItemType = iota
+	IPv4Host TableItemKind = iota
 	IPv6Host
 	Hostname
 )
 
-type TItem struct {
-	Type     TItemType
+func (k TableItemKind) String() string {
+	switch k {
+	case IPv4Host:
+		return "<TableItemKind: IPv4Host>"
+	case IPv6Host:
+		return "<TableItemKind: IPv6Host>"
+	case Hostname:
+		return "<TableItemKind: Hostname>"
+	default:
+		return "<TableItemKind: unknown>"
+	}
+}
+
+type TableItem struct {
+	Type     TableItemKind
 	Hostname string
 	IP       net.IP
 
