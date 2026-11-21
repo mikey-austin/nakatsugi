@@ -102,6 +102,13 @@ func (h *HttpDestination) Verify(resp *http.Response) *CheckResult {
 
 func (h *HttpDestination) verifyByDigest(digest string, resp *http.Response) (*CheckResult, error) {
 	// TODO: return digest and compare with argument
+	// supports 32 char hex (md5) and 40 char hex (sha1),
+	// also add validation in the configuration loader
+	// just hash the body, which will differ from the C
+	// version of relayd whose non-binary limitation comes
+	// from strlen meaning golang's version is more robust and
+	// can handle NUL bytes in the response body (headers are
+	// not hashed)
 	return nil, nil
 }
 
