@@ -28,18 +28,20 @@ func TestHttpChecker(t *testing.T) {
 		h bool
 		t bool
 	}{
-		{d: newDestCodeCheck(addr, port, 200, "/health1"), h: true, t: false},
-		{d: newDestCodeCheck(addr, port, 200, "/health2"), h: false, t: false},
-		{d: newDestDigestCheck(addr, port, testMd5, "/health1"), h: true, t: false},
-		{d: newDestDigestCheck(addr, port, testSha1, "/health1"), h: true, t: false},
-		{d: newDestDigestCheck(addr, port, testMd5, "/health2"), h: false, t: false},
-		{d: newDestDigestCheck(addr, port, testSha1, "/health2"), h: false, t: false},
-		{d: newDestCodeCheck(addr, port, 200, "/timeout"), h: false, t: true},
+		{d: codeCheck(addr, port, 200, "/health1"), h: true, t: false},
+		{d: codeCheck(addr, port, 200, "/health2"), h: false, t: false},
+		{d: codeCheck(addr, port, 200, "/timeout"), h: false, t: true},
+		{d: digestCheck(addr, port, testMd5, "/timeout"), h: false, t: true},
+		{d: digestCheck(addr, port, testMd5, "/health1"), h: true, t: false},
+		{d: digestCheck(addr, port, testSha1, "/health1"), h: true, t: false},
+		{d: digestCheck(addr, port, testSha1, "/timeout"), h: false, t: true},
+		{d: digestCheck(addr, port, testMd5, "/health2"), h: false, t: false},
+		{d: digestCheck(addr, port, testSha1, "/health2"), h: false, t: false},
 	}
 
 	for i, c := range cases {
 		httpDest, _ := NewHttpDestination(cases[i].d)
-		timeout, _ := time.ParseDuration("100ms")
+		timeout, _ := time.ParseDuration("20ms")
 		httpChecker := NewHttpChecker(client, timeout, port, httpDest, httpDest)
 
 		res := httpChecker.CheckHealth(addr)
@@ -56,7 +58,7 @@ func TestHttpChecker(t *testing.T) {
 func TestInvalidDigest(t *testing.T) {
 	server, _, addr, port := newTestServer()
 	defer server.Close()
-	_, err := NewHttpDestination(newDestDigestCheck(addr, port, invalidDigest, "/"))
+	_, err := NewHttpDestination(digestCheck(addr, port, invalidDigest, "/"))
 	if err == nil {
 		t.Errorf("expected error during construction with an invalid expected digest")
 	}
@@ -64,7 +66,7 @@ func TestInvalidDigest(t *testing.T) {
 
 // Test data below
 
-func newDestCodeCheck(addr net.IP, port uint16, code int, path string) config.Destination {
+func codeCheck(addr net.IP, port uint16, code int, path string) config.Destination {
 	table := config.Table{
 		Name: "t1",
 		Items: []*config.TableItem{
@@ -83,7 +85,7 @@ func newDestCodeCheck(addr net.IP, port uint16, code int, path string) config.De
 	}
 }
 
-func newDestDigestCheck(addr net.IP, port uint16, digest string, path string) config.Destination {
+func digestCheck(addr net.IP, port uint16, digest string, path string) config.Destination {
 	expected, _ := hex.DecodeString(digest)
 	table := config.Table{
 		Name: "t1",
