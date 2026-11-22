@@ -1,8 +1,13 @@
 package health
 
 import (
+	"bytes"
 	"context"
+	"crypto/md5"
+	"crypto/sha1"
 	"fmt"
+	"hash"
+	"io"
 	"net"
 	"net/http"
 	"net/url"
@@ -75,8 +80,21 @@ func NewHttpRequestBuilder(destination config.Destination) (*HttpDestination, er
 		}
 	case config.CheckTypeHttpDigest:
 		base = destination.Check.CheckHttpDigest.CheckHttpBase
+		expected := destination.Check.CheckHttpDigest.Digest
+
+		var hash func() hash.Hash
+		if len(expected) == md5.Size {
+			hash = md5.New
+		} else if len(expected) == sha1.Size {
+			hash = sha1.New
+		} else {
+			return nil, fmt.Errorf(
+				"expected digest looks wrong; expecting a %d byte MD5 or %d byte SHA1 digest",
+				md5.Size, sha1.Size)
+		}
+
 		dest.verify = func(resp *http.Response) (*CheckResult, error) {
-			return dest.verifyByDigest(destination.Check.CheckHttpDigest.Digest, resp)
+			return dest.verifyByDigest(hash, expected, resp)
 		}
 	default:
 		return nil, fmt.Errorf("not an http based check")
@@ -100,16 +118,22 @@ func (h *HttpDestination) Verify(resp *http.Response) *CheckResult {
 	return res
 }
 
-func (h *HttpDestination) verifyByDigest(digest string, resp *http.Response) (*CheckResult, error) {
-	// TODO: return digest and compare with argument
-	// supports 32 char hex (md5) and 40 char hex (sha1),
-	// also add validation in the configuration loader
-	// just hash the body, which will differ from the C
-	// version of relayd whose non-binary limitation comes
-	// from strlen meaning golang's version is more robust and
-	// can handle NUL bytes in the response body (headers are
-	// not hashed)
-	return nil, nil
+func (h *HttpDestination) verifyByDigest(
+	newHash func() hash.Hash, expected []byte, resp *http.Response) (*CheckResult, error) {
+
+	digest := newHash()
+	_, err := io.Copy(digest, resp.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	computed := digest.Sum(nil)
+	if bytes.Equal(computed, expected) {
+		return NewSuccessfulCheckResult(), nil
+	}
+
+	return NewErrorCheckResult(
+		fmt.Errorf("health check digest mismatch: expected %x, but got %x", expected, computed)), nil
 }
 
 func (h *HttpDestination) verifyByCode(code int, resp *http.Response) (*CheckResult, error) {
@@ -117,7 +141,7 @@ func (h *HttpDestination) verifyByCode(code int, resp *http.Response) (*CheckRes
 		return NewSuccessfulCheckResult(), nil
 	}
 	return NewErrorCheckResult(
-		fmt.Errorf("health check failed, expected %d but got %d", code, resp.StatusCode)), nil
+		fmt.Errorf("health check http status code mismatch: expected %d but got %d", code, resp.StatusCode)), nil
 }
 
 func (h *HttpDestination) NewRequest(ctx context.Context, addr net.IP, port uint16) (*http.Request, error) {

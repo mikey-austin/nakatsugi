@@ -1,6 +1,9 @@
 package config
 
 import (
+	"crypto/md5"
+	"crypto/sha1"
+	"encoding/hex"
 	"fmt"
 	"net"
 	"strconv"
@@ -237,8 +240,14 @@ func (this *loader) newCheck(ctx parser.ICheckContext) (*Check, error) {
 		if err != nil {
 			return nil, err
 		}
+
+		digest, err := hex.DecodeString(unquote(c.Cdigest().QNAME()))
+		if err != nil {
+			return nil, err
+		}
+
 		base := CheckHttpBase{Path: unquote(c.QNAME()), Hostname: host, Https: false}
-		check.CheckHttpDigest = &CheckHttpDigest{CheckHttpBase: base, Digest: unquote(c.Cdigest().QNAME())}
+		check.CheckHttpDigest = &CheckHttpDigest{CheckHttpBase: base, Digest: digest}
 		break
 	case ct.Chttpscode() != nil:
 		c := ct.Chttpscode()
@@ -261,10 +270,32 @@ func (this *loader) newCheck(ctx parser.ICheckContext) (*Check, error) {
 		if err != nil {
 			return nil, err
 		}
+
+		digest, err := hex.DecodeString(unquote(c.Cdigest().QNAME()))
+		if err != nil {
+			return nil, err
+		}
+
 		base := CheckHttpBase{Path: unquote(c.QNAME()), Hostname: host, Https: true}
-		check.CheckHttpDigest = &CheckHttpDigest{CheckHttpBase: base, Digest: unquote(c.Cdigest().QNAME())}
+		check.CheckHttpDigest = &CheckHttpDigest{CheckHttpBase: base, Digest: digest}
 		break
 	}
 
 	return &check, nil
+}
+
+func decodeDigest(encodedDigest string) ([]byte, error) {
+	digest, err := hex.DecodeString(encodedDigest)
+	if err != nil {
+		return nil, err
+	}
+
+	l := len(digest)
+	if l != md5.Size && l != sha1.Size {
+		return nil, fmt.Errorf(
+			"only MD5 or SHA1 digests: got %d bytes, but need %d of %d",
+			l, md5.Size, sha1.Size)
+	}
+
+	return digest, nil
 }

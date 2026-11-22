@@ -61,7 +61,9 @@ func NewUnknownCheckResult(e error) *CheckResult {
 }
 
 func (c *CheckResult) String() string {
-	return fmt.Sprintf("<CheckResult: healthy=%v, timedOut=%v", c.IsHealthy(), c.IsTimedOut())
+	return fmt.Sprintf(
+		"<CheckResult: healthy=%v, timedOut=%v, error=%v",
+		c.IsHealthy(), c.IsTimedOut(), c.error)
 }
 
 func (c *CheckResult) IsHealthy() bool {

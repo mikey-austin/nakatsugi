@@ -1,6 +1,7 @@
 package config
 
 import (
+	"encoding/hex"
 	"net"
 	"reflect"
 	"strings"
@@ -188,13 +189,13 @@ redirect "r1" {
         timeout 27 \
         interval 15 \
         mode least-states \
-        check http "/health" digest "a9993e36476816aba3e25717850c26c9cd0d89d"
+        check http "/health" digest "d8e8fca2dc0f896fd7cb4cb0031ba249" # md5
 
     forward to <t1> \
         timeout 27 \
         interval 15 \
         mode loadbalance "mybalancer" \
-        check https "/" digest "a9993e36476816aba3e25717850c26c9cd0d89d"
+        check https "/" digest "4e1243bd22c66e76c2ba9eddc1f91394e57f9f83" # sha1
 
     forward to <t1> \
         mode random \
@@ -220,13 +221,13 @@ redirect "r1" {
         timeout 27 \
         interval 15 \
         mode least-states \
-        check http "/health" digest "a9993e36476816aba3e25717850c26c9cd0d89d"
+        check http "/health" digest "d8e8fca2dc0f896fd7cb4cb0031ba249" # md5
 
     route to <t1> \
         timeout 27 \
         interval 15 \
         mode loadbalance "mybalancer" \
-        check https "/" digest "a9993e36476816aba3e25717850c26c9cd0d89d"
+        check https "/" digest "4e1243bd22c66e76c2ba9eddc1f91394e57f9f83" # sha1
 
     route to <t1> \
         mode random \
@@ -243,13 +244,12 @@ redirect "r1" {
 `
 	config, error := NewConfigFromReader(strings.NewReader(c))
 	if error != nil {
-		t.Errorf("could not load config: %v", error)
+		t.Fatalf("could not load config: %v", error)
 	}
 
 	r1, ok := config.Redirects["r1"]
 	if !ok {
-		t.Error("udprange is nil")
-		return
+		t.Fatalf("udprange is nil")
 	}
 
 	table := Table{
@@ -258,6 +258,10 @@ redirect "r1" {
 			&TableItem{Type: IPv4Host, IP: net.ParseIP("10.23.1.1")},
 		},
 	}
+
+	expectedMd5, _ := hex.DecodeString("d8e8fca2dc0f896fd7cb4cb0031ba249")
+	expectedSha1, _ := hex.DecodeString("4e1243bd22c66e76c2ba9eddc1f91394e57f9f83")
+
 	expected := []*Destination{
 		&Destination{
 			ToTable: &table,
@@ -279,7 +283,7 @@ redirect "r1" {
 				Type: CheckTypeHttpDigest,
 				CheckHttpDigest: &CheckHttpDigest{
 					CheckHttpBase: CheckHttpBase{Path: "/health", Hostname: "", Https: false},
-					Digest:        "a9993e36476816aba3e25717850c26c9cd0d89d",
+					Digest:        expectedMd5,
 				}},
 		},
 		&Destination{
@@ -290,7 +294,7 @@ redirect "r1" {
 				Type: CheckTypeHttpDigest,
 				CheckHttpDigest: &CheckHttpDigest{
 					CheckHttpBase: CheckHttpBase{Path: "/", Hostname: "", Https: true},
-					Digest:        "a9993e36476816aba3e25717850c26c9cd0d89d",
+					Digest:        expectedSha1,
 				}},
 		},
 		&Destination{

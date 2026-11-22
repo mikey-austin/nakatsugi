@@ -144,7 +144,7 @@ type CheckHttpCode struct {
 
 type CheckHttpDigest struct {
 	CheckHttpBase
-	Digest string
+	Digest []byte
 }
 
 // Mode types
