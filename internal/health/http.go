@@ -67,7 +67,7 @@ type HttpDestination struct {
 	verify   func(*http.Response) (*CheckResult, error)
 }
 
-func NewHttpRequestBuilder(destination config.Destination) (*HttpDestination, error) {
+func NewHttpDestination(destination config.Destination) (*HttpDestination, error) {
 	dest := &HttpDestination{}
 	var base config.CheckHttpBase
 
