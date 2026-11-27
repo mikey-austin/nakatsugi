@@ -1,9 +1,10 @@
 .PHONY: parser test
 
-parser:
+generate:
 	go generate ./internal/...
 
 test:
 	go test ./internal/config \
 		./internal/parser \
-		./internal/health
+		./internal/health \
+		./internal/ipc

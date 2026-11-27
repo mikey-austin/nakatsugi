@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+package ipc;
+
+import "google/protobuf/duration.proto";
+
+option go_package = "./ipc";
+
+// Tables and host messages
+
+message Table {
+    string name = 1;
+    int32 id = 2;
+    bool disabled = 3;
+    int32 port = 4;
+    google.protobuf.Duration interval = 5;
+    google.protobuf.Duration timeout = 6;
+    repeated Host hosts = 7;
+
+    oneof check {
+	CheckHttpCode http_code = 10;
+	CheckHttpDigest http_digest = 11;
+    }
+}
+
+message Host {
+    int32 id = 1;
+    AddrKind kind = 2;
+    bytes addr = 3;
+    int32 retry = 4;
+    int32 parent = 5;
+    int32 prio = 6;
+    google.protobuf.Duration ttl = 7;
+}
+
+enum AddrKind {
+    IPV4 = 0;
+    IPV6 = 1;
+}
+
+// Check messages
+
+message CheckHttpCode {
+    string path = 1;
+    string hostname = 2;
+    int32 code = 3;
+    bool https = 4;
+}
+
+message CheckHttpDigest {
+    string path = 1;
+    string hostname = 2;
+    bytes digest = 3;
+    bool https = 4;
+}
