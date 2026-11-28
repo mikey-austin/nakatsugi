@@ -48,6 +48,10 @@ func NewConn(c *net.UnixConn) (*Conn, error) {
 			"ipc: works only with unixgram connections, but got %v", network)
 	}
 
+	// OS X has tiny buffers and errors out, so bump them up here
+	c.SetReadBuffer(256 * 1024) // 256 KB
+	c.SetWriteBuffer(256 * 1024) // 256 KB
+
 	return &Conn{c: c}, nil
 }
 
