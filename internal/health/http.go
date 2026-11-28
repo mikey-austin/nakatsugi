@@ -42,8 +42,8 @@ func NewHttpChecker(
 }
 
 func (h *HttpChecker) CheckHealth(addr net.IP) *CheckResult {
-	// TODO: we may need to be able to cancel in-flight checks
-	ctx, _ := context.WithTimeout(context.Background(), h.timeout)
+	ctx, cancel := context.WithTimeout(context.Background(), h.timeout)
+	defer cancel()
 	req, err := h.reqBuilder.NewRequest(ctx, addr, h.port)
 	if err != nil {
 		return NewUnknownCheckResult(err)
