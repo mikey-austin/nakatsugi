@@ -40,14 +40,13 @@ func NewConn(c *net.UnixConn) (*Conn, error) {
 }
 
 // Returns the number of payload bytes sent, not including the header or oob data
-func (conn *Conn) sendFrame(frame int, payload []byte, mType MessageType, more bool, fds ...int) (n int, err error) {
+func (conn *Conn) sendFrame(frame int, payload []byte, more bool, fds ...int) (n int, err error) {
 	var oob []byte
 	if len(fds) > 0 {
 		oob = unix.UnixRights(fds...)
 	}
 
 	h := &Header{
-		Type:       mType,
 		More:       more,
 		FrameIndex: uint32(frame),
 		Payload:    payload,
@@ -80,17 +79,13 @@ func (conn *Conn) sendFrame(frame int, payload []byte, mType MessageType, more b
 
 // This function expects SOCK_DGRAM sockets as we rely on it for the
 // message boundaries.
-func (conn *Conn) Send(m proto.Message, t MessageType, fds ...int) error {
+func (conn *Conn) Send(m *IpcMessage, fds ...int) error {
 	if conn.closed.Load() {
 		return fmt.Errorf("ipc: this conn is closed")
 	}
 
 	conn.sendMu.Lock()
 	defer conn.sendMu.Unlock()
-
-	if m == nil {
-		return fmt.Errorf("ipc: passed nil message of type %v", t)
-	}
 
 	if nFds := len(fds); nFds > maxFds {
 		return fmt.Errorf("ipc: fds exceed limit (%v), got %v", maxFds, nFds)
@@ -116,7 +111,7 @@ func (conn *Conn) Send(m proto.Message, t MessageType, fds ...int) error {
 		chunkLen := min((maxFrameLen - headerLen), pLeft)
 		chunk := payload[pSent : pSent+chunkLen]
 
-		n, err := conn.sendFrame(nFrames, chunk, t, (chunkLen < pLeft), fdsToSend...)
+		n, err := conn.sendFrame(nFrames, chunk, (chunkLen < pLeft), fdsToSend...)
 		if err != nil {
 			// Just close this connection, or the stream will get
 			// out of sync and we currently have no recovery
@@ -140,7 +135,7 @@ func (conn *Conn) Send(m proto.Message, t MessageType, fds ...int) error {
 
 // The caller owns any returned file descriptors. All received descriptors are closed
 // on error.
-func (conn *Conn) Recv(m proto.Message) (fds []int, err error) {
+func (conn *Conn) Recv(m *IpcMessage) (fds []int, err error) {
 	conn.readMu.Lock()
 	defer conn.readMu.Unlock()
 
@@ -151,7 +146,6 @@ func (conn *Conn) Recv(m proto.Message) (fds []int, err error) {
 	var payload bytes.Buffer
 	var receivedFds []int
 	var nFrames uint32
-	var lastType MessageType
 	var more bool = true
 	chunk := make([]byte, maxFrameLen)
 	oob := make([]byte, unix.CmsgSpace(maxFds*4))
@@ -214,7 +208,7 @@ func (conn *Conn) Recv(m proto.Message) (fds []int, err error) {
 			return nil, conn.errAndClose(err, receivedFds)
 		}
 
-		// Check for unexpected/out-of-order frames and bad types
+		// Check for unexpected/out-of-order frames
 		if h.FrameIndex != nFrames {
 			return nil, conn.errAndClose(
 				fmt.Errorf("ipc: unexpected frame index, expected %v, got %v",
@@ -222,15 +216,7 @@ func (conn *Conn) Recv(m proto.Message) (fds []int, err error) {
 				receivedFds)
 		}
 
-		if nFrames > 0 && h.Type != lastType {
-			return nil, conn.errAndClose(
-				fmt.Errorf("ipc: unexpected frame type, expected %v, got %v",
-					lastType, h.Type),
-				receivedFds)
-		}
-
 		more = h.More
-		lastType = h.Type
 		_, err = payload.Write(h.Payload)
 		if err != nil {
 			return nil, conn.errAndClose(

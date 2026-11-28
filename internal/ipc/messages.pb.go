@@ -22,49 +22,6 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type MessageType int32
-
-const (
-	MessageType_MSG_TABLE MessageType = 0
-)
-
-// Enum value maps for MessageType.
-var (
-	MessageType_name = map[int32]string{
-		0: "MSG_TABLE",
-	}
-	MessageType_value = map[string]int32{
-		"MSG_TABLE": 0,
-	}
-)
-
-func (x MessageType) Enum() *MessageType {
-	p := new(MessageType)
-	*p = x
-	return p
-}
-
-func (x MessageType) String() string {
-	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
-}
-
-func (MessageType) Descriptor() protoreflect.EnumDescriptor {
-	return file_messages_proto_enumTypes[0].Descriptor()
-}
-
-func (MessageType) Type() protoreflect.EnumType {
-	return &file_messages_proto_enumTypes[0]
-}
-
-func (x MessageType) Number() protoreflect.EnumNumber {
-	return protoreflect.EnumNumber(x)
-}
-
-// Deprecated: Use MessageType.Descriptor instead.
-func (MessageType) EnumDescriptor() ([]byte, []int) {
-	return file_messages_proto_rawDescGZIP(), []int{0}
-}
-
 type AddrKind int32
 
 const (
@@ -95,11 +52,11 @@ func (x AddrKind) String() string {
 }
 
 func (AddrKind) Descriptor() protoreflect.EnumDescriptor {
-	return file_messages_proto_enumTypes[1].Descriptor()
+	return file_messages_proto_enumTypes[0].Descriptor()
 }
 
 func (AddrKind) Type() protoreflect.EnumType {
-	return &file_messages_proto_enumTypes[1]
+	return &file_messages_proto_enumTypes[0]
 }
 
 func (x AddrKind) Number() protoreflect.EnumNumber {
@@ -108,16 +65,15 @@ func (x AddrKind) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use AddrKind.Descriptor instead.
 func (AddrKind) EnumDescriptor() ([]byte, []int) {
-	return file_messages_proto_rawDescGZIP(), []int{1}
+	return file_messages_proto_rawDescGZIP(), []int{0}
 }
 
 // Frame header
 type Header struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Type          MessageType            `protobuf:"varint,1,opt,name=type,proto3,enum=ipc.MessageType" json:"type,omitempty"`
-	More          bool                   `protobuf:"varint,2,opt,name=more,proto3" json:"more,omitempty"`
-	FrameIndex    uint32                 `protobuf:"varint,3,opt,name=frameIndex,proto3" json:"frameIndex,omitempty"`
-	Payload       []byte                 `protobuf:"bytes,4,opt,name=payload,proto3" json:"payload,omitempty"`
+	More          bool                   `protobuf:"varint,1,opt,name=more,proto3" json:"more,omitempty"`
+	FrameIndex    uint32                 `protobuf:"varint,2,opt,name=frameIndex,proto3" json:"frameIndex,omitempty"`
+	Payload       []byte                 `protobuf:"bytes,3,opt,name=payload,proto3" json:"payload,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -152,13 +108,6 @@ func (*Header) Descriptor() ([]byte, []int) {
 	return file_messages_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *Header) GetType() MessageType {
-	if x != nil {
-		return x.Type
-	}
-	return MessageType_MSG_TABLE
-}
-
 func (x *Header) GetMore() bool {
 	if x != nil {
 		return x.More
@@ -180,6 +129,72 @@ func (x *Header) GetPayload() []byte {
 	return nil
 }
 
+type IpcMessage struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Types that are valid to be assigned to Payload:
+	//
+	//	*IpcMessage_Table
+	Payload       isIpcMessage_Payload `protobuf_oneof:"payload"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *IpcMessage) Reset() {
+	*x = IpcMessage{}
+	mi := &file_messages_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *IpcMessage) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*IpcMessage) ProtoMessage() {}
+
+func (x *IpcMessage) ProtoReflect() protoreflect.Message {
+	mi := &file_messages_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use IpcMessage.ProtoReflect.Descriptor instead.
+func (*IpcMessage) Descriptor() ([]byte, []int) {
+	return file_messages_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *IpcMessage) GetPayload() isIpcMessage_Payload {
+	if x != nil {
+		return x.Payload
+	}
+	return nil
+}
+
+func (x *IpcMessage) GetTable() *Table {
+	if x != nil {
+		if x, ok := x.Payload.(*IpcMessage_Table); ok {
+			return x.Table
+		}
+	}
+	return nil
+}
+
+type isIpcMessage_Payload interface {
+	isIpcMessage_Payload()
+}
+
+type IpcMessage_Table struct {
+	Table *Table `protobuf:"bytes,1,opt,name=table,proto3,oneof"`
+}
+
+func (*IpcMessage_Table) isIpcMessage_Payload() {}
+
 type Table struct {
 	state    protoimpl.MessageState `protogen:"open.v1"`
 	Name     string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
@@ -200,7 +215,7 @@ type Table struct {
 
 func (x *Table) Reset() {
 	*x = Table{}
-	mi := &file_messages_proto_msgTypes[1]
+	mi := &file_messages_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -212,7 +227,7 @@ func (x *Table) String() string {
 func (*Table) ProtoMessage() {}
 
 func (x *Table) ProtoReflect() protoreflect.Message {
-	mi := &file_messages_proto_msgTypes[1]
+	mi := &file_messages_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -225,7 +240,7 @@ func (x *Table) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Table.ProtoReflect.Descriptor instead.
 func (*Table) Descriptor() ([]byte, []int) {
-	return file_messages_proto_rawDescGZIP(), []int{1}
+	return file_messages_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *Table) GetName() string {
@@ -333,7 +348,7 @@ type Host struct {
 
 func (x *Host) Reset() {
 	*x = Host{}
-	mi := &file_messages_proto_msgTypes[2]
+	mi := &file_messages_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -345,7 +360,7 @@ func (x *Host) String() string {
 func (*Host) ProtoMessage() {}
 
 func (x *Host) ProtoReflect() protoreflect.Message {
-	mi := &file_messages_proto_msgTypes[2]
+	mi := &file_messages_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -358,7 +373,7 @@ func (x *Host) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Host.ProtoReflect.Descriptor instead.
 func (*Host) Descriptor() ([]byte, []int) {
-	return file_messages_proto_rawDescGZIP(), []int{2}
+	return file_messages_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *Host) GetId() int32 {
@@ -422,7 +437,7 @@ type CheckHttpCode struct {
 
 func (x *CheckHttpCode) Reset() {
 	*x = CheckHttpCode{}
-	mi := &file_messages_proto_msgTypes[3]
+	mi := &file_messages_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -434,7 +449,7 @@ func (x *CheckHttpCode) String() string {
 func (*CheckHttpCode) ProtoMessage() {}
 
 func (x *CheckHttpCode) ProtoReflect() protoreflect.Message {
-	mi := &file_messages_proto_msgTypes[3]
+	mi := &file_messages_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -447,7 +462,7 @@ func (x *CheckHttpCode) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CheckHttpCode.ProtoReflect.Descriptor instead.
 func (*CheckHttpCode) Descriptor() ([]byte, []int) {
-	return file_messages_proto_rawDescGZIP(), []int{3}
+	return file_messages_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *CheckHttpCode) GetPath() string {
@@ -490,7 +505,7 @@ type CheckHttpDigest struct {
 
 func (x *CheckHttpDigest) Reset() {
 	*x = CheckHttpDigest{}
-	mi := &file_messages_proto_msgTypes[4]
+	mi := &file_messages_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -502,7 +517,7 @@ func (x *CheckHttpDigest) String() string {
 func (*CheckHttpDigest) ProtoMessage() {}
 
 func (x *CheckHttpDigest) ProtoReflect() protoreflect.Message {
-	mi := &file_messages_proto_msgTypes[4]
+	mi := &file_messages_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -515,7 +530,7 @@ func (x *CheckHttpDigest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CheckHttpDigest.ProtoReflect.Descriptor instead.
 func (*CheckHttpDigest) Descriptor() ([]byte, []int) {
-	return file_messages_proto_rawDescGZIP(), []int{4}
+	return file_messages_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *CheckHttpDigest) GetPath() string {
@@ -550,14 +565,18 @@ var File_messages_proto protoreflect.FileDescriptor
 
 const file_messages_proto_rawDesc = "" +
 	"\n" +
-	"\x0emessages.proto\x12\x03ipc\x1a\x1egoogle/protobuf/duration.proto\"|\n" +
-	"\x06Header\x12$\n" +
-	"\x04type\x18\x01 \x01(\x0e2\x10.ipc.MessageTypeR\x04type\x12\x12\n" +
-	"\x04more\x18\x02 \x01(\bR\x04more\x12\x1e\n" +
+	"\x0emessages.proto\x12\x03ipc\x1a\x1egoogle/protobuf/duration.proto\"V\n" +
+	"\x06Header\x12\x12\n" +
+	"\x04more\x18\x01 \x01(\bR\x04more\x12\x1e\n" +
 	"\n" +
-	"frameIndex\x18\x03 \x01(\rR\n" +
+	"frameIndex\x18\x02 \x01(\rR\n" +
 	"frameIndex\x12\x18\n" +
-	"\apayload\x18\x04 \x01(\fR\apayload\"\xdd\x02\n" +
+	"\apayload\x18\x03 \x01(\fR\apayload\";\n" +
+	"\n" +
+	"IpcMessage\x12\"\n" +
+	"\x05table\x18\x01 \x01(\v2\n" +
+	".ipc.TableH\x00R\x05tableB\t\n" +
+	"\apayload\"\xdd\x02\n" +
 	"\x05Table\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x0e\n" +
 	"\x02id\x18\x02 \x01(\x05R\x02id\x12\x1a\n" +
@@ -588,9 +607,7 @@ const file_messages_proto_rawDesc = "" +
 	"\x04path\x18\x01 \x01(\tR\x04path\x12\x1a\n" +
 	"\bhostname\x18\x02 \x01(\tR\bhostname\x12\x16\n" +
 	"\x06digest\x18\x03 \x01(\fR\x06digest\x12\x14\n" +
-	"\x05https\x18\x04 \x01(\bR\x05https*\x1c\n" +
-	"\vMessageType\x12\r\n" +
-	"\tMSG_TABLE\x10\x00*\x1e\n" +
+	"\x05https\x18\x04 \x01(\bR\x05https*\x1e\n" +
 	"\bAddrKind\x12\b\n" +
 	"\x04IPV4\x10\x00\x12\b\n" +
 	"\x04IPV6\x10\x01B\aZ\x05./ipcb\x06proto3"
@@ -607,12 +624,12 @@ func file_messages_proto_rawDescGZIP() []byte {
 	return file_messages_proto_rawDescData
 }
 
-var file_messages_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_messages_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
+var file_messages_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_messages_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_messages_proto_goTypes = []any{
-	(MessageType)(0),            // 0: ipc.MessageType
-	(AddrKind)(0),               // 1: ipc.AddrKind
-	(*Header)(nil),              // 2: ipc.Header
+	(AddrKind)(0),               // 0: ipc.AddrKind
+	(*Header)(nil),              // 1: ipc.Header
+	(*IpcMessage)(nil),          // 2: ipc.IpcMessage
 	(*Table)(nil),               // 3: ipc.Table
 	(*Host)(nil),                // 4: ipc.Host
 	(*CheckHttpCode)(nil),       // 5: ipc.CheckHttpCode
@@ -620,13 +637,13 @@ var file_messages_proto_goTypes = []any{
 	(*durationpb.Duration)(nil), // 7: google.protobuf.Duration
 }
 var file_messages_proto_depIdxs = []int32{
-	0, // 0: ipc.Header.type:type_name -> ipc.MessageType
+	3, // 0: ipc.IpcMessage.table:type_name -> ipc.Table
 	7, // 1: ipc.Table.interval:type_name -> google.protobuf.Duration
 	7, // 2: ipc.Table.timeout:type_name -> google.protobuf.Duration
 	4, // 3: ipc.Table.hosts:type_name -> ipc.Host
 	5, // 4: ipc.Table.http_code:type_name -> ipc.CheckHttpCode
 	6, // 5: ipc.Table.http_digest:type_name -> ipc.CheckHttpDigest
-	1, // 6: ipc.Host.kind:type_name -> ipc.AddrKind
+	0, // 6: ipc.Host.kind:type_name -> ipc.AddrKind
 	7, // 7: ipc.Host.ttl:type_name -> google.protobuf.Duration
 	8, // [8:8] is the sub-list for method output_type
 	8, // [8:8] is the sub-list for method input_type
@@ -641,6 +658,9 @@ func file_messages_proto_init() {
 		return
 	}
 	file_messages_proto_msgTypes[1].OneofWrappers = []any{
+		(*IpcMessage_Table)(nil),
+	}
+	file_messages_proto_msgTypes[2].OneofWrappers = []any{
 		(*Table_HttpCode)(nil),
 		(*Table_HttpDigest)(nil),
 	}
@@ -649,8 +669,8 @@ func file_messages_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_messages_proto_rawDesc), len(file_messages_proto_rawDesc)),
-			NumEnums:      2,
-			NumMessages:   5,
+			NumEnums:      1,
+			NumMessages:   6,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

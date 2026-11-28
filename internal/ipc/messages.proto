@@ -8,14 +8,15 @@ option go_package = "./ipc";
 
 // Frame header
 message Header {
-    MessageType type = 1;
-    bool more = 2;
-    uint32 frameIndex = 3;
-    bytes payload = 4;
+    bool more = 1;
+    uint32 frameIndex = 2;
+    bytes payload = 3;
 }
 
-enum MessageType {
-    MSG_TABLE = 0;
+message IpcMessage {
+    oneof payload {
+	Table table = 1;
+    }
 }
 
 // Tables and host messages
