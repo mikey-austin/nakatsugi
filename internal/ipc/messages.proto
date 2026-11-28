@@ -3,6 +3,7 @@ syntax = "proto3";
 package ipc;
 
 import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
 
 option go_package = "./ipc";
 
@@ -13,10 +14,24 @@ message Header {
     bytes payload = 3;
 }
 
+// Envelope for each message type
 message IpcMessage {
     oneof payload {
-	Table table = 1;
+	SetTableMessage setTableMsg = 1;
+	HeartBeatMessage heartBeatMsg = 2;
+	ShutdownMessage shutdownMsg = 3;
     }
+}
+
+message ShutdownMessage {
+}
+
+message HeartBeatMessage {
+    google.protobuf.Timestamp timestamp = 1;
+}
+
+message SetTableMessage {
+    Table table = 1;
 }
 
 // Tables and host messages

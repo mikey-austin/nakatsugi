@@ -10,6 +10,7 @@ import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	durationpb "google.golang.org/protobuf/types/known/durationpb"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
@@ -129,11 +130,14 @@ func (x *Header) GetPayload() []byte {
 	return nil
 }
 
+// Envelope for each message type
 type IpcMessage struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// Types that are valid to be assigned to Payload:
 	//
-	//	*IpcMessage_Table
+	//	*IpcMessage_SetTableMsg
+	//	*IpcMessage_HeartBeatMsg
+	//	*IpcMessage_ShutdownMsg
 	Payload       isIpcMessage_Payload `protobuf_oneof:"payload"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -176,10 +180,28 @@ func (x *IpcMessage) GetPayload() isIpcMessage_Payload {
 	return nil
 }
 
-func (x *IpcMessage) GetTable() *Table {
+func (x *IpcMessage) GetSetTableMsg() *SetTableMessage {
 	if x != nil {
-		if x, ok := x.Payload.(*IpcMessage_Table); ok {
-			return x.Table
+		if x, ok := x.Payload.(*IpcMessage_SetTableMsg); ok {
+			return x.SetTableMsg
+		}
+	}
+	return nil
+}
+
+func (x *IpcMessage) GetHeartBeatMsg() *HeartBeatMessage {
+	if x != nil {
+		if x, ok := x.Payload.(*IpcMessage_HeartBeatMsg); ok {
+			return x.HeartBeatMsg
+		}
+	}
+	return nil
+}
+
+func (x *IpcMessage) GetShutdownMsg() *ShutdownMessage {
+	if x != nil {
+		if x, ok := x.Payload.(*IpcMessage_ShutdownMsg); ok {
+			return x.ShutdownMsg
 		}
 	}
 	return nil
@@ -189,11 +211,147 @@ type isIpcMessage_Payload interface {
 	isIpcMessage_Payload()
 }
 
-type IpcMessage_Table struct {
-	Table *Table `protobuf:"bytes,1,opt,name=table,proto3,oneof"`
+type IpcMessage_SetTableMsg struct {
+	SetTableMsg *SetTableMessage `protobuf:"bytes,1,opt,name=setTableMsg,proto3,oneof"`
 }
 
-func (*IpcMessage_Table) isIpcMessage_Payload() {}
+type IpcMessage_HeartBeatMsg struct {
+	HeartBeatMsg *HeartBeatMessage `protobuf:"bytes,2,opt,name=heartBeatMsg,proto3,oneof"`
+}
+
+type IpcMessage_ShutdownMsg struct {
+	ShutdownMsg *ShutdownMessage `protobuf:"bytes,3,opt,name=shutdownMsg,proto3,oneof"`
+}
+
+func (*IpcMessage_SetTableMsg) isIpcMessage_Payload() {}
+
+func (*IpcMessage_HeartBeatMsg) isIpcMessage_Payload() {}
+
+func (*IpcMessage_ShutdownMsg) isIpcMessage_Payload() {}
+
+type ShutdownMessage struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ShutdownMessage) Reset() {
+	*x = ShutdownMessage{}
+	mi := &file_messages_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ShutdownMessage) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ShutdownMessage) ProtoMessage() {}
+
+func (x *ShutdownMessage) ProtoReflect() protoreflect.Message {
+	mi := &file_messages_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ShutdownMessage.ProtoReflect.Descriptor instead.
+func (*ShutdownMessage) Descriptor() ([]byte, []int) {
+	return file_messages_proto_rawDescGZIP(), []int{2}
+}
+
+type HeartBeatMessage struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Timestamp     *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *HeartBeatMessage) Reset() {
+	*x = HeartBeatMessage{}
+	mi := &file_messages_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *HeartBeatMessage) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*HeartBeatMessage) ProtoMessage() {}
+
+func (x *HeartBeatMessage) ProtoReflect() protoreflect.Message {
+	mi := &file_messages_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use HeartBeatMessage.ProtoReflect.Descriptor instead.
+func (*HeartBeatMessage) Descriptor() ([]byte, []int) {
+	return file_messages_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *HeartBeatMessage) GetTimestamp() *timestamppb.Timestamp {
+	if x != nil {
+		return x.Timestamp
+	}
+	return nil
+}
+
+type SetTableMessage struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Table         *Table                 `protobuf:"bytes,1,opt,name=table,proto3" json:"table,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SetTableMessage) Reset() {
+	*x = SetTableMessage{}
+	mi := &file_messages_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SetTableMessage) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SetTableMessage) ProtoMessage() {}
+
+func (x *SetTableMessage) ProtoReflect() protoreflect.Message {
+	mi := &file_messages_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SetTableMessage.ProtoReflect.Descriptor instead.
+func (*SetTableMessage) Descriptor() ([]byte, []int) {
+	return file_messages_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *SetTableMessage) GetTable() *Table {
+	if x != nil {
+		return x.Table
+	}
+	return nil
+}
 
 type Table struct {
 	state    protoimpl.MessageState `protogen:"open.v1"`
@@ -215,7 +373,7 @@ type Table struct {
 
 func (x *Table) Reset() {
 	*x = Table{}
-	mi := &file_messages_proto_msgTypes[2]
+	mi := &file_messages_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -227,7 +385,7 @@ func (x *Table) String() string {
 func (*Table) ProtoMessage() {}
 
 func (x *Table) ProtoReflect() protoreflect.Message {
-	mi := &file_messages_proto_msgTypes[2]
+	mi := &file_messages_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -240,7 +398,7 @@ func (x *Table) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Table.ProtoReflect.Descriptor instead.
 func (*Table) Descriptor() ([]byte, []int) {
-	return file_messages_proto_rawDescGZIP(), []int{2}
+	return file_messages_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *Table) GetName() string {
@@ -348,7 +506,7 @@ type Host struct {
 
 func (x *Host) Reset() {
 	*x = Host{}
-	mi := &file_messages_proto_msgTypes[3]
+	mi := &file_messages_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -360,7 +518,7 @@ func (x *Host) String() string {
 func (*Host) ProtoMessage() {}
 
 func (x *Host) ProtoReflect() protoreflect.Message {
-	mi := &file_messages_proto_msgTypes[3]
+	mi := &file_messages_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -373,7 +531,7 @@ func (x *Host) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Host.ProtoReflect.Descriptor instead.
 func (*Host) Descriptor() ([]byte, []int) {
-	return file_messages_proto_rawDescGZIP(), []int{3}
+	return file_messages_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *Host) GetId() int32 {
@@ -437,7 +595,7 @@ type CheckHttpCode struct {
 
 func (x *CheckHttpCode) Reset() {
 	*x = CheckHttpCode{}
-	mi := &file_messages_proto_msgTypes[4]
+	mi := &file_messages_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -449,7 +607,7 @@ func (x *CheckHttpCode) String() string {
 func (*CheckHttpCode) ProtoMessage() {}
 
 func (x *CheckHttpCode) ProtoReflect() protoreflect.Message {
-	mi := &file_messages_proto_msgTypes[4]
+	mi := &file_messages_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -462,7 +620,7 @@ func (x *CheckHttpCode) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CheckHttpCode.ProtoReflect.Descriptor instead.
 func (*CheckHttpCode) Descriptor() ([]byte, []int) {
-	return file_messages_proto_rawDescGZIP(), []int{4}
+	return file_messages_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *CheckHttpCode) GetPath() string {
@@ -505,7 +663,7 @@ type CheckHttpDigest struct {
 
 func (x *CheckHttpDigest) Reset() {
 	*x = CheckHttpDigest{}
-	mi := &file_messages_proto_msgTypes[5]
+	mi := &file_messages_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -517,7 +675,7 @@ func (x *CheckHttpDigest) String() string {
 func (*CheckHttpDigest) ProtoMessage() {}
 
 func (x *CheckHttpDigest) ProtoReflect() protoreflect.Message {
-	mi := &file_messages_proto_msgTypes[5]
+	mi := &file_messages_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -530,7 +688,7 @@ func (x *CheckHttpDigest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CheckHttpDigest.ProtoReflect.Descriptor instead.
 func (*CheckHttpDigest) Descriptor() ([]byte, []int) {
-	return file_messages_proto_rawDescGZIP(), []int{5}
+	return file_messages_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *CheckHttpDigest) GetPath() string {
@@ -565,18 +723,25 @@ var File_messages_proto protoreflect.FileDescriptor
 
 const file_messages_proto_rawDesc = "" +
 	"\n" +
-	"\x0emessages.proto\x12\x03ipc\x1a\x1egoogle/protobuf/duration.proto\"V\n" +
+	"\x0emessages.proto\x12\x03ipc\x1a\x1egoogle/protobuf/duration.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"V\n" +
 	"\x06Header\x12\x12\n" +
 	"\x04more\x18\x01 \x01(\bR\x04more\x12\x1e\n" +
 	"\n" +
 	"frameIndex\x18\x02 \x01(\rR\n" +
 	"frameIndex\x12\x18\n" +
-	"\apayload\x18\x03 \x01(\fR\apayload\";\n" +
+	"\apayload\x18\x03 \x01(\fR\apayload\"\xc8\x01\n" +
 	"\n" +
-	"IpcMessage\x12\"\n" +
+	"IpcMessage\x128\n" +
+	"\vsetTableMsg\x18\x01 \x01(\v2\x14.ipc.SetTableMessageH\x00R\vsetTableMsg\x12;\n" +
+	"\fheartBeatMsg\x18\x02 \x01(\v2\x15.ipc.HeartBeatMessageH\x00R\fheartBeatMsg\x128\n" +
+	"\vshutdownMsg\x18\x03 \x01(\v2\x14.ipc.ShutdownMessageH\x00R\vshutdownMsgB\t\n" +
+	"\apayload\"\x11\n" +
+	"\x0fShutdownMessage\"L\n" +
+	"\x10HeartBeatMessage\x128\n" +
+	"\ttimestamp\x18\x01 \x01(\v2\x1a.google.protobuf.TimestampR\ttimestamp\"3\n" +
+	"\x0fSetTableMessage\x12 \n" +
 	"\x05table\x18\x01 \x01(\v2\n" +
-	".ipc.TableH\x00R\x05tableB\t\n" +
-	"\apayload\"\xdd\x02\n" +
+	".ipc.TableR\x05table\"\xdd\x02\n" +
 	"\x05Table\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x0e\n" +
 	"\x02id\x18\x02 \x01(\x05R\x02id\x12\x1a\n" +
@@ -625,31 +790,39 @@ func file_messages_proto_rawDescGZIP() []byte {
 }
 
 var file_messages_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_messages_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
+var file_messages_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
 var file_messages_proto_goTypes = []any{
-	(AddrKind)(0),               // 0: ipc.AddrKind
-	(*Header)(nil),              // 1: ipc.Header
-	(*IpcMessage)(nil),          // 2: ipc.IpcMessage
-	(*Table)(nil),               // 3: ipc.Table
-	(*Host)(nil),                // 4: ipc.Host
-	(*CheckHttpCode)(nil),       // 5: ipc.CheckHttpCode
-	(*CheckHttpDigest)(nil),     // 6: ipc.CheckHttpDigest
-	(*durationpb.Duration)(nil), // 7: google.protobuf.Duration
+	(AddrKind)(0),                 // 0: ipc.AddrKind
+	(*Header)(nil),                // 1: ipc.Header
+	(*IpcMessage)(nil),            // 2: ipc.IpcMessage
+	(*ShutdownMessage)(nil),       // 3: ipc.ShutdownMessage
+	(*HeartBeatMessage)(nil),      // 4: ipc.HeartBeatMessage
+	(*SetTableMessage)(nil),       // 5: ipc.SetTableMessage
+	(*Table)(nil),                 // 6: ipc.Table
+	(*Host)(nil),                  // 7: ipc.Host
+	(*CheckHttpCode)(nil),         // 8: ipc.CheckHttpCode
+	(*CheckHttpDigest)(nil),       // 9: ipc.CheckHttpDigest
+	(*timestamppb.Timestamp)(nil), // 10: google.protobuf.Timestamp
+	(*durationpb.Duration)(nil),   // 11: google.protobuf.Duration
 }
 var file_messages_proto_depIdxs = []int32{
-	3, // 0: ipc.IpcMessage.table:type_name -> ipc.Table
-	7, // 1: ipc.Table.interval:type_name -> google.protobuf.Duration
-	7, // 2: ipc.Table.timeout:type_name -> google.protobuf.Duration
-	4, // 3: ipc.Table.hosts:type_name -> ipc.Host
-	5, // 4: ipc.Table.http_code:type_name -> ipc.CheckHttpCode
-	6, // 5: ipc.Table.http_digest:type_name -> ipc.CheckHttpDigest
-	0, // 6: ipc.Host.kind:type_name -> ipc.AddrKind
-	7, // 7: ipc.Host.ttl:type_name -> google.protobuf.Duration
-	8, // [8:8] is the sub-list for method output_type
-	8, // [8:8] is the sub-list for method input_type
-	8, // [8:8] is the sub-list for extension type_name
-	8, // [8:8] is the sub-list for extension extendee
-	0, // [0:8] is the sub-list for field type_name
+	5,  // 0: ipc.IpcMessage.setTableMsg:type_name -> ipc.SetTableMessage
+	4,  // 1: ipc.IpcMessage.heartBeatMsg:type_name -> ipc.HeartBeatMessage
+	3,  // 2: ipc.IpcMessage.shutdownMsg:type_name -> ipc.ShutdownMessage
+	10, // 3: ipc.HeartBeatMessage.timestamp:type_name -> google.protobuf.Timestamp
+	6,  // 4: ipc.SetTableMessage.table:type_name -> ipc.Table
+	11, // 5: ipc.Table.interval:type_name -> google.protobuf.Duration
+	11, // 6: ipc.Table.timeout:type_name -> google.protobuf.Duration
+	7,  // 7: ipc.Table.hosts:type_name -> ipc.Host
+	8,  // 8: ipc.Table.http_code:type_name -> ipc.CheckHttpCode
+	9,  // 9: ipc.Table.http_digest:type_name -> ipc.CheckHttpDigest
+	0,  // 10: ipc.Host.kind:type_name -> ipc.AddrKind
+	11, // 11: ipc.Host.ttl:type_name -> google.protobuf.Duration
+	12, // [12:12] is the sub-list for method output_type
+	12, // [12:12] is the sub-list for method input_type
+	12, // [12:12] is the sub-list for extension type_name
+	12, // [12:12] is the sub-list for extension extendee
+	0,  // [0:12] is the sub-list for field type_name
 }
 
 func init() { file_messages_proto_init() }
@@ -658,9 +831,11 @@ func file_messages_proto_init() {
 		return
 	}
 	file_messages_proto_msgTypes[1].OneofWrappers = []any{
-		(*IpcMessage_Table)(nil),
+		(*IpcMessage_SetTableMsg)(nil),
+		(*IpcMessage_HeartBeatMsg)(nil),
+		(*IpcMessage_ShutdownMsg)(nil),
 	}
-	file_messages_proto_msgTypes[2].OneofWrappers = []any{
+	file_messages_proto_msgTypes[5].OneofWrappers = []any{
 		(*Table_HttpCode)(nil),
 		(*Table_HttpDigest)(nil),
 	}
@@ -670,7 +845,7 @@ func file_messages_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_messages_proto_rawDesc), len(file_messages_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   6,
+			NumMessages:   9,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

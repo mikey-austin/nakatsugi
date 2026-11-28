@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"net"
+	"os"
 	"sync"
 	"sync/atomic"
 
@@ -26,6 +27,17 @@ type Conn struct {
 	readMu sync.Mutex
 }
 
+func NewConnFromFd(fd int) (*Conn, error) {
+	f := os.NewFile(uintptr(fd), "")
+	c, err := net.FileConn(f)
+	if err != nil {
+		return nil, err
+	}
+	return NewConn(c.(*net.UnixConn))
+}
+
+// This function expects SOCK_DGRAM sockets as we rely on it for the
+// message boundaries.
 func NewConn(c *net.UnixConn) (*Conn, error) {
 	if c == nil || c.LocalAddr() == nil {
 		return nil, fmt.Errorf("ipc: nil unix conn")
@@ -77,9 +89,11 @@ func (conn *Conn) sendFrame(frame int, payload []byte, more bool, fds ...int) (n
 	return len(payload), nil
 }
 
-// This function expects SOCK_DGRAM sockets as we rely on it for the
-// message boundaries.
-func (conn *Conn) Send(m *IpcMessage, fds ...int) error {
+func (conn *Conn) Send(m *IpcMessage) error {
+	return conn.SendWithFds(m, []int{}...)
+}
+
+func (conn *Conn) SendWithFds(m *IpcMessage, fds ...int) error {
 	if conn.closed.Load() {
 		return fmt.Errorf("ipc: this conn is closed")
 	}
@@ -276,4 +290,8 @@ func (conn *Conn) Close() error {
 	}
 
 	return nil
+}
+
+func (conn *Conn) Closed() bool {
+	return conn.closed.Load()
 }
