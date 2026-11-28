@@ -6,4 +6,10 @@
 #
 #   go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
 #
-protoc -I=/usr/include/ -I=./ --go_out=../ ./messages.proto
+INC=
+if [ -d /usr/include/protobuf/ ]; then
+    INC="${INC} -I/usr/include/"
+elif [ -d /opt/homebrew/opt/protobuf/ ]; then
+    INC="${INC} -I/opt/homebrew/opt/protobuf/include/"
+fi
+protoc $INC -I=./ --go_out=../ ./messages.proto
