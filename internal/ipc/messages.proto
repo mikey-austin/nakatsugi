@@ -6,6 +6,18 @@ import "google/protobuf/duration.proto";
 
 option go_package = "./ipc";
 
+// Frame header
+message Header {
+    MessageType type = 1;
+    bool more = 2;
+    uint32 frameIndex = 3;
+    bytes payload = 4;
+}
+
+enum MessageType {
+    MSG_TABLE = 0;
+}
+
 // Tables and host messages
 
 message Table {
